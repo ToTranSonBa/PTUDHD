@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Entity.Models;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,9 @@ namespace Contracts
 {
     public interface IRepositoryManager
     {
+        //metheo
+        IUserRepository Users { get; }
+        IRoleRepository Role { get; }
         Task SaveAsync();
     }
 }

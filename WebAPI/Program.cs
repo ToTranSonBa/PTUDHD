@@ -16,6 +16,10 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureSqlContext(configure);
+builder.Services.ConfigureRequiredEmail();
+
+//register Identity
+
 
 //Email configuration
 var email = configure.GetSection("EmailConfiguration").Get<EmailConfiguration>();

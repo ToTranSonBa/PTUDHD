@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Shared;
+using Shared.UserDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,9 @@ namespace Service.Contracts
 {
     public interface IAuthenticationService
     {
-        Task<IdentityResult> Register(UserForRegistrationDto userForRegistration);
+        Task<RegisterUserStatus> RegisterAsync(UserRegistrationDto userForRegistration);
+        Task<string> LoginAsync(UserLoginDto userLoginDto);
+        Task<string> GenerateEmailConfirmationTokeAsync(UserRegistrationDto userForRegistration);
+        Task<bool> ComfirmEmailAsync(string token, string email);
     }
 }

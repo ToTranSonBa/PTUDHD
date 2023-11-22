@@ -3,6 +3,9 @@ using Contracts;
 using Entity.Email;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Repository;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -16,12 +19,14 @@ namespace Services
     {
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<IEmailService> _emailService;
-        public ServiceManager (IRepositoryManager repositoryManager, UserManager<User> userManager,
-            IMapper mapper, EmailConfiguration emailConfiguration)
+        public ServiceManager (IRepositoryManager repositoryManager,
+            IMapper mapper, EmailConfiguration emailConfiguration, 
+            IConfiguration configuration,
+            UserManager<User> userManager, RoleManager<IdentityRole> role)
         {
 
             _authenticationService = new Lazy<IAuthenticationService> (() => 
-                new AuthenticationService(mapper, userManager));
+                new AuthenticationService(mapper, repositoryManager, configuration, userManager, role));
             _emailService = new Lazy<IEmailService>(() => 
                 new EmailService(emailConfiguration));
         }

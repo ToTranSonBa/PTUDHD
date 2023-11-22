@@ -13,5 +13,6 @@ namespace Entity.Email
         public int Port { get; set; }
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
+        public string DisplayName { get; set; } = null!;
     }
 }

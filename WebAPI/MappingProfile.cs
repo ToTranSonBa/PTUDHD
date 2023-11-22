@@ -2,7 +2,7 @@
 using Entity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Shared;
+using Shared.UserDto;
 
 namespace WebAPI
 {
@@ -10,7 +10,7 @@ namespace WebAPI
     {
         public MappingProfile()
         {
-            CreateMap<User, UserForRegistrationDto>().ReverseMap();
+            CreateMap<User, UserRegistrationDto>().ReverseMap();
         }
     }
 }

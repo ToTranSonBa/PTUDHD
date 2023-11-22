@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,25 @@ namespace Repository
         public RepositoryBase(InsuranceDBContext insuranceDBContext) { 
             this._dbContext = insuranceDBContext;
         }
-        public void Create(T entity) => _dbContext.Set<T>().Add(entity);
+        public bool Create(T entity)
+        {
+            var result = _dbContext.Set<T>().Add(entity);
+            if(result.State == EntityState.Added)
+            {
+                return true;
+            }
+            return false;
+        }
 
-        public void Delete(T entity) => _dbContext.Set<T>().Remove(entity);
+        public bool Delete(T entity)
+        {
+            var result = _dbContext.Set<T>().Remove(entity);
+            if (result.State == EntityState.Deleted)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public IQueryable<T> FindAll(bool trackChanges)
         {
@@ -30,6 +47,14 @@ namespace Repository
 
         }
 
-        public void Update(T entity) => _dbContext.Set<T>().Update(entity);
+        public bool Update(T entity)
+        {
+            var result = _dbContext.Set<T>().Update(entity);
+            if (result.State == EntityState.Modified)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

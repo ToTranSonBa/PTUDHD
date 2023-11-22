@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Entity.Models;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +11,6 @@ namespace Service.Contracts
     public interface IServiceManager
     {
         IAuthenticationService AuthenticationService { get; }
+        IEmailService EmailService { get; }
     }
 }
