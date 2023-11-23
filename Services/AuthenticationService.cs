@@ -76,40 +76,62 @@ namespace Services
             }
 
         }
-        public async Task<string> GenerateEmailConfirmationTokeAsync(UserRegistrationDto userForRegistration)
+        public async Task<string> GenerateEmailConfirmationTokeAsync(string Email)
         {
-            var user = await _userManager.FindByEmailAsync(userForRegistration.Email);
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            return token;
+
+            var user = await _userManager.FindByEmailAsync(Email);
+            if( user != null )
+            {
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                return token;
+            }
+            return string.Empty;
         }
-        public async Task<string> LoginAsync(UserLoginDto userLoginDto)
+        public async Task<LoginStatus> LoginAsync(UserLoginDto userLoginDto)
         {
             var resultUsername = await _userManager.FindByEmailAsync(userLoginDto.Email);
             if(resultUsername != null)
             {
                 var result = await _userManager.CheckPasswordAsync(resultUsername, userLoginDto.Password);
-                var authClaims = new List<Claim>
+                if(!result)
+                {
+                    return LoginStatus.INCORRECTPASSWORD;
+                }
+                var checkConfirmEmail = await _userManager.IsEmailConfirmedAsync(resultUsername);
+                if(!checkConfirmEmail) {
+                    return LoginStatus.EMAILNOTCONFIRMED;
+                }
+                return LoginStatus.SUCCESS;
+            }
+            else
+            {
+                return LoginStatus.USERNOTEXIST;
+            }
+        }
+        public async Task<string> GenerateJWTToken(UserLoginDto userLoginDto)
+        {
+            var resultUser = await _userManager.FindByEmailAsync(userLoginDto.Email);
+            if(resultUser == null)
+            {
+                return string.Empty;
+            }
+            var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email, userLoginDto.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 
                 };
 
-                var authenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-                var token = new JwtSecurityToken
-                (
-                    audience: _configuration["JWT:ValidAudience"],
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    expires: DateTime.Now.AddMinutes(10),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha256Signature)
-                );
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            }
-            else
-            {
-                return string.Empty;
-            }
+            var authenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var token = new JwtSecurityToken
+            (
+                audience: _configuration["JWT:ValidAudience"],
+                issuer: _configuration["JWT:ValidIssuer"],
+                expires: DateTime.Now.AddMinutes(10),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha256Signature)
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
         public async Task<bool> ComfirmEmailAsync(string token, string email)
         {

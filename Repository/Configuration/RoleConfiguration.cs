@@ -28,6 +28,11 @@ namespace Repository.Configuration
                 {
                     Name = "Customer",
                     NormalizedName = "CUSTOMER"
+                },
+                new IdentityRole
+                {
+                    Name = "Employee",
+                    NormalizedName = "EMPLOYEE"
                 }
                 );
 

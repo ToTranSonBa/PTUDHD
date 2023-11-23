@@ -11,8 +11,9 @@ namespace Service.Contracts
     public interface IAuthenticationService
     {
         Task<RegisterUserStatus> RegisterAsync(UserRegistrationDto userForRegistration);
-        Task<string> LoginAsync(UserLoginDto userLoginDto);
-        Task<string> GenerateEmailConfirmationTokeAsync(UserRegistrationDto userForRegistration);
+        Task<LoginStatus> LoginAsync(UserLoginDto userLoginDto);
+        Task<string> GenerateEmailConfirmationTokeAsync(string email);
         Task<bool> ComfirmEmailAsync(string token, string email);
+        Task<string> GenerateJWTToken(UserLoginDto userLoginDto);
     }
 }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.Models
+namespace Entity.Models.Customers
 {
-    public class InsurancePolicies
+    public class Customer
     {
-        [Key]
         public Guid Id { get; set; }
-        public string PolicyName {  get; set; }
+
+        public string? UserID { get; set; }
+        public User? User { get; set; }
     }
 }

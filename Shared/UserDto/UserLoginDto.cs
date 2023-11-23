@@ -14,4 +14,11 @@ namespace Shared.UserDto
         [Required, MinLength(6, ErrorMessage = "Please enter at least 6 characters!")]
         public string? Password { get; set; }
     }
+    public enum LoginStatus
+    {
+        USERNOTEXIST,
+        INCORRECTPASSWORD,
+        EMAILNOTCONFIRMED,
+        SUCCESS
+    }
 }

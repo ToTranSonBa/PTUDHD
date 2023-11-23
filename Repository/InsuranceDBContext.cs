@@ -1,4 +1,5 @@
 ﻿using Entity.Models;
+using Entity.Models.InsuranceModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,6 @@ namespace Repository
 
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
-        public DbSet<InsurancePolicies>? InsurancePolicies { get; set; }
+        public DbSet<InsuranceProduct>? InsurancePolicies { get; set; }
     }
 }

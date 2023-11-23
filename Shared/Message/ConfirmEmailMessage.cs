@@ -9,10 +9,10 @@ namespace Shared.Message
 {
     public class ConfirmEmailMessage
     {
-        public static string Message(UserRegistrationDto user, string confirmLink)
+        public static string Message(string Email, string confirmLink)
         {
-            return $"Hi, {user.FirstName},\n" +
-                $"Please enter link to confirm email {user.Email}.\n" +
+            return $"Hi,\n" +
+                $"Please enter link to confirm email {Email}.\n" +
                 $"Link: {confirmLink}\n" +
                 $"Thank you";
         }
