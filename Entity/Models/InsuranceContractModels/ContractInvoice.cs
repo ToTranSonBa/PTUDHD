@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entity.Models.InsuranceContractModels
 {
-    public class Invoice
+    public class ContractInvoice
     {
         [Key]
         public Guid Id { get; set; }

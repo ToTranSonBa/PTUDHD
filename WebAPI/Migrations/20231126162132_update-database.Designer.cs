@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(InsuranceDBContext))]
-    partial class InsuranceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231126162132_update-database")]
+    partial class updatedatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -421,29 +423,29 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6a1dca93-6f0d-4e4f-8865-9eb4ab898500",
-                            ConcurrencyStamp = "147e5112-c657-4f01-8b5f-6bd94c03adab",
+                            Id = "c9c9fa7d-03ec-4307-876a-6e30bc862f9c",
+                            ConcurrencyStamp = "5609b6f2-c44a-4648-88d1-c08a002597dc",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "e31b2485-ed37-4bba-bcff-a52884aa7b21",
-                            ConcurrencyStamp = "1441f45f-2ad3-49fb-9841-f46da4792186",
+                            Id = "e973899b-ebf9-4286-b4cc-371675fa1017",
+                            ConcurrencyStamp = "e9c98567-9f45-4075-8994-a1f03c6fa65c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "567316e6-5cd6-463a-95c3-d34c36e9ed5a",
-                            ConcurrencyStamp = "bdf4e2a4-b530-4aeb-9052-1b572b793974",
+                            Id = "060e87cb-d6c5-471e-a3e8-a9f7b353bbe4",
+                            ConcurrencyStamp = "24541546-5853-4af6-882d-1cc151834eba",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "f86dc607-1a23-447a-80d8-9a933bde10dc",
-                            ConcurrencyStamp = "3cf17ff7-1d70-4acb-95e5-ed98f89cd761",
+                            Id = "f92510b3-004d-473a-ab50-24dbbb77731e",
+                            ConcurrencyStamp = "cd4b9668-7782-4d49-adef-55c0d3c7e4bf",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -553,17 +555,6 @@ namespace WebAPI.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Entity.Models.Claim.ClaimHealthService", b =>
-                {
-                    b.HasOne("Entity.Models.Claim.ClaimRequest", "Request")
-                        .WithMany()
-                        .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("Entity.Models.Claim.ClaimInvoice", b =>

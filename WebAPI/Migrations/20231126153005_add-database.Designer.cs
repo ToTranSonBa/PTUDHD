@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(InsuranceDBContext))]
-    partial class InsuranceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231126153005_add-database")]
+    partial class adddatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,9 +83,6 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("RequestID")
                         .HasColumnType("uniqueidentifier");
 
@@ -94,8 +93,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("RequestID");
 
@@ -108,28 +105,13 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ContractId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("EmployeeID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("TotalCost")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContractId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("EmployeeID");
 
                     b.ToTable("ClaimRequests");
                 });
@@ -148,61 +130,6 @@ namespace WebAPI.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("Entity.Models.InsuranceContractModels.Contract", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CustomerID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("EmployeeID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InsuranceProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InsuranceProgramId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerID");
-
-                    b.HasIndex("EmployeeID");
-
-                    b.HasIndex("InsuranceProductId");
-
-                    b.HasIndex("InsuranceProgramId");
-
-                    b.ToTable("Contracts");
-                });
-
-            modelBuilder.Entity("Entity.Models.InsuranceContractModels.ContractInvoice", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ContractID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LastPrice")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id", "ContractID");
-
-                    b.HasIndex("ContractID");
-
-                    b.ToTable("ContractsInvoice");
                 });
 
             modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefit", b =>
@@ -421,29 +348,29 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6a1dca93-6f0d-4e4f-8865-9eb4ab898500",
-                            ConcurrencyStamp = "147e5112-c657-4f01-8b5f-6bd94c03adab",
+                            Id = "a1b4f020-f7e9-4e23-88ec-50073314b815",
+                            ConcurrencyStamp = "ede17dec-2207-4b35-922e-10c61246988a",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "e31b2485-ed37-4bba-bcff-a52884aa7b21",
-                            ConcurrencyStamp = "1441f45f-2ad3-49fb-9841-f46da4792186",
+                            Id = "b5f353b6-ba5a-4b28-be44-a5d838346d5f",
+                            ConcurrencyStamp = "bd8be4ed-2a6c-4d2f-b802-6ab273b57438",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "567316e6-5cd6-463a-95c3-d34c36e9ed5a",
-                            ConcurrencyStamp = "bdf4e2a4-b530-4aeb-9052-1b572b793974",
+                            Id = "371e214f-3033-4754-b39b-3d51122a39b2",
+                            ConcurrencyStamp = "cf1dd2e0-893f-4acf-8e22-98143936b12b",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "f86dc607-1a23-447a-80d8-9a933bde10dc",
-                            ConcurrencyStamp = "3cf17ff7-1d70-4acb-95e5-ed98f89cd761",
+                            Id = "de1d9cca-2eb5-4039-8786-de67fff74646",
+                            ConcurrencyStamp = "6bfa4a63-0bbb-4853-a8e4-ebe6f22759e1",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -555,17 +482,6 @@ namespace WebAPI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Entity.Models.Claim.ClaimHealthService", b =>
-                {
-                    b.HasOne("Entity.Models.Claim.ClaimRequest", "Request")
-                        .WithMany()
-                        .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Request");
-                });
-
             modelBuilder.Entity("Entity.Models.Claim.ClaimInvoice", b =>
                 {
                     b.HasOne("Entity.Models.Claim.ClaimPayment", "Payment")
@@ -579,10 +495,6 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("Entity.Models.Claim.ClaimPayment", b =>
                 {
-                    b.HasOne("Entity.Models.Customers.Customer", null)
-                        .WithMany("Payments")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("Entity.Models.Claim.ClaimRequest", "Request")
                         .WithMany()
                         .HasForeignKey("RequestID")
@@ -592,28 +504,6 @@ namespace WebAPI.Migrations
                     b.Navigation("Request");
                 });
 
-            modelBuilder.Entity("Entity.Models.Claim.ClaimRequest", b =>
-                {
-                    b.HasOne("Entity.Models.InsuranceContractModels.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractId");
-
-                    b.HasOne("Entity.Models.Customers.Customer", "Customer")
-                        .WithMany("Claims")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Entity.Models.Staff.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeID");
-
-                    b.Navigation("Contract");
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("Entity.Models.Customers.Customer", b =>
                 {
                     b.HasOne("Entity.Models.User", "User")
@@ -621,52 +511,6 @@ namespace WebAPI.Migrations
                         .HasForeignKey("UserID");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Entity.Models.InsuranceContractModels.Contract", b =>
-                {
-                    b.HasOne("Entity.Models.Customers.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entity.Models.Staff.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entity.Models.InsuranceModels.InsuranceProduct", "InsuranceProduct")
-                        .WithMany()
-                        .HasForeignKey("InsuranceProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entity.Models.InsuranceModels.InsuranceProgram", "InsuranceProgram")
-                        .WithMany()
-                        .HasForeignKey("InsuranceProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("InsuranceProduct");
-
-                    b.Navigation("InsuranceProgram");
-                });
-
-            modelBuilder.Entity("Entity.Models.InsuranceContractModels.ContractInvoice", b =>
-                {
-                    b.HasOne("Entity.Models.InsuranceContractModels.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contract");
                 });
 
             modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefit", b =>
@@ -778,13 +622,6 @@ namespace WebAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Entity.Models.Customers.Customer", b =>
-                {
-                    b.Navigation("Claims");
-
-                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceProduct", b =>
