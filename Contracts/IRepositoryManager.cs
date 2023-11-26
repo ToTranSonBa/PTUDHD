@@ -1,4 +1,9 @@
-﻿using Entity.Models;
+﻿using Contracts.ClaimContracts;
+using Contracts.CustomerContracts;
+using Contracts.InsuranceContractContracts;
+using Contracts.InsuranceContracts;
+using Contracts.StaffContracts;
+using Entity.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,6 +18,27 @@ namespace Contracts
         //metheo
         IUserRepository Users { get; }
         IRoleRepository Role { get; }
+
+        //Claim
+        IClaimHealthServiceRepository ClaimHealthServices { get; }
+        IClaimInvoiceRepository ClaimInvoices {  get; } 
+        IClaimPaymentRepository ClaimPayments { get; }
+        IClaimRequestRepository ClaimRequests { get; }
+        //Customer
+        ICustomerRepository Customers { get; }
+        //contracts
+        IContractRepository Contracts {  get; } 
+        IContractInvoiceRepository ContractsInvoices { get; }
+
+        //Insurance
+        IInsuranceBenefitCostRepository InsuranceBenefitCost {  get; }
+        IInsuranceBenefitRepository InsuranceBenefit { get; }
+        IInsurancePriceRepository InsurancePrices { get; }
+        IInsuranceProductRepository InsuranceProducts { get; }
+        IInsuranceProgramRepository InsurancePrograms { get; }
+        //Staff
+        IEmployeeRepository Employees { get; }
+
         Task SaveAsync();
     }
 }
