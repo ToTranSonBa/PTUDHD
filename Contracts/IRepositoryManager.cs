@@ -5,6 +5,7 @@ using Contracts.InsuranceContracts;
 using Contracts.StaffContracts;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
+using Service.Contract.Claims;
 using System;
 using System.Collections.Generic;
 using System.Linq;

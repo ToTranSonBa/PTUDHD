@@ -11,12 +11,4 @@
     <ProjectReference Include="..\Service.Contracts\Service.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Customers\" />
-    <Folder Include="Claims\" />
-    <Folder Include="Contracts\" />
-    <Folder Include="Insurances\" />
-    <Folder Include="Staff\" />
-  </ItemGroup>
-
 </Project>

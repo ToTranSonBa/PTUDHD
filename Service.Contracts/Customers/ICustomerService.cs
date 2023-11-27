@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Service.Contracts.Customers
 {
-    internal interface ICustomerService
+    public interface ICustomerService
     {
     }
 }

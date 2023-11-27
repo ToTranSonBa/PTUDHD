@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Contracts.Claims
+namespace Service.Contracts.Claims 
+{
     public interface IClaimRequestService
     {
     }

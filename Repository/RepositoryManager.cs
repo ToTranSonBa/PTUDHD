@@ -12,6 +12,7 @@ using Repository.EntitiesRepository.Contracts;
 using Repository.EntitiesRepository.Customers;
 using Repository.EntitiesRepository.Insurance;
 using Repository.EntitiesRepository.Staff;
+using Service.Contract.Claims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
