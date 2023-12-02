@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service.Contracts;
+using Shared.ResponseApi;
 using Shared.UserDto;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,30 +44,30 @@ namespace Services
 
             //Check user exits
             var userExit = await _userManager.FindByEmailAsync(userRegister.Email);
-            if(userExit != null)
+            if (userExit != null)
             {
                 return RegisterUserStatus.USEREXIST;
             }
             var listUserRoles = new List<string>();
-            foreach(var role in userForRegistration.Roles)
+            foreach (var role in userForRegistration.Roles)
             {
                 var roleExit = await _roleManager.FindByNameAsync(role);
-                if(roleExit != null)
+                if (roleExit != null)
                 {
                     listUserRoles.Add(roleExit.Name);
                 }
             }
-            if(listUserRoles.Count > 0) 
+            if (listUserRoles.Count > 0)
             {
                 // Create user
                 var result = await _userManager.CreateAsync(userRegister, userForRegistration.Password);
-                if(!result.Succeeded)
+                if (!result.Succeeded)
                 {
                     return RegisterUserStatus.FAILED;
                 }
 
                 // Add roles to user
-                await _userManager.AddToRolesAsync(userRegister,listUserRoles);
+                await _userManager.AddToRolesAsync(userRegister, listUserRoles);
 
                 await _repository.SaveAsync();
                 return RegisterUserStatus.SUCCESS;
@@ -80,44 +82,53 @@ namespace Services
         {
 
             var user = await _userManager.FindByEmailAsync(Email);
-            if( user != null )
+            if (user != null)
             {
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 return token;
             }
             return string.Empty;
         }
-        public async Task<LoginStatus> LoginAsync(UserLoginDto userLoginDto)
+        public async Task<(LoginStatus status, LoginRespone Token)> LoginAsync(UserLoginDto userLoginDto)
         {
             var resultUsername = await _userManager.FindByEmailAsync(userLoginDto.Email);
-            if(resultUsername != null)
+            if (resultUsername != null)
             {
                 var result = await _userManager.CheckPasswordAsync(resultUsername, userLoginDto.Password);
-                if(!result)
+                if (!result)
                 {
-                    return LoginStatus.INCORRECTPASSWORD;
+                    return (LoginStatus.INCORRECTPASSWORD, new LoginRespone());
                 }
                 var checkConfirmEmail = await _userManager.IsEmailConfirmedAsync(resultUsername);
-                if(!checkConfirmEmail) {
-                    return LoginStatus.EMAILNOTCONFIRMED;
+                if (!checkConfirmEmail) {
+                    return (LoginStatus.EMAILNOTCONFIRMED, new LoginRespone());
                 }
-                return LoginStatus.SUCCESS;
+
+                var refreshToken = GenerateRefreshToken();
+                resultUsername.RefreshToken = refreshToken;
+                resultUsername.RefreshTokenExpiry = DateTime.Now.AddDays(1);
+                await _userManager.UpdateAsync(resultUsername);
+
+                var accessToken = await GenerateJWTToken(userLoginDto.Email);
+
+                var response = new LoginRespone { AccessToken = accessToken.token, RefreshToken = refreshToken, ValidTo = accessToken.ValidTo };
+                return (LoginStatus.SUCCESS, response);
             }
             else
             {
-                return LoginStatus.USERNOTEXIST;
+                return (LoginStatus.USERNOTEXIST, new LoginRespone());
             }
         }
-        public async Task<string> GenerateJWTToken(UserLoginDto userLoginDto)
+        public async Task<(string token, DateTime ValidTo)> GenerateJWTToken(string Email)
         {
-            var resultUser = await _userManager.FindByEmailAsync(userLoginDto.Email);
-            if(resultUser == null)
+            var resultUser = await _userManager.FindByEmailAsync(Email);
+            if (resultUser == null)
             {
-                return string.Empty;
+                return new (string.Empty, DateTime.Now);
             }
             var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Email, userLoginDto.Email),
+                    new Claim(ClaimTypes.Email, Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 
                 };
@@ -127,26 +138,103 @@ namespace Services
             (
                 audience: _configuration["JWT:ValidAudience"],
                 issuer: _configuration["JWT:ValidIssuer"],
-                expires: DateTime.Now.AddMinutes(10),
+                expires: DateTime.UtcNow.AddMinutes(10),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha256Signature)
             );
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new (new JwtSecurityTokenHandler().WriteToken(token), token.ValidTo);
         }
         public async Task<bool> ComfirmEmailAsync(string token, string email)
         {
             // Check Email Exist\
             var user = await _userManager.FindByEmailAsync(email);
-            if(user != null)
+            if (user != null)
             {
                 var result = await _userManager.ConfirmEmailAsync(user, token);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return true;
                 }
             }
             return false;
 
+        }
+        public async Task<(bool status, LoginRespone Token)> RefreshTokenAsnyc(RefreshTokenDto refreshTokenDto)
+        {
+            var principal = GetPrincipalFromExpiredToken(refreshTokenDto.AccessToken);
+
+            if (principal is null)
+                return new (false, new LoginRespone());
+            else
+            {
+                Claim emailClaim = principal.FindFirst(ClaimTypes.Email);
+
+                if (emailClaim != null)
+                {
+                    string userEmail = emailClaim.Value;
+                    var user = await _userManager.FindByEmailAsync(userEmail);
+
+                    if (user is null || refreshTokenDto.RefreshToken != user?.RefreshToken || user?.RefreshTokenExpiry < DateTime.UtcNow)
+                    {
+                        return new(false, new LoginRespone());
+                    }
+                    var token = await GenerateJWTToken(userEmail);
+                    var loginRespone = new LoginRespone
+                    {
+                        ValidTo = token.ValidTo,
+                        AccessToken = token.token,
+                        RefreshToken = user.RefreshToken
+                    };
+                    return new(true, loginRespone);
+                }
+                else
+                {
+                    return new(false, new LoginRespone());
+                }
+            }
+            
+        }
+        public async Task<bool> DeleteFreshTokenAsync(string Email)
+        {
+            var logoutUser = await _userManager.FindByEmailAsync(Email);
+            if(logoutUser != null)
+            {
+                logoutUser.RefreshToken = null;
+                logoutUser.RefreshTokenExpiry = DateTime.UtcNow;
+
+                await _userManager.UpdateAsync(logoutUser);
+                return true;
+            }
+            return false;
+        }
+        private ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var authenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = authenKey,
+                ValidateIssuer = true,
+                ValidIssuer = _configuration["JWT:ValidIssuer"],
+                ValidateAudience = true,
+                ValidAudience = _configuration["JWT:ValidAudience"],
+                ValidateLifetime = false // Set this to true if you want to validate token lifetime
+            };
+
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+            return principal;
+        }
+        private static string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[64];
+
+            using var generator = RandomNumberGenerator.Create();
+
+            generator.GetBytes(randomNumber);
+
+            return Convert.ToBase64String(randomNumber);
         }
     }
 }

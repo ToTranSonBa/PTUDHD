@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Repository;
 using Service.Contracts;
 using Services;
@@ -17,8 +18,6 @@ public static class ServiceExtension
         => service.AddScoped<IServiceManager, ServiceManager>();
     public static void ConfigureRepositoryManager(this IServiceCollection service)
         => service.AddScoped<IRepositoryManager, RepositoryManager>();
-    public static void ConfigureMapping(this IServiceCollection service)
-        => service.AddScoped<IMapper, Mapper>();
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<InsuranceDBContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("InsuranceConnectionString")));
@@ -33,17 +32,18 @@ public static class ServiceExtension
             o.User.RequireUniqueEmail = true;
         }).AddEntityFrameworkStores<InsuranceDBContext>()
           .AddDefaultTokenProviders();
-    public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
-        => services.AddAuthentication(options =>
+    public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+        => services.AddAuthentication(options => 
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
+        })
+        .AddJwtBearer(options =>
         {
             options.SaveToken = true;
             options.RequireHttpsMetadata = false;
-            options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
@@ -56,4 +56,34 @@ public static class ServiceExtension
         => services.Configure<IdentityOptions>(
             otps => otps.SignIn.RequireConfirmedEmail = true
             );
+    public static void ConfigureSwagger(this IServiceCollection services) 
+        => services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "My API",
+                Version = "v1"
+            });
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please insert JWT with Bearer into field",
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey
+            });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement 
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+        });
 }
