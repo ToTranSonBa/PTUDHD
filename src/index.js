@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import GlobalStyles from './style';
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalStyles>
+      <App />
+    </GlobalStyles>
   </React.StrictMode>,
   document.getElementById('root')
 );
