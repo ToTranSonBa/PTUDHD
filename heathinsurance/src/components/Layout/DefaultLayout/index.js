@@ -1,14 +1,12 @@
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from './Header';
+import Footer from './Footer';
 
-function DefaultLayout({children}) {
-    return ( 
+function DefaultLayout({ children }) {
+    return (
         <div>
-            <Header/>
-            <div className="container">
-                {children}
-            </div>
-            <Footer/>
+            <Header />
+            <div className="container">{children}</div>
+            <Footer />
         </div>
     );
 }

@@ -1,25 +1,27 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
-:root 
-{
-    --primary: #1E826A;
-    --secondary: #58C479;
-    --tertiary: #FFDC0E;
-    --quaternary: #EBAD0A;
+:root {
+    --primary: #1e826a;
+    --secondary: #58c479;
+    --tertiary: #ffdc0e;
+    --quaternary: #ebad0a;
     --quinary: #404040;
 }
 
-html{
+html {
     font-size: 62.5%;
 }
 
-*{
+*,
+*::before,
+*::after {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
-body
-{
+body {
     font-family: 'Roboto', sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
