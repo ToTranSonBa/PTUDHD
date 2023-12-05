@@ -59,7 +59,7 @@ const SignUp = () => {
                 {formik.errors.email && <p className="errorMsg"> {formik.errors.email} </p>}
                 <label> Password </label>
                 <input
-                    type="text"
+                    type="password"
                     id="password"
                     name="password"
                     value={formik.values.password}
