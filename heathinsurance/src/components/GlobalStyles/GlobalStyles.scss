@@ -7,6 +7,8 @@
     --tertiary: #ffdc0e;
     --quaternary: #ebad0a;
     --quinary: #404040;
+    --default-header-width: 1050px;
+    --default-height-header_footer: 60px;
 }
 
 html {
@@ -26,4 +28,9 @@ body {
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizeSpeed;
+}
+
+li {
+    text-decoration: none;
+    list-style: none;
 }
