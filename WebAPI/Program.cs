@@ -1,15 +1,14 @@
 using Entity.Email;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
+using NLog;
 using Microsoft.OpenApi.Models;
 using NETCore.MailKit.Core;
 using Repository;
 using WebAPI.Extensions;
+using Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 var configure = builder.Configuration;
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
 
 
 builder.Services.AddSwaggerGen(options =>
@@ -38,7 +37,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(configure);
-
+builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureSqlContext(configure);
@@ -57,6 +56,11 @@ builder.Services.AddControllers();
 //builder.Services.ConfigureSwagger();
 
 var app = builder.Build();
+
+var logger = app.Services.GetRequiredService<ILoggerManager>();
+app.ConfigureExceptionHandler(logger);
+if (app.Environment.IsProduction())
+    app.UseHsts();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

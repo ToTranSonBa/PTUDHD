@@ -6,6 +6,8 @@ using Shared.UserDto;
 using Shared.Message;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Shared.EntityDtos.Customer;
+using Shared.EntityDtos.Staff;
 
 namespace WebAPI.Controllers
 {
@@ -20,16 +22,24 @@ namespace WebAPI.Controllers
             _service = serviceManager;
             _configuration = configuration;
         }
-        [HttpPost("Register")]
-        public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationDto userForRegistrationDto)
+        [HttpPost("Register/Customer")]
+        public async Task<IActionResult> RegisterCustomer([FromBody] CustomerCreateDto customerCreateDto)
         {
-            if (userForRegistrationDto == null)
+            if (customerCreateDto == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
                     new Response { Status = "Error", Message = "Invalid User" });
             } 
             else
             {
+                var userForRegistrationDto = new UserRegistrationDto
+                {
+                    Email = customerCreateDto.Email,
+                    PhoneNumber = customerCreateDto.PhoneNumber,
+                    Password = customerCreateDto.Password,
+                    UserName = customerCreateDto.UserName,
+                    Roles = customerCreateDto.Roles
+                };
                 var result = await _service.AuthenticationService.RegisterAsync(userForRegistrationDto);
                 if ((int)result == ((int)RegisterUserStatus.FAILED))
                 {
@@ -46,6 +56,8 @@ namespace WebAPI.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest,
                         new Response { Status = "Error", Message = "User already exist" });
                 }
+                //Create Customer
+                var customerReturn = await _service.Customers.CreateCustomerAsync(customerCreateDto);
                 // Send email comfirm
                 var token = await _service.AuthenticationService.GenerateEmailConfirmationTokeAsync(userForRegistrationDto.Email ?? throw new Exception("Invalid Mail"));
                 var confirmLink = _configuration["ApplicationUrl:Url"] + Url.Action(nameof(ComfirmEmail), new { token, email = userForRegistrationDto.Email });
@@ -53,8 +65,54 @@ namespace WebAPI.Controllers
                 _service.EmailService.SendEmail(message);
 
                 return StatusCode(StatusCodes.Status201Created,
-                    new Response { Status = "Success", Message = "User created successfully" });
+                    new { customer = customerReturn, response = new Response { Status = "Success", Message = "User created successfully" } });
             }  
+        }
+        [HttpPost("Register/Employee")]
+        public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeCreateDto employeeCreateDto)
+        {
+            if (employeeCreateDto == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = "Invalid User" });
+            }
+            else
+            {
+                var userForRegistrationDto = new UserRegistrationDto
+                {
+                    Email = employeeCreateDto.Email,
+                    PhoneNumber = employeeCreateDto.PhoneNumber,
+                    Password = employeeCreateDto.Password,
+                    UserName = employeeCreateDto.UserName,
+                    Roles = employeeCreateDto.Roles
+                };
+                var result = await _service.AuthenticationService.RegisterAsync(userForRegistrationDto);
+                if ((int)result == ((int)RegisterUserStatus.FAILED))
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest,
+                        new Response { Status = "Error", Message = "User failed to create" });
+                }
+                if ((int)result == ((int)RegisterUserStatus.ROLEERROR))
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest,
+                        new Response { Status = "Error", Message = "Roles not exist" });
+                }
+                if ((int)result == ((int)RegisterUserStatus.USEREXIST))
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest,
+                        new Response { Status = "Error", Message = "User already exist" });
+                }
+                //Create Employee
+                var employeeReturn = await _service.Employees.CreateEmployeeAsync(employeeCreateDto);
+                // Send email comfirm
+                var token = await _service.AuthenticationService.GenerateEmailConfirmationTokeAsync(userForRegistrationDto.Email ?? throw new Exception("Invalid Mail"));
+                var confirmLink = _configuration["ApplicationUrl:Url"] + Url.Action(nameof(ComfirmEmail), new { token, email = userForRegistrationDto.Email });
+                var message = new EmailMessage(new string[] { userForRegistrationDto.Email }, "Confirm email link", ConfirmEmailMessage.Message(userForRegistrationDto.Email, confirmLink)!);
+                _service.EmailService.SendEmail(message);
+
+                return StatusCode(StatusCodes.Status201Created,
+                    new { employee = employeeReturn, response = new Response { Status = "Success", Message = "User created successfully" } });
+            }
         }
         [HttpGet("SendEmailConfirm")]
         public async Task<IActionResult> SendEmailConfirm(string Email)

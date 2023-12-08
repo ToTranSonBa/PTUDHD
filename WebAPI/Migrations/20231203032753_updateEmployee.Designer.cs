@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(InsuranceDBContext))]
-    partial class InsuranceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231203032753_updateEmployee")]
+    partial class updateEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,30 +141,6 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("CreateDay")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
-
-                    b.Property<string>("IdentifycationNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
@@ -475,29 +453,29 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e1f399e2-1f42-4652-a22d-4dca8c11cb2c",
-                            ConcurrencyStamp = "4e8a4a3f-afbf-4deb-b4c9-2ba702b3a51f",
+                            Id = "6993d906-b294-41ec-b33d-f383f2ab347a",
+                            ConcurrencyStamp = "00b102e0-4ce1-44fc-9567-8ae701e428f4",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "08021294-e34b-49d0-9a33-03eff2eba24a",
-                            ConcurrencyStamp = "e54c29b9-e642-4b5a-8265-9546da9b2460",
+                            Id = "5ebb8ebf-09fd-4272-a3a5-b77a3e58fa9e",
+                            ConcurrencyStamp = "09e0d0ca-80e2-4d73-933c-d8b3add2bead",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "47c43e95-4b1b-4be0-ba74-0b68aa3fb770",
-                            ConcurrencyStamp = "ebaa3c2f-04d3-47ea-bafe-769263b21150",
+                            Id = "fa188490-5e89-4de1-96fa-244cc35f51e7",
+                            ConcurrencyStamp = "cd9a2845-c0e3-406b-902d-99a080a4ee18",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "2ea6c305-3b9b-4426-b75d-1d9bca4ddba5",
-                            ConcurrencyStamp = "17addc5c-ad86-4a20-9ef4-13cabac73239",
+                            Id = "89d66afb-51b1-4c99-b756-1045a97e4307",
+                            ConcurrencyStamp = "9be4f655-b207-4d41-9cb0-2443bc89c33c",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });

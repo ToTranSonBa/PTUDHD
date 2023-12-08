@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entity.Models;
+using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -86,4 +87,7 @@ public static class ServiceExtension
                 }
             });
         });
+    public static void ConfigureLoggerService(this IServiceCollection services) =>
+ services.AddSingleton<ILoggerManager, LoggerManager>();
+
 }

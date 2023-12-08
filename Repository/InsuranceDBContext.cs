@@ -46,6 +46,11 @@ namespace Repository
                 .OnDelete(DeleteBehavior.SetNull);
                 
             } );
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.HasIndex(p => p.EmployeeId)
+                .IsUnique();
+            });
         }
         #region Dbset
         public DbSet<InsuranceProduct>? InsurancePolicies { get; set; }
@@ -59,8 +64,8 @@ namespace Repository
         public DbSet<ClaimInvoice>? ClaimInvoice { get; set;}
         public DbSet<ClaimPayment>? ClaimPayment { get; set; }
         public DbSet<ClaimRequest>? ClaimRequests { get; set; }
-        public DbSet<Contract> Contracts { get; set; }
-        public DbSet<ContractInvoice> ContractsInvoice { get; set; }
+        public DbSet<Contract>? Contracts { get; set; }
+        public DbSet<ContractInvoice>? ContractsInvoice { get; set; }
         #endregion
     }
 }

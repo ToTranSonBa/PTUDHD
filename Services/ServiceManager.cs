@@ -81,7 +81,7 @@ namespace Services
             _claimRequestService = new Lazy<IClaimRequestService>(() => new ClaimRequestService());
 
             //Customer
-            _customerService = new Lazy<ICustomerService>(() => new CustomerService());
+            _customerService = new Lazy<ICustomerService>(() => new CustomerService(repositoryManager, mapper, userManager));
 
             //Contracts
             _contractInvoiceService = new Lazy<IContractInvoiceService>(() => new ContractInvoiceService());
@@ -95,7 +95,7 @@ namespace Services
             _insuranceProgramService = new Lazy<IInsuranceProgramService>(() => new InsuranceProgramService());
 
             //Staff
-            _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService());
+            _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, mapper));
         }
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IEmailService EmailService => _emailService.Value;

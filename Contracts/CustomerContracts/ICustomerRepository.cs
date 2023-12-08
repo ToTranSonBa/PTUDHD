@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity.Models.Customers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Contracts.CustomerContracts
 {
     public interface ICustomerRepository
     {
+        bool CreateCusomter(Customer customer);
+        Task<Customer> GetCustomerAsnyc(int customerId, bool trachChanges);
     }
 }

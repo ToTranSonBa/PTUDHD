@@ -1,5 +1,6 @@
 ﻿using Contracts.CustomerContracts;
 using Entity.Models.Customers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,14 @@ namespace Repository.EntitiesRepository.Customers
     {
         public CustomerRepository(InsuranceDBContext insuranceDBContext) : base(insuranceDBContext)
         {
+        }
+        public bool CreateCusomter(Customer customer)
+        {
+            return Create(customer);
+        }
+        public async Task<Customer> GetCustomerAsnyc(int customerId, bool trachChanges)
+        {
+            return await FindByCondition(c => c.CustomerId == customerId, trachChanges).SingleOrDefaultAsync();
         }
     }
 }

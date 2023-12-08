@@ -4,8 +4,6 @@ namespace Shared.UserDto
 {
     public record UserRegistrationDto
     {
-        public string? FirstName { get; init; }
-        public string? LastName { get; init; }
         public string? UserName { get; init; }
         [Required, MinLength(6, ErrorMessage = "Please enter at least 6 character!")]
         public string? Password { get; init; }

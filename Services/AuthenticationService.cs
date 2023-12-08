@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entity.Models;
+using Entity.Models.Customers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service.Contracts;
+using Shared.EntityDtos.Customer;
 using Shared.ResponseApi;
 using Shared.UserDto;
 using System;
@@ -70,6 +72,7 @@ namespace Services
                 await _userManager.AddToRolesAsync(userRegister, listUserRoles);
 
                 await _repository.SaveAsync();
+
                 return RegisterUserStatus.SUCCESS;
             }
             else

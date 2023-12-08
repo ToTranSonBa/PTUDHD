@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.EntityDtos.Staff;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Service.Contracts.Staff
 {
     public interface IEmployeeService
     {
+        Task<EmployeeDto> GetEmployee(int EmployeeId);
+        Task<EmployeeDto?> CreateEmployeeAsync(EmployeeCreateDto employeedto);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity.Models.Staff;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Contracts.StaffContracts
 {
     public interface IEmployeeRepository
     {
+        Task<Employee> GetEmployee(int employeeId, bool trackChanges);
+        public bool CreateEmployee(Employee employee);
     }
 }
