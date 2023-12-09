@@ -6,6 +6,7 @@ using Service.Contracts;
 namespace WebAPI.Controllers.Staff
 {
     [Route("api/[controller]")]
+    //[Authorize]
     public class EmployeeController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -17,8 +18,14 @@ namespace WebAPI.Controllers.Staff
         [HttpGet("{EmployeeId:int}")]
         public async Task<IActionResult> GetEmployee(int EmployeeId)
         {
-             await _serviceManager.Employees.GetEmployee(EmployeeId);
-            return Ok();
+            var employee =  await _serviceManager.Employees.GetEmployee(EmployeeId);
+            return Ok(employee);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetEmployees()
+        {
+            var employees = await _serviceManager.Employees.GetEmployees(false);
+            return Ok(employees);
         }
     }
 }

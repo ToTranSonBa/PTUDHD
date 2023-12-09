@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.EntityDtos.Insurances;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Service.Contracts.Insurances
 {
     public interface IInsuranceProductService
     {
+        Task<List<InsuranceProductDto>> GetAll(bool trackChanges);
+        Task<InsuranceProductDto> GetById(int Id, bool trachChanges);
     }
 }

@@ -22,6 +22,10 @@ namespace Repository.EntitiesRepository.Staff
             var result = await FindByCondition(e => e.EmployeeId == employeeId, trackChanges).SingleOrDefaultAsync();
             return result;
         }
+        public async Task<List<Employee>> GetEmployees(bool trackchanges)
+        {
+            return await FindAll(trackchanges).ToListAsync();
+        }
         public bool CreateEmployee(Employee employee)
         {
             return Create(employee);

@@ -23,5 +23,7 @@ namespace Entity.Models.InsuranceModels
         public InsuranceProduct? Product { get; set; }
         public InsuranceBenefit? Benefit { get; set; }
         public InsuranceProgram? Program { get; set; }
+        public string? NameBenefit { get; set; }
+        public int? Cost { get; set; }
     }
 }

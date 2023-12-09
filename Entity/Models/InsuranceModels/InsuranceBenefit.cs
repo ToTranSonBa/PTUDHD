@@ -14,5 +14,7 @@ namespace Entity.Models.InsuranceModels
         [Key]
         public Guid PolicyId { get; set; }
         public InsuranceProduct? Product { get; set; }
+        public string? BenefitName {  get; set; }
+        public string? Description { get; set; }
     }
 }

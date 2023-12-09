@@ -26,6 +26,12 @@ namespace Services.Staff
             this._mapper = mapper;
             this._userManager = userManager;
         }
+        public async Task<List<EmployeeDto>> GetEmployees(bool trackChanges)
+        {
+            var employees = await _repositoryManager.Employees.GetEmployees(trackChanges);
+            var returnEmployees = _mapper.Map<List<EmployeeDto>>(employees);
+            return returnEmployees;
+        }
 
         public async Task<EmployeeDto> GetEmployee(int EmployeeId)
         {
@@ -51,7 +57,7 @@ namespace Services.Staff
                 return employeeReturn;
             }
             else
-                return null;
+                throw new EmployeeCreatedUnseccessfulException();
         }
     }
 }

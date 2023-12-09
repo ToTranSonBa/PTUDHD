@@ -9,6 +9,7 @@ namespace Service.Contracts.Staff
 {
     public interface IEmployeeService
     {
+        Task<List<EmployeeDto>> GetEmployees(bool trackChanges);
         Task<EmployeeDto> GetEmployee(int EmployeeId);
         Task<EmployeeDto?> CreateEmployeeAsync(EmployeeCreateDto employeedto);
     }

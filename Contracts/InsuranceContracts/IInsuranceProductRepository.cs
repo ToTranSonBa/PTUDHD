@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity.Models.InsuranceModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Contracts.InsuranceContracts
 {
     public interface IInsuranceProductRepository
     {
+        Task<InsuranceProduct> GetById(int id, bool trackChanges);
+        Task<List<InsuranceProduct>> GetAll(bool trackChanges);
     }
 }

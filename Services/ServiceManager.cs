@@ -91,11 +91,11 @@ namespace Services
             _insuranceBenefitCostService = new Lazy<IInsuranceBenefitCostService>(() => new InsuranceBenefitCostService());
             _insuranceBenefitService = new Lazy<IInsuranceBenefitService>(() => new InsuranceBenefitService());
             _insurancePriceService = new Lazy<IInsurancePriceService>(() => new InsurancePriceService());
-            _insuranceProductService = new Lazy<IInsuranceProductService>(() => new InsuranceProductService());
+            _insuranceProductService = new Lazy<IInsuranceProductService>(() => new InsuranceProductService(repositoryManager, mapper));
             _insuranceProgramService = new Lazy<IInsuranceProgramService>(() => new InsuranceProgramService());
 
             //Staff
-            _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, mapper));
+            _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, mapper, userManager));
         }
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IEmailService EmailService => _emailService.Value;
