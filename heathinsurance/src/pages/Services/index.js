@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './Home.module.scss';
+import styles from './Service.module.scss';
 import { Link } from 'react-router-dom';
 
 //swiper
@@ -18,14 +18,16 @@ import { FaArrowAltCircleRight } from 'react-icons/fa';
 
 //image
 import companylogo from '../../assets/image/Logo2.png';
-import Header from './../../components/Layout/components/Header/index';
+import Header from '../../components/Layout/components/Header/index';
 
 const cx = classNames.bind(styles);
 
-function Home() {
+function Services() {
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('container')}></div>
+            <div className={cx('container')}>
+                <h1> Sức khỏe</h1>
+            </div>
             <Swiper
                 effect={'coverflow'}
                 grabCursor={true}
@@ -124,4 +126,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default Services;

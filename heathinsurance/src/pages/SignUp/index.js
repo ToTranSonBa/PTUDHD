@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import './style.scss';
+import './Signup.module.scss';
+
 const SignUp = () => {
     const formik = useFormik({
         initialValues: {
