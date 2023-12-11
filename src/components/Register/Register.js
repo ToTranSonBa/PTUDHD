@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { isValidElement, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { registerNewUser } from '../../services/userService'
 
 const Register = (props) => {
     const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Register = (props) => {
         isValidConfirmPassword: true
     }
 
-    const [objCheckInput, setObjCheckInput] = useState(defaultValidInput)
+    const [objCheckInput, setObjCheckInput] = useState(defaultValidInput);
 
     let history = useHistory();
     const handleLogin = () => {
@@ -71,13 +72,19 @@ const Register = (props) => {
         return true;
     }
 
-    const handleRegister = () => {
-        // let userData = { email, phone, username, password };
+    const handleRegister = async () => {
         let check = isvalidInputs();
         if (check == true) {
-            axios.post('http://localhost:8888/api/v1/register', {
-                email, phone, username, password
-            })
+            let response = await registerNewUser(email, phone, username, password);
+            let serverData = response.data;
+            if (+serverData.EC === 0) {
+                toast.success(serverData.EM);
+                history.push("/login");
+            }
+            else {
+                toast.error(serverData.EM);
+            }
+
         }
     }
     return (
