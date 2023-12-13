@@ -1,0 +1,74 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+:root {
+    --primary: #1e826a;
+    --secondary: #58c479;
+    --tertiary: #ffdc0e;
+    --quaternary: #ebad0a;
+    --quinary: #404040;
+    --default-width: 1050px;
+    --default-height-header_footer: 60px;
+    --white: #fff;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+}
+
+li {
+    text-decoration: none;
+    list-style: none;
+}
+
+::-webkit-scrollbar {
+    width: 1.3rem;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background: #797979;
+    transition: all 0.5s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #222224;
+}
+
+::-webkit-scrollbar-track {
+    background: #f9f9f9;
+}
+
+// @media (min-width: 1440px) {
+//     html {
+//         zoom: 1.5;
+//     }
+// }
+
+// @media (min-width: 2560px) {
+//     html {
+//         zoom: 1.7;
+//     }
+// }
+
+// @media (min-width: 3860px) {
+//     html {
+//         zoom: 2.5;
+//     }
+// }

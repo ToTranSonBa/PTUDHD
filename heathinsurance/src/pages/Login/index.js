@@ -1,0 +1,99 @@
+// Import your styles and image
+import './style.scss';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import bgImg from '../../assets/image/img1.jpg';
+import { LoginApi } from '../../services/ApiLogin/login';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
+const Login = () => {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        if (token) {
+            navigate('/');
+        }
+    }, []);
+
+    const handleClick = async () => {
+        try {
+            if (!email || !email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+                toast.error('Please enter a valid email address');
+                return;
+            }
+
+            if (!password) {
+                toast.error('Password is required');
+                return;
+            }
+
+            const response = await LoginApi(email, password);
+
+            if (response && response.message) {
+                let token = response.response.access_token;
+                toast.success(response.response.message);
+                localStorage.setItem('token', token);
+                navigate('/');
+            } else {
+                if (response && response.status) {
+                    toast.error(response.data.response.message);
+                }
+                console.log('Empty response:', response);
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
+    return (
+        <section className="login-form">
+            <div className="register">
+                <div className="col-1">
+                    <h2>Sign In</h2>
+                    <span>Welcome back to our website!</span>
+
+                    <form id="form" className="flex flex-col">
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter your email"
+                        />
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter your password"
+                        />
+
+                        <button type="button" className="btn" onClick={handleClick}>
+                            Sign In
+                        </button>
+                        <ToastContainer />
+                        <span className="underline" />
+                        <p>
+                            Don't have an account?{' '}
+                            <a href="/signup" className="register-link">
+                                Register
+                            </a>
+                        </p>
+                    </form>
+                </div>
+                <div className="col-2">
+                    <img src={bgImg} alt="" />
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Login;
