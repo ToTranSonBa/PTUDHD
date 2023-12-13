@@ -9,10 +9,6 @@ namespace Entity.Models.InsuranceModels
 {
     public class InsuranceBenefitCost
     {
-        public InsuranceBenefitCost() 
-        {
-            
-        }
 
         [Key]
         public Guid BenefitId { get; set; }
@@ -23,7 +19,6 @@ namespace Entity.Models.InsuranceModels
         public InsuranceProduct? Product { get; set; }
         public InsuranceBenefit? Benefit { get; set; }
         public InsuranceProgram? Program { get; set; }
-        public string? NameBenefit { get; set; }
-        public int? Cost { get; set; }
+        public float? Cost { get; set; }
     }
 }

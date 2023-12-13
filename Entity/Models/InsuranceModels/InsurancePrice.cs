@@ -17,7 +17,7 @@ namespace Entity.Models.InsuranceModels
         public Guid PolicyId { get; set; }
         [Key]
         public Guid ProgramId { get; set; }
-        public int Price {  get; set; }
+        public float Price {  get; set; }
         public InsuranceProduct? Product { get; set; }
         public InsuranceProgram? Program { get; set; }
     }

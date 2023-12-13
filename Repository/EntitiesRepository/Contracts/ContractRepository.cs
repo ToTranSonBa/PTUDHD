@@ -13,5 +13,10 @@ namespace Repository.EntitiesRepository.Contracts
         public ContractRepository(InsuranceDBContext insuranceDBContext) : base(insuranceDBContext)
         {
         }
+        public bool CreateContract(Contract contract)
+        {
+
+            return Create(contract);
+        }
     }
 }

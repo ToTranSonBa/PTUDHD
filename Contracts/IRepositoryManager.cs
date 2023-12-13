@@ -34,12 +34,15 @@ namespace Contracts
         //Insurance
         IInsuranceBenefitCostRepository InsuranceBenefitCost {  get; }
         IInsuranceBenefitRepository InsuranceBenefit { get; }
+        IInsuranceBenefitTypeRepository InsuranceBenefitType { get; }
         IInsurancePriceRepository InsurancePrices { get; }
         IInsuranceProductRepository InsuranceProducts { get; }
         IInsuranceProgramRepository InsurancePrograms { get; }
+        IHealthConditionRepository HealthConditions { get; }
         //Staff
         IEmployeeRepository Employees { get; }
 
         Task SaveAsync();
+        void Save();
     }
 }

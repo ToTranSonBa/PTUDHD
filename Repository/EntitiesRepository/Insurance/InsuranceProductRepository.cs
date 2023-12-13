@@ -16,11 +16,25 @@ namespace Repository.EntitiesRepository.Insurance
         }
         public async Task<List<InsuranceProduct>> GetAll(bool trackChanges)
         {
-            return await FindAll(trackChanges).ToListAsync();
+            return await FindAll(trackChanges)
+                .Include(p => p.Costs)
+                .Include(p => p.HealthConditionSource)
+                .Include(p => p.BenefitTypes)
+                .Include(p => p.Prices)
+                .ToListAsync();
         }
         public async Task<InsuranceProduct> GetById(int id, bool trackChanges)
         {
-            return await FindByCondition(p => p.ProductId == id, trackChanges).SingleOrDefaultAsync();
+            return await FindByCondition(p => p.ProductId == id, trackChanges)
+                .Include(p => p.Costs)
+                .Include(p => p.HealthConditionSource)
+                .Include(p => p.BenefitTypes)
+                .Include(p => p.Prices)
+                .SingleOrDefaultAsync();
+        }
+        public bool Add(InsuranceProduct insuranceProduct)
+        {
+            return Create(insuranceProduct);
         }
     }
 }

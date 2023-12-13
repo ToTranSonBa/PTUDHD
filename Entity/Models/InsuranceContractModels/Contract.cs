@@ -4,6 +4,7 @@ using Entity.Models.Staff;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,11 @@ namespace Entity.Models.InsuranceContractModels
     {
         [Key]
         public Guid Id { get; set; }
-        public DateTime CreatedDate { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ContractId { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime? StartDate { get; init; }
+        public DateTime? EndDate { get; init; }
         public Guid CustomerID { get; set; }
         public Guid EmployeeID { get; set; }
         public Guid InsuranceProductId { get; set; }
@@ -23,5 +28,6 @@ namespace Entity.Models.InsuranceContractModels
         public Employee? Employee { get; set; }
         public InsuranceProduct? InsuranceProduct { get; set;}
         public InsuranceProgram? InsuranceProgram { get; set; }
+        public ICollection<ContractHealthCondition>? ContractHealthConditions { get; set; }
     }
 }

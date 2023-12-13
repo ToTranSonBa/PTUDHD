@@ -180,6 +180,12 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ContractId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContractId"), 1L, 1);
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -189,11 +195,17 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("EmployeeID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("InsuranceProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("InsuranceProgramId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -208,6 +220,24 @@ namespace WebAPI.Migrations
                     b.ToTable("Contracts");
                 });
 
+            modelBuilder.Entity("Entity.Models.InsuranceContractModels.ContractHealthCondition", b =>
+                {
+                    b.Property<Guid>("ContractId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("HealthConditionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ContractId", "HealthConditionId");
+
+                    b.HasIndex("HealthConditionId");
+
+                    b.ToTable("ContractHealthConditions");
+                });
+
             modelBuilder.Entity("Entity.Models.InsuranceContractModels.ContractInvoice", b =>
                 {
                     b.Property<Guid>("Id")
@@ -219,6 +249,12 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("InvoiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceId"), 1L, 1);
+
                     b.Property<int>("LastPrice")
                         .HasColumnType("int");
 
@@ -229,26 +265,58 @@ namespace WebAPI.Migrations
                     b.ToTable("ContractsInvoice");
                 });
 
-            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefit", b =>
+            modelBuilder.Entity("Entity.Models.InsuranceModels.HealthCondition", b =>
                 {
-                    b.Property<Guid>("PolicyId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id")
+                    b.Property<int>("HealthConditionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HealthConditionId"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("HealthConditions");
+                });
+
+            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BenefitId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BenefitId"), 1L, 1);
 
                     b.Property<string>("BenefitName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("BenefitTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasKey("Id");
 
-                    b.HasKey("PolicyId", "Id");
-
-                    b.HasIndex("ProductId");
+                    b.HasIndex("BenefitTypeId");
 
                     b.ToTable("InsuranceBenefits");
                 });
@@ -264,30 +332,41 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("ProgramId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BenefitId1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BenefitPolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Cost")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NameBenefit")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float?>("Cost")
+                        .HasColumnType("real");
 
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PolicyId", "BenefitId", "ProgramId");
 
+                    b.HasIndex("BenefitId");
+
                     b.HasIndex("ProductId");
 
                     b.HasIndex("ProgramId");
 
-                    b.HasIndex("BenefitPolicyId", "BenefitId1");
-
                     b.ToTable("InsuranceBenefitCosts");
+                });
+
+            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefitType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BenefitTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BenefitTypeId"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InsuranceBenefitType");
                 });
 
             modelBuilder.Entity("Entity.Models.InsuranceModels.InsurancePrice", b =>
@@ -298,8 +377,8 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("ProgramId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -336,7 +415,7 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InsurancePolicies");
+                    b.ToTable("InsuranceProducts");
                 });
 
             modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceProgram", b =>
@@ -345,8 +424,20 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<float>("Multiplier")
+                        .HasColumnType("real");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProgramId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgramId"), 1L, 1);
 
                     b.HasKey("Id");
 
@@ -467,6 +558,21 @@ namespace WebAPI.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("InsuranceBenefitTypeInsuranceProduct", b =>
+                {
+                    b.Property<Guid>("BenefitTypesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BenefitTypesId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("InsuranceBenefitTypeInsuranceProduct");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -496,29 +602,29 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c5864191-8065-41ef-8f50-eed8664ed62c",
-                            ConcurrencyStamp = "2e68fc90-ae43-4a7f-bf0b-89fc3187da22",
+                            Id = "c365c196-9bcb-426c-bb9a-d7b2c23775ed",
+                            ConcurrencyStamp = "9bac218e-63f2-4802-b623-a47a11284300",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "76aafc0f-d7d9-496f-981d-9d0cd22ca527",
-                            ConcurrencyStamp = "7fd9f2f3-0eec-4e9a-a7d4-84e318f21b56",
+                            Id = "b7c84f14-2fe2-4d9e-b7a2-1ace422a3286",
+                            ConcurrencyStamp = "faa1394a-b17e-4311-adcf-d513cc12a3b1",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "ef85cff9-8587-4d58-a92a-c839fbfebf2f",
-                            ConcurrencyStamp = "4d71dc1a-a98c-4fd5-9745-eb26c4f1a3d4",
+                            Id = "f115240f-f0f2-4ed7-aa6c-3ab6408c38ba",
+                            ConcurrencyStamp = "96bce31e-4d98-45c1-a51c-d73c1a7f9483",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "355af36f-a24c-44cd-ac79-8d7f63c7380d",
-                            ConcurrencyStamp = "80cc5609-f8fa-427e-84d5-0313b052f0c2",
+                            Id = "41f08186-d047-44d6-b3c5-a584c5251ea0",
+                            ConcurrencyStamp = "ea01beb5-e674-4d4e-9f99-08eb941e0807",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -733,6 +839,25 @@ namespace WebAPI.Migrations
                     b.Navigation("InsuranceProgram");
                 });
 
+            modelBuilder.Entity("Entity.Models.InsuranceContractModels.ContractHealthCondition", b =>
+                {
+                    b.HasOne("Entity.Models.InsuranceContractModels.Contract", "Contract")
+                        .WithMany("ContractHealthConditions")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entity.Models.InsuranceModels.HealthCondition", "HealthCondition")
+                        .WithMany("contracts")
+                        .HasForeignKey("HealthConditionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contract");
+
+                    b.Navigation("HealthCondition");
+                });
+
             modelBuilder.Entity("Entity.Models.InsuranceContractModels.ContractInvoice", b =>
                 {
                     b.HasOne("Entity.Models.InsuranceContractModels.Contract", "Contract")
@@ -744,30 +869,40 @@ namespace WebAPI.Migrations
                     b.Navigation("Contract");
                 });
 
-            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefit", b =>
+            modelBuilder.Entity("Entity.Models.InsuranceModels.HealthCondition", b =>
                 {
                     b.HasOne("Entity.Models.InsuranceModels.InsuranceProduct", "Product")
-                        .WithMany("Benefits")
-                        .HasForeignKey("ProductId");
+                        .WithMany("HealthConditionSource")
+                        .HasForeignKey("ProductId")
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefit", b =>
+                {
+                    b.HasOne("Entity.Models.InsuranceModels.InsuranceBenefitType", "BenefitType")
+                        .WithMany("Benefits")
+                        .HasForeignKey("BenefitTypeId");
+
+                    b.Navigation("BenefitType");
+                });
+
             modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefitCost", b =>
                 {
+                    b.HasOne("Entity.Models.InsuranceModels.InsuranceBenefit", "Benefit")
+                        .WithMany()
+                        .HasForeignKey("BenefitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Entity.Models.InsuranceModels.InsuranceProduct", "Product")
                         .WithMany("Costs")
                         .HasForeignKey("ProductId");
 
                     b.HasOne("Entity.Models.InsuranceModels.InsuranceProgram", "Program")
-                        .WithMany()
+                        .WithMany("Benefits")
                         .HasForeignKey("ProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entity.Models.InsuranceModels.InsuranceBenefit", "Benefit")
-                        .WithMany()
-                        .HasForeignKey("BenefitPolicyId", "BenefitId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -785,7 +920,7 @@ namespace WebAPI.Migrations
                         .HasForeignKey("ProductId");
 
                     b.HasOne("Entity.Models.InsuranceModels.InsuranceProgram", "Program")
-                        .WithMany()
+                        .WithMany("Prices")
                         .HasForeignKey("ProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -802,6 +937,21 @@ namespace WebAPI.Migrations
                         .HasForeignKey("UserID");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("InsuranceBenefitTypeInsuranceProduct", b =>
+                {
+                    b.HasOne("Entity.Models.InsuranceModels.InsuranceBenefitType", null)
+                        .WithMany()
+                        .HasForeignKey("BenefitTypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entity.Models.InsuranceModels.InsuranceProduct", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -862,11 +1012,33 @@ namespace WebAPI.Migrations
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceProduct", b =>
+            modelBuilder.Entity("Entity.Models.InsuranceContractModels.Contract", b =>
+                {
+                    b.Navigation("ContractHealthConditions");
+                });
+
+            modelBuilder.Entity("Entity.Models.InsuranceModels.HealthCondition", b =>
+                {
+                    b.Navigation("contracts");
+                });
+
+            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceBenefitType", b =>
                 {
                     b.Navigation("Benefits");
+                });
 
+            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceProduct", b =>
+                {
                     b.Navigation("Costs");
+
+                    b.Navigation("HealthConditionSource");
+
+                    b.Navigation("Prices");
+                });
+
+            modelBuilder.Entity("Entity.Models.InsuranceModels.InsuranceProgram", b =>
+                {
+                    b.Navigation("Benefits");
 
                     b.Navigation("Prices");
                 });

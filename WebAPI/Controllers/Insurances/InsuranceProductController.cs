@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.EntityDtos.Insurances.InsuranceProduct;
 
 namespace WebAPI.Controllers.Insurances
 {
@@ -24,6 +25,16 @@ namespace WebAPI.Controllers.Insurances
         {
             var product = await _serviceManager.InsuranceProducts.GetById(id, false);
             return StatusCode(StatusCodes.Status200OK, product);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateInsuranceProduct([FromBody] AddInsuranceProductDto insuranceProductDto)
+        {
+            if(insuranceProductDto == null)
+            {
+                return BadRequest();
+            }
+            await _serviceManager.InsuranceProducts.AddInsuranceProduct(insuranceProductDto);
+            return Ok();
         }
     }
 }

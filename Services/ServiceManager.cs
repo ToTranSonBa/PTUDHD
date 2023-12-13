@@ -1,23 +1,10 @@
 ﻿using AutoMapper;
 using Contracts;
 using Contracts.ClaimContracts;
-using Contracts.CustomerContracts;
-using Contracts.InsuranceContractContracts;
-using Contracts.InsuranceContracts;
-using Contracts.StaffContracts;
 using Entity.Email;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Repository;
-using Repository.EntitiesRepository.Claim;
-using Repository.EntitiesRepository.Contracts;
-using Repository.EntitiesRepository.Customers;
-using Repository.EntitiesRepository.Insurance;
-using Repository.EntitiesRepository.Staff;
-using Service.Contract.Claims;
 using Service.Contracts;
 using Service.Contracts.Claims;
 using Service.Contracts.Contracts;
@@ -29,11 +16,6 @@ using Services.Contracts;
 using Services.Customers;
 using Services.Insurances;
 using Services.Staff;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -61,6 +43,8 @@ namespace Services
         private Lazy<IInsurancePriceService> _insurancePriceService;
         private Lazy<IInsuranceProductService> _insuranceProductService;
         private Lazy<IInsuranceProgramService> _insuranceProgramService;
+        private Lazy<IHealthConditionService> _healthConditionService;
+        private Lazy<IInsuranceBenefitTypeService> _insuranceBenefitTypeService;
         //Staff
         private Lazy<IEmployeeService> _employeeService;
         public ServiceManager (IRepositoryManager repositoryManager,
@@ -85,14 +69,17 @@ namespace Services
 
             //Contracts
             _contractInvoiceService = new Lazy<IContractInvoiceService>(() => new ContractInvoiceService());
-            _contractService = new Lazy<IContractService>(() => new ContractService());
+            _contractService = new Lazy<IContractService>(() => new ContractService(repositoryManager, mapper));
 
             //Insurance
             _insuranceBenefitCostService = new Lazy<IInsuranceBenefitCostService>(() => new InsuranceBenefitCostService());
-            _insuranceBenefitService = new Lazy<IInsuranceBenefitService>(() => new InsuranceBenefitService());
+            _insuranceBenefitService = new Lazy<IInsuranceBenefitService>(() => new InsuranceBenefitService(repositoryManager));
             _insurancePriceService = new Lazy<IInsurancePriceService>(() => new InsurancePriceService());
             _insuranceProductService = new Lazy<IInsuranceProductService>(() => new InsuranceProductService(repositoryManager, mapper));
-            _insuranceProgramService = new Lazy<IInsuranceProgramService>(() => new InsuranceProgramService());
+            _insuranceProgramService = new Lazy<IInsuranceProgramService>(() => new InsuranceProgramService(repositoryManager, mapper));
+
+            _healthConditionService = new Lazy<IHealthConditionService>(() => new HealthConditionService(repositoryManager, mapper));
+            _insuranceBenefitTypeService = new Lazy<IInsuranceBenefitTypeService>(() => new InsuranceBenefitTypeService(repositoryManager, mapper));
 
             //Staff
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, mapper, userManager));
@@ -128,6 +115,10 @@ namespace Services
         public IInsuranceProductService InsuranceProducts => _insuranceProductService.Value;
 
         public IInsuranceProgramService InsurancePrograms => _insuranceProgramService.Value;
+
+        public IHealthConditionService HealthConditions => _healthConditionService.Value;
+
+        public IInsuranceBenefitTypeService InsuranceBenefitType => _insuranceBenefitTypeService.Value;
         //Employee
 
         public IEmployeeService Employees => _employeeService.Value;

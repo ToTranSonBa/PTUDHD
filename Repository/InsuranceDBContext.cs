@@ -7,6 +7,7 @@ using Entity.Models.Staff;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Repository.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,24 +23,43 @@ namespace Repository
         {
 
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base .OnModelCreating(modelBuilder);
 
+
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
-            modelBuilder.Entity<InsuranceBenefit>().HasKey(e
-                => new {e.PolicyId, e.Id }) ;
+
+            // insurance
             modelBuilder.Entity<InsuranceBenefitCost>().HasKey(e
                 => new { e.PolicyId, e.BenefitId, e.ProgramId });
             modelBuilder.Entity<InsurancePrice>().HasKey(e
                 => new { e.PolicyId, e.ProgramId });
+            modelBuilder.Entity<ContractHealthCondition>().HasKey(e
+                => new { e.ContractId, e.HealthConditionId });
+            modelBuilder.Entity<InsuranceBenefit>(entity =>
+            {
+                entity.Property(e => e.BenefitId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            });
+            modelBuilder.Entity<InsuranceBenefitType>(entity =>
+            {
+                entity.Property(e => e.BenefitTypeId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            });
+            // claim
             modelBuilder.Entity<ClaimHealthService>().HasKey(e
                 => new { e.RequestId, e.Id });
+
+            // contract
             modelBuilder.Entity<ContractInvoice>().HasKey(e
                 => new { e.Id, e.ContractID });
+            
             modelBuilder.Entity<ClaimRequest>(entity
                 =>
-            {
+            {   
                 entity.HasOne<Customer>(e => e.Customer)
                 .WithMany(e => e.Claims)
                 .HasForeignKey(e => e.CustomerId)
@@ -51,9 +71,17 @@ namespace Repository
                 entity.HasIndex(p => p.EmployeeId)
                 .IsUnique();
             });
+
+            modelBuilder.Entity<InsuranceProduct>(entity =>
+            {
+                entity.HasMany<HealthCondition>(e => e.HealthConditionSource)
+                .WithOne(g => g.Product)
+                .HasForeignKey(e => e.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+            });
         }
         #region Dbset
-        public DbSet<InsuranceProduct>? InsurancePolicies { get; set; }
+        public DbSet<InsuranceProduct>? InsuranceProducts { get; set; }
         public DbSet<InsurancePrice>? InsurancePrices { get; set; }
         public DbSet<InsuranceProgram>? InsurancePrograms { get; set; }
         public DbSet<InsuranceBenefit>? InsuranceBenefits { get; set; }
@@ -66,6 +94,9 @@ namespace Repository
         public DbSet<ClaimRequest>? ClaimRequests { get; set; }
         public DbSet<Contract>? Contracts { get; set; }
         public DbSet<ContractInvoice>? ContractsInvoice { get; set; }
+        public DbSet<HealthCondition>? HealthConditions { get; set; }
+        public DbSet<ContractHealthCondition>? ContractHealthConditions { get; set;}
+        //public DbSet<HealthConditionInsuranceProduct>? healthConditionInsuranceProducts { get; set; }
         #endregion
     }
 }

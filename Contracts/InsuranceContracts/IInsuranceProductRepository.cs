@@ -11,5 +11,7 @@ namespace Contracts.InsuranceContracts
     {
         Task<InsuranceProduct> GetById(int id, bool trackChanges);
         Task<List<InsuranceProduct>> GetAll(bool trackChanges);
+
+        bool Add(InsuranceProduct insuranceProduct);
     }
 }

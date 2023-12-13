@@ -38,6 +38,8 @@ namespace Service.Contracts
         IInsurancePriceService InsurancePrices { get; }
         IInsuranceProductService InsuranceProducts { get; }
         IInsuranceProgramService InsurancePrograms { get; }
+        IHealthConditionService HealthConditions { get; }
+        IInsuranceBenefitTypeService InsuranceBenefitType { get; }
         //Staff
         IEmployeeService Employees { get; }
         IAuthenticationService AuthenticationService { get; }

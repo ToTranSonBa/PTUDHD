@@ -46,6 +46,9 @@ namespace Repository
         private Lazy<IInsurancePriceRepository> _insurancePriceRepository;
         private Lazy<IInsuranceProductRepository> _insuranceProductRepository;
         private Lazy<IInsuranceProgramRepository> _insuranceProgramRepository;
+        private Lazy<IInsuranceBenefitTypeRepository> _insuranceBenefitTypeRepository;
+
+        private Lazy<IHealthConditionRepository> _healthConditionRepository;
         //Staff
         private Lazy<IEmployeeRepository> _employeeRepository;
 
@@ -74,7 +77,8 @@ namespace Repository
             _insurancePriceRepository = new Lazy<IInsurancePriceRepository>(() => new InsurancePriceRepository(_dbContext));
             _insuranceProductRepository = new Lazy<IInsuranceProductRepository>(() => new InsuranceProductRepository(_dbContext));
             _insuranceProgramRepository = new Lazy<IInsuranceProgramRepository>(() => new InsuranceProgramRepository(_dbContext));
-
+            _healthConditionRepository = new Lazy<IHealthConditionRepository>(() => new HealthConditionRepository(_dbContext));
+            _insuranceBenefitTypeRepository = new Lazy<IInsuranceBenefitTypeRepository>(() => new InsuranceBenefitTypeRepository(_dbContext));
             //Staff
             _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(_dbContext));
         }
@@ -110,13 +114,20 @@ namespace Repository
         public IInsuranceProductRepository InsuranceProducts => _insuranceProductRepository.Value;
 
         public IInsuranceProgramRepository InsurancePrograms => _insuranceProgramRepository.Value;
+        public IInsuranceBenefitTypeRepository InsuranceBenefitType => _insuranceBenefitTypeRepository.Value;
+
+
         //Staff
         public IEmployeeRepository Employees => _employeeRepository.Value;
+
+        public IHealthConditionRepository HealthConditions => _healthConditionRepository.Value;
+
 
         // Methods
         public async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
         }
+        public void Save() => _dbContext.SaveChanges();
     }
 }

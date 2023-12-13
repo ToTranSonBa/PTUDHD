@@ -1,5 +1,6 @@
 ﻿using Contracts.InsuranceContracts;
 using Entity.Models.InsuranceModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace Repository.EntitiesRepository.Insurance
     {
         public InsuranceBenefitCostRepository(InsuranceDBContext insuranceDBContext) : base(insuranceDBContext)
         {
+        }
+        public async Task<InsuranceBenefitCost> GetBenefitCost(Guid ProgramId, Guid ProductId, Guid BenefitId, bool trackChanges)
+        {
+            return await FindByCondition(e => e.PolicyId == ProductId && e.BenefitId == BenefitId && e.ProgramId == ProgramId, trackChanges)
+                .SingleOrDefaultAsync();
         }
     }
 }

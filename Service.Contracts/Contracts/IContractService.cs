@@ -8,5 +8,6 @@ namespace Service.Contracts.Contracts
 {
     public interface IContractService
     {
+
     }
 }
