@@ -5,6 +5,7 @@ using NETCore.MailKit.Core;
 using Repository;
 using WebAPI.Extensions;
 using Contracts;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 var configure = builder.Configuration;
@@ -67,7 +68,15 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
+
+app.UseStaticFiles();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.All
+});
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 
