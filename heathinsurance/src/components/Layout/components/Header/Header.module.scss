@@ -4,6 +4,11 @@
     box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
     display: flex;
     justify-content: center;
+    // position: fixed;
+    // z-index: 999;
+    background-color: #fff;
+    top: 0;
+    left: 0;
 }
 
 .inner {
@@ -37,11 +42,23 @@
     text-transform: uppercase;
     font-size: 1.4rem;
 
-    li:hover {
+    a {
+        color: #126131;
+    }
+
+    :hover {
         scale: 1.1;
         font-style: Bold;
         font-weight: 800;
         cursor: pointer;
+        color: #126131;
+    }
+    ::before {
+        scale: 1.1;
+        font-style: Bold;
+        font-weight: 800;
+        cursor: pointer;
+        color: #126131;
     }
 }
 
@@ -51,6 +68,10 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+
+    a {
+        color: #126131;
+    }
 
     div:first-child {
         width: 70%;

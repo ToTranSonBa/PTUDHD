@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './style.scss';
+
 const Login = () => {
     const formik = useFormik({
         initialValues: {
@@ -22,8 +23,8 @@ const Login = () => {
     });
 
     return (
-        <section>
-            <form className="infoform" onSubmit={formik.handleSubmit}>
+        <section className="login">
+            <form className="inforform" onSubmit={formik.handleSubmit}>
                 <label> Email address </label>
                 <input
                     type="email"
