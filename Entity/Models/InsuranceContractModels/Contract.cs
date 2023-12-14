@@ -20,14 +20,23 @@ namespace Entity.Models.InsuranceContractModels
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime? StartDate { get; init; }
         public DateTime? EndDate { get; init; }
-        public Guid CustomerID { get; set; }
-        public Guid EmployeeID { get; set; }
-        public Guid InsuranceProductId { get; set; }
-        public Guid InsuranceProgramId { get; set; }
+        public float? TotalPrice { get; init; }
+        public string? Status { get; init; }
+        public Guid? CustomerID { get; set; }
+        public Guid? EmployeeID { get; set; }
+        public Guid? InsuranceProductId { get; set; }
+        public Guid? InsuranceProgramId { get; set; }
         public Customer? Customer { get; set; }
         public Employee? Employee { get; set; }
         public InsuranceProduct? InsuranceProduct { get; set;}
         public InsuranceProgram? InsuranceProgram { get; set; }
         public ICollection<ContractHealthCondition>? ContractHealthConditions { get; set; }
+    }
+    public enum ContractStatus
+    {
+        Unpaid,
+        Paid,
+        Processing,
+        Completed
     }
 }

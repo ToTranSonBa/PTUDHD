@@ -18,9 +18,12 @@ namespace Entity.Models.Customers
         public string? Name { get; set; }
         public string? IdentifycationNumber { get; set; }
         public DateTime? Birthday { get; set; }
-        public DateTime? CreateDay { get; set; }
+        public DateTime? CreateDay { get; set; } = DateTime.Now;
+        [Phone]
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
+        [EmailAddress]
+        public string? Email { get; set; }
         public string? UserID { get; set; }
 
         public User? User { get; set; }

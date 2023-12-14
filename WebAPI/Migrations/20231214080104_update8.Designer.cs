@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(InsuranceDBContext))]
-    partial class InsuranceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231214080104_update8")]
+    partial class update8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,19 +194,19 @@ namespace WebAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CustomerID")
+                    b.Property<Guid>("CustomerID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeID")
+                    b.Property<Guid>("EmployeeID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("InsuranceProductId")
+                    b.Property<Guid>("InsuranceProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("InsuranceProgramId")
+                    b.Property<Guid>("InsuranceProgramId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("StartDate")
@@ -213,7 +215,7 @@ namespace WebAPI.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("TotalPrice")
+                    b.Property<float>("TotalPrice")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
@@ -611,29 +613,29 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d4d07ae8-ba59-42c4-b20a-15a8f0a6b003",
-                            ConcurrencyStamp = "a30f0579-8948-4b90-92a6-812b7e08a04e",
+                            Id = "014ef029-7563-4b6c-b086-f28908560acf",
+                            ConcurrencyStamp = "80ac067f-e25e-4756-9052-494f67bafd06",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "ff3be2f1-150a-449b-97e9-259eb14764a1",
-                            ConcurrencyStamp = "8ab5212b-8515-46cd-a5a6-9a6109b6ba0b",
+                            Id = "8e701968-173f-46bd-b8a7-1765eee279f6",
+                            ConcurrencyStamp = "bca45306-6c5c-4099-aebb-b7eb4d08ee2b",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "dc02e73a-4da1-4495-b8a3-7b1d6496c786",
-                            ConcurrencyStamp = "d4e91589-4b57-4810-85ba-1ab24f536969",
+                            Id = "f336fd8d-4058-4601-809f-91a7f38d2577",
+                            ConcurrencyStamp = "eb70f83a-1643-4f9b-83d2-2c5c1deccf80",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "de111084-c0ad-4bb5-b9ba-da0a3966f65f",
-                            ConcurrencyStamp = "4eb235b4-4b9e-4e62-8b01-62bd580a24f6",
+                            Id = "78e94446-38d1-4978-bc1d-6755fff99aa3",
+                            ConcurrencyStamp = "1de64d64-7823-42cc-9698-61f69c18cdfe",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -817,19 +819,27 @@ namespace WebAPI.Migrations
                 {
                     b.HasOne("Entity.Models.Customers.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerID");
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entity.Models.Staff.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("EmployeeID");
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entity.Models.InsuranceModels.InsuranceProduct", "InsuranceProduct")
                         .WithMany()
-                        .HasForeignKey("InsuranceProductId");
+                        .HasForeignKey("InsuranceProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Entity.Models.InsuranceModels.InsuranceProgram", "InsuranceProgram")
                         .WithMany()
-                        .HasForeignKey("InsuranceProgramId");
+                        .HasForeignKey("InsuranceProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Customer");
 

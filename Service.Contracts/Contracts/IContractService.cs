@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.EntityDtos.Contract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Service.Contracts.Contracts
 {
     public interface IContractService
     {
-
+        Task<bool> CreateContract(RegisterContractDto registerContractDto);
+        Task<List<ContractDto>> GetContracts();
     }
 }

@@ -79,7 +79,6 @@ namespace Services
             {
                 return RegisterUserStatus.ROLEERROR;
             }
-
         }
         public async Task<string> GenerateEmailConfirmationTokeAsync(string Email)
         {

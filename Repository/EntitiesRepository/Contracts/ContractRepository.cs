@@ -1,5 +1,6 @@
 ﻿using Contracts.InsuranceContractContracts;
 using Entity.Models.InsuranceContractModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,15 @@ namespace Repository.EntitiesRepository.Contracts
         }
         public bool CreateContract(Contract contract)
         {
-
             return Create(contract);
         }
+        public async Task<List<Contract>> GetAll(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .Include(e => e.InsuranceProduct)
+            .Include(e => e.InsuranceProgram)
+            .Include(e => e.ContractHealthConditions)
+            .Include(e => e.Customer)
+            .Include(e => e.Employee)
+            .ToListAsync();
     }
 }

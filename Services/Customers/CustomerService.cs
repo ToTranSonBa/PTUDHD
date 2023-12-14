@@ -40,7 +40,16 @@ namespace Services.Customers
         public async Task<CustomerDto> CreateCustomerAsync(CustomerCreateDto CustomerDto)
         {
 
-            var user = await _userManager.FindByEmailAsync(CustomerDto.Email); 
+            var user = await _userManager.FindByEmailAsync(CustomerDto.Email);
+            var existCustomer = await _repositoryManager.Customers.GetCustomerByEmail(CustomerDto.Email, true);
+            if(existCustomer != null)
+            {
+                existCustomer.User = user;
+                existCustomer.UserID = user.Id;
+                await _repositoryManager.SaveAsync();
+                var customerReturn = _mapper.Map<CustomerDto>(existCustomer);
+                return customerReturn;
+            }
             var customer = _mapper.Map<Customer>(CustomerDto);
             var result = _repositoryManager.Customers.CreateCusomter(customer);
             customer.UserID = user.Id;

@@ -22,67 +22,79 @@ namespace Services.Contracts
             this._repositoryManager = repositoryManager;
             this._mapper = mapper;
         }
-        public async Task<bool> CreateContract(RegisterContractDto registerContractDto)
+        public async Task<List<ContractDto>> GetContracts()
         {
-            //kiểm tra hợp đồng hợp lệ không
-            var productId = registerContractDto.ProductId;
-            if (!productId.HasValue)
-                return false;
-
+            var contracts = await _repositoryManager.Contracts.GetAll(false);
+            var rContracts = new List<ContractDto>();
+            foreach(var contract in contracts)
+            {
+                var contractDto = _mapper.Map<ContractDto>(contract);
+                contractDto.ProgramName = contract.InsuranceProgram.Name;
+                contractDto.ProductName = contract.InsuranceProduct.PolicyName;
+                contractDto.ProductId = contract.InsuranceProduct.ProductId;
+                contractDto.ProgramId = contract.InsuranceProgram.ProgramId;
+                contractDto.ContractHealthConditions = new List<ContractHealthConditionDto>();
+                foreach(var Item in contract.ContractHealthConditions)
+                {
+                    var Condition = await _repositoryManager.HealthConditions.GetByGuidIdAsync(Item.HealthConditionId, false);
+                    contractDto.ContractHealthConditions.Add(new ContractHealthConditionDto
+                    {
+                        ConditionId = Condition.HealthConditionId,
+                        ConditionName = Condition.Name,
+                        Status = Item.Status
+                    });
+                }
+                rContracts.Add(contractDto);
+            }
+            return rContracts;
+        }
+        public async Task<bool> CreateContract(RegisterContractDto registerContractDto)
+        { 
             // ktra hợp đồng tồn tại không
-            var product = await _repositoryManager.InsuranceProducts.GetById(productId.Value, false);
-            if(product == null) 
-                return false;
+            var product = await _repositoryManager.InsuranceProducts.GetById(registerContractDto.ProductId, false);
+            if(product == null)
+                throw new Exception($"Product with Id: {registerContractDto.ProductId} don't exits");
 
             // kiem tra chuong trinh
-            var programDto = registerContractDto.Program;
-            if (programDto == string.Empty)
-                return false;
-            //var program = await _repositoryManager.InsurancePrograms.GetByName(programDto);
-            //if(program == null)
-            //    return false;
+            var program = await _repositoryManager.InsurancePrograms.GetById(registerContractDto.ProgramId);
+            if (program == null)
+                throw new Exception($"Proram with Id: {registerContractDto.ProgramId} don't exits");
 
-            // Ktra khách hàng
-            var customerId = registerContractDto.customer.CustomerId;
-            if (!customerId.HasValue)
-                return false;
-
-            var customer = await _repositoryManager.Customers.GetCustomerAsnyc(customerId.GetValueOrDefault(), false);
+            var customer = await _repositoryManager.Customers.GetCustomerByEmail(registerContractDto.Customer.Email, false);
             // khách hàng không tồn tại thì thêm khách hàng
             if (customer == null)
             {
-                customer = _mapper.Map<Customer>(registerContractDto.customer);
+                customer = _mapper.Map<Customer>(registerContractDto.Customer);
                 _repositoryManager.Customers.CreateCusomter(customer);
             }    
 
 
             //tạo hợp đồng
             var contract = _mapper.Map<Contract>(registerContractDto);
+            contract.Customer = null;
+            contract.Employee = null;
+            contract.EmployeeID = null;
+            contract.Id = new Guid();
             contract.InsuranceProductId = product.Id;
-            contract.InsuranceProduct = product;
-            if (!_repositoryManager.Contracts.CreateContract(contract)) 
-                return false;
+            contract.InsuranceProgramId = program.Id;
+            contract.CustomerID = customer.Id;
+            contract.ContractHealthConditions = new List<ContractHealthCondition>();
+
 
             // Them dieu kien suc khoe
-            //foreach(var conditionProduct in product.HealthConditions)
-            //{
-            //    foreach(var conditionDto in registerContractDto.HealthConditions)
-            //    {
-            //        var addCondition = new ContractHealthCondition
-            //        {
-            //            ContractId = contract.Id,
-            //            Contract = contract,
-            //            HealthCondition = conditionProduct,
-            //            HealthConditionId = conditionProduct.Id,
-            //            Status = false
-            //        };
-            //        if (conditionProduct.HealthConditionId == conditionDto.Id)
-            //        {
-            //            addCondition.Status = true;
-            //        }
-            //        contract.ContractHealthConditions.Add(addCondition);
-            //    }
-            //}
+            foreach(var conditionDto in registerContractDto.HealthConditions)
+            {
+                var condtion = product.HealthConditionSource.Where(p => p.HealthConditionId == conditionDto.Id).SingleOrDefault();
+                contract.ContractHealthConditions.Add(new ContractHealthCondition
+                {
+                    ContractId = contract.Id,
+                    HealthConditionId = condtion.Id,
+                    Status = conditionDto.Status,
+                });
+            }
+            if (!_repositoryManager.Contracts.CreateContract(contract))
+                throw new Exception("Contract can not be created");
+            await _repositoryManager.SaveAsync();
             return true;
         }
     }

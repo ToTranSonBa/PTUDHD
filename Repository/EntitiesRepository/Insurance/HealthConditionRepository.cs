@@ -27,5 +27,10 @@ namespace Repository.EntitiesRepository.Insurance
         {
             return Create(condition);
         }
+
+        public async Task<HealthCondition> GetByGuidIdAsync(Guid Id, bool trackChanges)
+        {
+            return await FindByCondition(e => e.Id == Id, trackChanges).SingleOrDefaultAsync();
+        }
     }
 }

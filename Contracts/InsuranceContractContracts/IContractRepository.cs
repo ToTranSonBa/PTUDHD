@@ -10,5 +10,6 @@ namespace Contracts.InsuranceContractContracts
     public interface IContractRepository
     {
         bool CreateContract(Contract contract);
+        Task<List<Contract>> GetAll(bool trackChanges);
     }
 }

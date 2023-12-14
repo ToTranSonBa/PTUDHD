@@ -49,6 +49,10 @@ namespace Repository
             {
                 entity.Property(e => e.BenefitTypeId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             });
+            modelBuilder.Entity<InsuranceProgram>(entity =>
+            {
+                entity.Property(e => e.ProgramId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            });
             // claim
             modelBuilder.Entity<ClaimHealthService>().HasKey(e
                 => new { e.RequestId, e.Id });
@@ -70,6 +74,8 @@ namespace Repository
             {
                 entity.HasIndex(p => p.EmployeeId)
                 .IsUnique();
+                entity.Property(e => e.EmployeeId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
             });
 
             modelBuilder.Entity<InsuranceProduct>(entity =>
@@ -78,6 +84,15 @@ namespace Repository
                 .WithOne(g => g.Product)
                 .HasForeignKey(e => e.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.Property(e => e.ProductId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+            });
+
+            // customer
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.Property(e => e.CustomerId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             });
         }
         #region Dbset

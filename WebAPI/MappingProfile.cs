@@ -32,8 +32,11 @@ namespace WebAPI
             CreateMap<Customer, CustomerCreateDto>().ReverseMap();
 
             //contract
-            CreateMap<HealthCondition, HealthConditionContractDto>().ReverseMap();
+            CreateMap<HealthCondition, RegisterContractHealthConditionDto>().ReverseMap();
+            CreateMap<ContractHealthCondition, ContractHealthConditionDto>().ReverseMap();
             CreateMap<Contract, RegisterContractDto>().ReverseMap();
+            CreateMap<Contract, ContractDto>().ReverseMap();
+
             //insurance
             CreateMap<InsuranceProduct, InsuranceProductDto>().ReverseMap();
             CreateMap<InsuranceProduct, AddInsuranceProductDto>().ReverseMap();

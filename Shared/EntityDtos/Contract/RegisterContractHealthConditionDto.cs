@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shared.EntityDtos.Contract
 {
-    public class HealthConditionContractDto
+    public class RegisterContractHealthConditionDto
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
         public bool Status { get; set; }
-        public string? Type { get; set; }
     }
 }
