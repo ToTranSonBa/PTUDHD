@@ -1,7 +1,5 @@
 //Layouts
 import { HeaderOnly } from '../components/Layout';
-import { ProductIntroduce } from '../components/Layout';
-import { RegisterInsurance } from '../components/Layout';
 
 // Pages
 import Home from '../pages/Home';
@@ -20,8 +18,8 @@ const publicRoutes = [
     { path: '/login', component: Login, layout: HeaderOnly },
     { path: '/signup', component: SignUp, layout: HeaderOnly },
     { path: '/service', component: Services, layout: HeaderOnly },
-    { path: '/service/abc', component: Product, layout: ProductIntroduce },
-    { path: '/register/abc', component: Register, layout: RegisterInsurance },
+    { path: '/service/abc', component: Product },
+    { path: '/register/abc', component: Register },
     { path: '/account', component: Account },
 ];
 

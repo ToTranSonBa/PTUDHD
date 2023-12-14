@@ -16,6 +16,12 @@ function Header() {
         navigate('/login');
         toast.success('Logout Success!');
     };
+
+    // const thay vi var
+    var token = localStorage.getItem('token');
+
+    //fake token
+    token = 'sdas';
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -34,22 +40,25 @@ function Header() {
                     </li>
                 </nav>
                 <div className={cx('right_navbar')}>
-                    <div>
-                        <button className={cx('login-btn')}>
-                            <Link to="/login">Login</Link>
-                        </button>
-                        <button className={cx('login-btn')} onClick={handleLogout}>
-                            Logout
-                        </button>
-                        <button className={cx('logup-btn')}>
-                            <Link to="/signup">Logup</Link>
-                        </button>
-                    </div>
-                    <div className={cx('account')}>
-                        <Link to="/account">
-                            <MdAccountCircle />
-                        </Link>
-                    </div>
+                    {token.length > 0 ? (
+                        <div className={cx('account')}>
+                            <Link to="/account">
+                                <MdAccountCircle />
+                            </Link>
+                            <button className={cx('login-btn')} onClick={handleLogout}>
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <div>
+                            <button className={cx('login-btn')}>
+                                <Link to="/login">Login</Link>
+                            </button>
+                            <button className={cx('logup-btn')}>
+                                <Link to="/signup">Logup</Link>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </header>

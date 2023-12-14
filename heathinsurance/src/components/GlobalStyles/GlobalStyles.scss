@@ -7,9 +7,9 @@
     --tertiary: #ffdc0e;
     --quaternary: #ebad0a;
     --quinary: #404040;
+    --white: #fff;
     --default-width: 1050px;
     --default-height-header_footer: 60px;
-    --white: #fff;
 }
 
 html {
@@ -32,9 +32,14 @@ body {
     text-rendering: optimizeSpeed;
 }
 
-li {
+li,
+a {
     text-decoration: none;
     list-style: none;
+}
+
+.container {
+    width: var(--default-width);
 }
 
 ::-webkit-scrollbar {
@@ -71,4 +76,4 @@ li {
 //     html {
 //         zoom: 2.5;
 //     }
-// }
+// }\
