@@ -1,33 +1,49 @@
-import Header from '../../components/Layout/components/Header';
-import Footer from '../../components/Layout/components/Footer';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
 
-function Product({ children }) {
+import styles from './Product.module.scss';
+import Banner from '../../assets/image/banner-top.jpg';
+
+const cx = classNames.bind(styles);
+
+function Product() {
+    const [activeSection, setActiveSection] = useState('product_des');
+    const handelProductDescription = () => {
+        setActiveSection('product_des');
+    };
+
+    const handelBenifit = () => {
+        setActiveSection('benifits');
+    };
+    const handelFee = () => {
+        setActiveSection('fees');
+    };
+
     return (
-        <div>
-            <Header />
-            <div className="container">
-                <div className="container__header">
-                    <h1>Sức khỏe</h1>
+        <>
+            <div className={cx('container')}>
+                <div className={cx('header')}>
+                    <img className={cx('banner_top')} src={Banner} alt="Banner" />
+                    <h1 className={cx('title')}>Sức khỏe</h1>
                 </div>
-                <div className="container__body">
-                    <nav>
-                        <li>
-                            <Link to="#product_des">Mô tả sản phẩm</Link>
-                        </li>
-                        <li>
-                            <Link to="#benifits">Quyền lợi bảo hiểm</Link>
-                        </li>
-                        <li>
-                            <Link to="#fees">Phí bảo hiểm</Link>
-                        </li>
-                    </nav>
 
+                <nav className={cx('navigation')}>
+                    <li onClick={handelProductDescription}>
+                        <Link to="">Mô tả sản phẩm</Link>
+                    </li>
+                    <li onClick={handelBenifit}>
+                        <Link to=""> Quyền lợi bảo hiểm</Link>
+                    </li>
+                    <li onClick={handelFee}>
+                        <Link to="">Phí bảo hiểm</Link>
+                    </li>
+                </nav>
+
+                <div className={cx('content')}>
                     <h2>Bảo hiểm sức khỏe</h2>
-                </div>
-                <div className="content">
-                    <section id="product_des">
-                        <div className="general_des">
+                    <section id={cx('product_des')} className={cx({ active: activeSection === 'product_des' })}>
+                        <div className={cx('general_des')}>
                             <h5>
                                 Vốn quý của con người là Sức Khỏe. Đảm bảo một sức khỏe tốt sẽ giúp chúng ta an tâm thực
                                 hiện những ước mơ, hoài bão.
@@ -39,104 +55,835 @@ function Product({ children }) {
                             </h5>
                         </div>
 
-                        <div className="Beneficiary">
-                            <h3>ĐỐI TƯỢNG ĐƯỢC BẢO HIỂM</h3>
+                        <div className={cx('beneficiary')}>
+                            <h3 className={cx('under-title')}>
+                                <span>Đối tượng được Bảo hiểm</span>
+                            </h3>
                             <span>
                                 Công dân Việt Nam hoặc người nước ngoài công tác, học tập tại Việt Nam độ tuổi từ 15
                                 ngày tuổi tới 65 tuổi, bảo hiểm tối đa đến 70 tuổi nếu Người được bảo hiểm tái tục liên
-                                tục tại MIC từ năm 65 tuổi loại trừ:
+                                tục tại AAA từ năm 65 tuổi loại trừ:
                             </span>
-                            <span>
-                                Những người bị bệnh tâm thần, bệnh phong, hội chứng down, tự kỷ
+                            <p>
+                                - Những người bị bệnh tâm thần, bệnh phong, hội chứng down, tự kỷ
                                 <br />
-                                Những người bị thương tật vĩnh viễn từ 50% trở lên
-                                <br />
-                                Những người đang trong thời gian điều trị bệnh hoặc thương tật hoặc bị ung thư.
-                            </span>
+                                - Những người bị thương tật vĩnh viễn từ 50% trở lên
+                                <br />- Những người đang trong thời gian điều trị bệnh hoặc thương tật hoặc bị ung thư.
+                            </p>
                             <span>Điều này chỉ áp dụng đối với các trường hợp tham gia bảo hiểm năm đầu tiên.</span>
-                            <span>
-                                - Trường hợp tham gia bảo hiểm không đúng đối tượng và điều kiện quy định trên, Mic có
+                            <p>
+                                - Trường hợp tham gia bảo hiểm không đúng đối tượng và điều kiện quy định trên, AAA có
                                 quyền chấm dứt bảo hiểm, không chịu trách nhiệm với quyền lợi bảo hiểm đã đăng ký và
                                 không hoàn phí bảo hiểm
                                 <br />
                                 - Trẻ em từ 15 ngày tuổi đến 06 tuổi bắt buộc mua kèm với bố/mẹ hoặc bố/mẹ đã tham gia
-                                ít nhất 01 chương trình bảo hiểm sức khỏe MIC Care còn hiệu lực tại MIC và gói bảo hiểm
+                                ít nhất 01 chương trình bảo hiểm sức khỏe AAA Care còn hiệu lực tại AAA và gói bảo hiểm
                                 của con chỉ được áp dụng mức tương đương hoặc thấp hơn gói bảo hiểm của bố hoặc mẹ (bao
                                 gồm cả điều khoản chính và điều khoản bổ sung). Trường hợp trẻ từ 15 ngày tuổi đến 06
                                 tuổi muốn tham gia độc lập cần tăng phí 30%.
                                 <br />- Nguyên tắc tính tuổi tham gia: Là tuổi của Người được bảo hiểm vào ngày có hiệu
                                 lực của Hợp đồng bảo hiểm tính theo lần sinh nhật liền kề trước ngày Hợp đồng có hiệu
                                 lực
-                            </span>
+                            </p>
                         </div>
 
-                        <div className="country">
-                            <h3>PHẠM VI LÃNH THỔ</h3>
-                            <span>Việt Nam</span>
+                        <div className={cx('country')}>
+                            <h3 className={cx('under-title')}>
+                                <span>PHẠM VI LÃNH THỔ:</span>
+                            </h3>
+                            <small>Việt Nam</small>
                         </div>
 
-                        <div className="additional_term">
-                            <h3>QUYỀN LỢI BẢO HIỂM BỔ SUNG</h3>
-                            <span>
+                        <div className={cx('additional_term')}>
+                            <h3 className={cx('under-title')}>
+                                <span>QUYỀN LỢI BẢO HIỂM BỔ SUNG:</span>
+                            </h3>
+                            <small>
                                 Điều trị ngoại trú do ốm đau, bệnh tật; Bảo hiểm Nha khoa; Bảo hiểm Thai sản; Tử vong,
                                 thương tật toàn bộ vĩnh viễn không phải do nguyên nhân tai nạn
-                            </span>
+                            </small>
                         </div>
-                        <div className="parti_procedure">
-                            <h3>THỦ TỤC THAM GIA</h3>
-                            <span>Khách hàng kê khai đầy đủ và trung thực theo yêu cầu của MIC.</span>
-                        </div>
-
-                        <div className="fee_guarantee">
-                            <h3>BẢO LÃNH VIỆN PHÍ</h3>
-                            <span>Khách hàng được bảo lãnh viện phí với gần 200 cơ sở y tế trên toàn quốc.</span>
+                        <div className={cx('parti_procedure')}>
+                            <h3 className={cx('under-title')}>
+                                <span>THỦ TỤC THAM GIA:</span>
+                            </h3>
+                            <small>Khách hàng kê khai đầy đủ và trung thực theo yêu cầu của AAA.</small>
                         </div>
 
-                        <div className="commit">
-                            <h3>CAM KẾT:</h3>
-                            <span>
+                        <div className={cx('fee_guarantee')}>
+                            <h3 className={cx('under-title')}>
+                                <span>BẢO LÃNH VIỆN PHÍ:</span>
+                            </h3>
+                            <small>Khách hàng được bảo lãnh viện phí với gần 200 cơ sở y tế trên toàn quốc.</small>
+                        </div>
+
+                        <div className={cx('commit')}>
+                            <h3 className={cx('under-title')}>
+                                <span>CAM KẾT:</span>
+                            </h3>
+                            <p>
                                 Tôi cam kết thông tin khai báo là chính xác, trung thực và hoàn toàn chịu trách nhiệm về
-                                các thông tin đã khai báo. Đồng thời, tôi đã đọc, hiểu rõ và đã được Bên bảo hiểm cung
-                                cấp, giải thích rõ ràng, đầy đủ điều kiện điều khoản bảo hiểm, điều khoản loại trừ bảo
-                                hiểm trong Quy tắc bảo hiểm của MIC.
-                            </span>
-                            <span>
+                                các thông tin đã khai báo.
+                                <br />
+                                Đồng thời, tôi đã đọc, hiểu rõ và đã được Bên bảo hiểm cung cấp, giải thích rõ ràng, đầy
+                                đủ điều kiện điều khoản bảo hiểm, điều khoản loại trừ bảo hiểm trong Quy tắc bảo hiểm
+                                của AAA.
+                                <br />
                                 Trường hợp không có mối quan hệ với người được bảo hiểm (Vợ, chồng, cha, mẹ, con, anh
                                 ruột, chị ruột, em ruột hoặc người khác có quan hệ nuôi dưỡng, cấp dưỡng hoặc người có
                                 quyền lợi về tài chính hoặc quan hệ lao động) thì tôi cam kết đã được sự đồng ý của
                                 người được bảo hiểm về việc tham gia chương trình bảo hiểm.
-                            </span>
-                            <span>
-                                Trường hợp thông tin khai báo có sự sai sót, không trung thực, MIC được quyền từ chối
+                                <br />
+                                Trường hợp thông tin khai báo có sự sai sót, không trung thực, AAA được quyền từ chối
                                 một phần hoặc toàn bộ số tiền bồi thường liên quan.
-                            </span>
+                            </p>
                         </div>
                     </section>
-                    <section id="benifits">
-                        <div className="policy">
-                            <h3>QUYỀN LỢI BẢO HIỂM</h3>
-                            <nav>
+                    <section id={cx('benifits')} className={cx({ active: activeSection === 'benifits' })}>
+                        <div className={cx('policy')}>
+                            <h3 className={cx('under-title')}>
+                                <span>QUYỀN LỢI BẢO HIỂM</span>
+                                <small>(Click để xem chi tiết)</small>
+                            </h3>
+                            <nav className={cx('program')}>
                                 <li>
                                     <Link to="#copper">Chương trình Đồng</Link>
+                                    <h5>
+                                        <small>lên đến </small>
+                                        100,000,000
+                                    </h5>
+                                    <h5>
+                                        <small>phí từ </small>
+                                        760,000VND
+                                    </h5>
                                 </li>
                                 <li>
                                     <Link to="#silver">Chương trình Bạc</Link>
+                                    <h5>
+                                        <small>lên đến </small>
+                                        100,000,000
+                                    </h5>
+                                    <h5>
+                                        <small>phí từ </small>
+                                        760,000VND
+                                    </h5>
                                 </li>
                                 <li>
                                     <Link to="#gold">Chương trình Vàng</Link>
+                                    <h5>
+                                        <small>lên đến </small>
+                                        100,000,000
+                                    </h5>
+                                    <h5>
+                                        <small>phí từ </small>
+                                        760,000VND
+                                    </h5>
                                 </li>
                                 <li>
                                     <Link to="#platinum">Chương trình Bạch Kim</Link>
+                                    <h5>
+                                        <small>lên đến </small>
+                                        100,000,000
+                                    </h5>
+                                    <h5>
+                                        <small>phí từ </small>
+                                        760,000VND
+                                    </h5>
                                 </li>
                                 <li>
                                     <Link to="#diamond">Chương trình Kim Cương</Link>
+                                    <h5>
+                                        <small>lên đến </small>
+                                        100,000,000
+                                    </h5>
+                                    <h5>
+                                        <small>phí từ </small>
+                                        760,000VND
+                                    </h5>
                                 </li>
                             </nav>
-                            <div className="benifit_content">
-                                <section className="copper"></section>
+
+                            <div class="toggle-tab active">
+                                <table cellspacing="0" cellpadding="0" class="table-ctr">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>QUYỀN LỢI BẢO HIỂM</th>
+                                            <th>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    CHƯƠNG TRÌNH ĐỒNG
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    CHƯƠNG TRÌNH BẠC
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    CHƯƠNG TRÌNH VÀNG
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    CHƯƠNG TRÌNH BẠCH KIM
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    CHƯƠNG TRÌNH KIM CƯƠNG
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="align-left">
+                                                <strong>Phạm vi lãnh thổ</strong>
+                                            </td>
+                                            <td>
+                                                <strong>Việt Nam</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>A</strong>
+                                            </td>
+                                            <td class="align-left">
+                                                <strong>ĐIỀU KHOẢN BẢO HIỂM CHÍNH</strong>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>I</b>
+                                            </td>
+                                            <td class="align-left">
+                                                <b>Tử vong/thương tật vĩnh viễn do tai nạn</b>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 100,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 200,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 300,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 500,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 1,000,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td class="align-left">Tử vong/thương tật toàn bộ vĩnh viễn do tai nạn</td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 100,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 200,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 300,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 500,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 1,000,000,000
+                                                </div>
+                                                {/* <!--<div class="item-tab" data-actab-group="1" data-actab-id="0">2,500,000/ngày <br /> 50,000,000/năm</div> */}
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    5,000,000/ngày <br /> 100,000,000/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    7,500,000/ngày <br /> 150,000,000/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    10,000,000/ngày <br /> 200,000,000/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    12,500,000/ngày <br /> 250,000,000/năm
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td class="align-left">
+                                                Thương tật bộ phận vĩnh viễn do tai nạn: Chi trả theo Bảng tỷ lệ trả
+                                                tiền thương tật quy định tại quy tắc bảo hiểm Tai nạn nhóm
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 30,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 60,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 90,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 150,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 300,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>II</b>
+                                            </td>
+                                            <td class="align-left">
+                                                <b>Chi phí y tế do tai nạn</b>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 10,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 20,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 30,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 50,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 100,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>III</b>
+                                            </td>
+                                            <td class="align-left">
+                                                <b>Điều trị nội trú do ốm đau, bệnh tật/năm</b>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 35,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 50,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 100,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 150,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 200,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>1</b>
+                                            </td>
+                                            <td class="align-left">
+                                                Nằm viện do ốm đau, bệnh tật/ngày (tối đa 60 ngày/năm):
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    &nbsp;
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    &nbsp;
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    &nbsp;
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    &nbsp;
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    &nbsp;
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="align-left">
+                                                <p>- Tiền giường, tiền ăn theo tiêu chuẩn tại bệnh viện</p>
+                                                <p>- Chi phí hành chính, chi phí máu, huyết tương</p>
+                                                <p>- Thuốc và các dược phẩm sử dụng trong khi nằm viện</p>
+                                                <p>- Băng, nẹp thông thường và bột</p>
+                                                <p>
+                                                    - Các chi phí y tế khác trong thời gian nằm viện( Bao gồm cả điều
+                                                    trị trong ngày và điều trị cấp cứu có phát sinh chi phí giường được
+                                                    áp dụng như điều trị trong ngày)
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    Chi trả theo chi phí y tế thực tế, tối đa VND 1,750,000/ngày
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    Chi trả theo chi phí y tế thực tế, tối đa VND 2,500,000/ngày
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    Chi trả theo chi phí y tế thực tế, tối đa VND 5,000,000/ngày
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    Chi trả theo chi phí y tế thực tế, tối đa VND 7,500,000/ngày
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    Chi trả theo chi phí y tế thực tế, tối đa VND 10,000,000/ngày
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td class="align-left">
+                                                Phẫu thuật do ốm đau, bệnh tật(bao gồm phẫu thuật nội trú, phẫu thuật
+                                                trong ngày, phẫu thuật ngoại trú)
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 35,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 50,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 100,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 150,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 200,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td class="align-left">
+                                                Phẫu thuật liên quan đến cấy ghép nội tạng do ốm đau, bệnh tật (không
+                                                bao gồm chi phí mua các bộ phận nội tạng và chi phí hiến các bộ phận nội
+                                                tạng)
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 35,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 50,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 100,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 150,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 200,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td class="align-left">
+                                                Chi phí điều trị trước khi nhập viện (30 ngày trước khi nhập viện)
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 1,750,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 2,500,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 5,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 7,500,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 10,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td class="align-left">
+                                                Chi phí điều trị sau khi xuất viện (30 ngày kể từ ngày xuất viện)
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 1,750,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 2,500,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 5,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 7,500,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 10,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td class="align-left">
+                                                Chi phí y tá chăm sóc tại nhà sau khi xuất viện (tối đa 15 ngày/năm)
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 1,750,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 2,500,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 5,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 7,500,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 10,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td class="align-left">
+                                                Trợ cấp nằm viện/ngày (tối đa 60 ngày)
+                                                <p>
+                                                    (Áp dụng trường hợp điều trị tại bệnh viện công, không bao gồm khoa
+                                                    điều trị tự nguyện, khoa quốc tế)
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 35,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 50,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 100,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 150,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 200,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td class="align-left">
+                                                Dịch vụ xe cứu thương trong lãnh thổ Việt Nam, loại trừ bằng đường hàng
+                                                không
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 35,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 50,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 100,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 150,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 200,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td class="align-left">Phục hồi chức năng</td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 3,500,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 5,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 10,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 15,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 20,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td class="align-left">Trợ cấp mai táng phí</td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 2,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 2,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 2,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 2,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 2,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>B</strong>
+                                            </td>
+                                            <td class="align-left">
+                                                <strong>ĐIỀU KHOẢN BẢO HIỂM BỔ SUNG</strong>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b>I</b>
+                                            </td>
+                                            <td class="align-left">
+                                                <strong>ĐKBS 01 - Ngoại trú do ốm đau, bệnh tật/năm</strong>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 5,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 7,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 10,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 15,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 20,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td class="align-left">
+                                                Chi phí khám bệnh, tiền thuốc theo kê đơn của bác sỹ, chi phí cho các
+                                                xét nghiệm, chụp XQ, siêu âm, chuẩn đoán hình ảnh trong việc điều trị
+                                                bệnh thuộc phạm vi bảo hiểm
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 1,000,000/lần khám, 10 lần khám/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 1,400,000/lần khám, 10 lần khám/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 2,000,000/lần khám, 10 lần khám/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 3,000,000/lần khám, 10 lần khám/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 4,000,000/lần khám, 10 lần khám/năm
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td class="align-left">Vật lý trị liệu</td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 50,000 đồng/lần, 30 lần/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 70,000 đồng/lần, 30 lần/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 100,000 đồng/lần, 30 lần/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 150,000 đồng/lần, 30 lần/năm
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 200,000 đồng/lần, 30 lần/năm
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>II</td>
+                                            <td class="align-left">
+                                                <strong>ĐKBS 02 - Quyền lợi nha khoa/năm</strong>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 1,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 2,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 3,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 5,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 10,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td class="align-left">
+                                                <p>- Khám chụp XQ</p>
+                                                <p>- Viêm nướu (lợi), nha chu</p>
+                                                <p>
+                                                    - Trám răng bằng chất liệu thông thường như amalgam, composite,
+                                                    fuji...
+                                                </p>
+                                                <p>- Điều trị tủy răng</p>
+                                                <p>- Nhổ răng bệnh lý ( Không bao gồm phẫu thuật)</p>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 500,000/lần khám
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 1,000,000/lần khám
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 1,500,000/lần khám
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 2,500,000/lần khám
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 5,000,000/lần khám
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>III</td>
+                                            <td class="align-left">
+                                                <strong>ĐKBS 03 - Quyền lợi thai sản/năm</strong>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    Không
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    Không
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 10,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 20,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 30,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>a</td>
+                                            <td class="align-left">Sinh thường</td>
+                                            <td rowspan="3">
+                                                Theo chi phí thực tế, tối đa không quá số tiền bảo hiểm quyền lợi thai
+                                                sản
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>b</td>
+                                            <td class="align-left">Sinh mổ</td>
+                                            {/* <!-- <td></td> --> */}
+                                        </tr>
+                                        <tr>
+                                            <td>c</td>
+                                            <td class="align-left">Biến chứng thai sản</td>
+                                            {/* <!-- <td></td> --> */}
+                                        </tr>
+                                        <tr>
+                                            <td>IV</td>
+                                            <td class="align-left">
+                                                <strong>
+                                                    ĐKBS 04 - Tử vong, thương tật toàn bộ vĩnh viễn do ốm đau, bệnh tật
+                                                </strong>
+                                            </td>
+                                            <td>
+                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                    VND 50,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                    VND 100,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                    VND 150,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                    VND 250,000,000
+                                                </div>
+                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                    VND 500,000,000
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {/* <!--<tr>
+                        <td>1</td>
+                        <td class="align-left">Tử vong/thương tật toàn bộ vĩnh viễn</td>
+                        <td>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="0">100,000,000</div>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="1">200,000,000</div>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="2">300,000,000</div>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="3">400,000,000</div>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="4">500,000,000</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="align-left">Thương tật bộ phận vĩnh viễn</td>
+                        <td>Theo tỷ lệ % thương tật được quy định trong Bảng tỷ lệ thương tật</td>
+                    </tr>
+                    <tr>
+                        <td>V</td>
+                        <td class="align-left"><strong>ĐKBS 05 - Chi phí y tế do tai nạn/năm</strong></td>
+                        <td>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="0">25,000,000</div>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="1">50,000,000</div>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="2">75,000,000</div>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="3">100,000,000</div>
+                            <div class="item-tab" data-actab-group="1" data-actab-id="4">125,000,000</div>
+                        </td>
+                    </tr>--> */}
+                                    </tbody>
+                                </table>
                             </div>
+                            {/* <div className={cx('benifit_content')}>
+                                <section className={cx('copper')}></section>
+                            </div> */}
                         </div>
-                        <div className="wait_payment">
+                        <div className={cx('wait_payment')}>
+                            <h3 className={cx('under-title')}>
+                                <span>Thời gian chờ và đồng chi trả</span>
+                            </h3>
                             <div>
                                 <span>Tai nạn:</span>
                                 <span>0 ngày;</span>
@@ -159,19 +906,18 @@ function Product({ children }) {
                             <h5>Lưu ý: Thời gian chờ không áp dụng cho các trường hợp tái tục liên tục.</h5>
                         </div>
                     </section>
-                    <section id="fees">
-                        <h3>PHÍ BẢO HIỂM</h3>
+                    <section id={cx('fees')} className={cx({ active: activeSection === 'fees' })}>
+                        <h3 className={cx('under-title')}>
+                            <span>PHÍ BẢO HIỂM</span>
+                        </h3>
                         <span>
                             Là một chi phí định kỳ mà người tham gia bảo hiểm phải trả để duy trì quyền lợi và bảo vệ
                             trong kế hoạch bảo hiểm sức khỏe của các bạn
                         </span>
                     </section>
                 </div>
-
-                {children}
             </div>
-            <Footer />
-        </div>
+        </>
     );
 }
 

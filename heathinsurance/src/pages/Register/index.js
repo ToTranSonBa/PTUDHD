@@ -1,11 +1,8 @@
-import Header from '../../components/Layout/components/Header';
-import Footer from '../../components/Layout/components/Footer';
 import { Link } from 'react-router-dom';
 
-function Register({ children }) {
+function Register() {
     return (
         <div>
-            <Header />
             <div className="container">
                 <div className="container__header">
                     <h1>Sức khỏe</h1>
@@ -216,10 +213,7 @@ function Register({ children }) {
                         <Link to="/payment/abc">Thanh toán</Link>
                     </button>
                 </div>
-
-                {children}
             </div>
-            <Footer />
         </div>
     );
 }
