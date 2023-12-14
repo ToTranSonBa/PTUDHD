@@ -44,7 +44,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureSqlContext(configure);
 builder.Services.ConfigureRequiredEmail();
 builder.Services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
-
+builder.Services.ConfigureCors();
 //register Identity
 
 
