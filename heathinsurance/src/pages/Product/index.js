@@ -9,15 +9,39 @@ const cx = classNames.bind(styles);
 
 function Product() {
     const [activeSection, setActiveSection] = useState('product_des');
+    const [activeProgram, setactiveProgram] = useState('');
     const handelProductDescription = () => {
         setActiveSection('product_des');
     };
 
+
+    //
     const handelBenifit = () => {
         setActiveSection('benifits');
     };
     const handelFee = () => {
         setActiveSection('fees');
+    };
+
+    //program
+    const programHandleCopper = () => {
+        setactiveProgram('copper');
+    };
+
+    const programHandleSilver = () => {
+        setactiveProgram('silver');
+    };
+
+    const programHandleGold = () => {
+        setactiveProgram('gold');
+    };
+
+    const programHandlePlatinum = () => {
+        setactiveProgram('platinum');
+    };
+
+    const programHandleDiamond = () => {
+        setactiveProgram('diamond');
     };
 
     return (
@@ -146,8 +170,8 @@ function Product() {
                                 <small>(Click để xem chi tiết)</small>
                             </h3>
                             <nav className={cx('program')}>
-                                <li>
-                                    <Link to="#copper">Chương trình Đồng</Link>
+                                <li onClick={programHandleCopper}>
+                                    <Link to="">Chương trình Đồng</Link>
                                     <h5>
                                         <small>lên đến </small>
                                         100,000,000
@@ -157,8 +181,8 @@ function Product() {
                                         760,000VND
                                     </h5>
                                 </li>
-                                <li>
-                                    <Link to="#silver">Chương trình Bạc</Link>
+                                <li onClick={programHandleSilver}>
+                                    <Link to="">Chương trình Bạc</Link>
                                     <h5>
                                         <small>lên đến </small>
                                         100,000,000
@@ -168,8 +192,8 @@ function Product() {
                                         760,000VND
                                     </h5>
                                 </li>
-                                <li>
-                                    <Link to="#gold">Chương trình Vàng</Link>
+                                <li onClick={programHandleGold}>
+                                    <Link to="">Chương trình Vàng</Link>
                                     <h5>
                                         <small>lên đến </small>
                                         100,000,000
@@ -179,8 +203,8 @@ function Product() {
                                         760,000VND
                                     </h5>
                                 </li>
-                                <li>
-                                    <Link to="#platinum">Chương trình Bạch Kim</Link>
+                                <li onClick={programHandlePlatinum}>
+                                    <Link to="">Chương trình Bạch Kim</Link>
                                     <h5>
                                         <small>lên đến </small>
                                         100,000,000
@@ -190,8 +214,8 @@ function Product() {
                                         760,000VND
                                     </h5>
                                 </li>
-                                <li>
-                                    <Link to="#diamond">Chương trình Kim Cương</Link>
+                                <li onClick={programHandleDiamond}>
+                                    <Link to="">Chương trình Kim Cương</Link>
                                     <h5>
                                         <small>lên đến </small>
                                         100,000,000
@@ -203,26 +227,30 @@ function Product() {
                                 </li>
                             </nav>
 
-                            <div class="toggle-tab active">
-                                <table cellspacing="0" cellpadding="0" class="table-ctr">
+                            <div className={cx('toggle-tab active', { active: activeProgram === 'product_des' })}>
+                                <table cellspacing="0" cellpadding="0" className={cx('table-ctr')}>
                                     <thead>
                                         <tr>
                                             <th>STT</th>
                                             <th>QUYỀN LỢI BẢO HIỂM</th>
                                             <th>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     CHƯƠNG TRÌNH ĐỒNG
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="1">
                                                     CHƯƠNG TRÌNH BẠC
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="2">
                                                     CHƯƠNG TRÌNH VÀNG
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="3">
                                                     CHƯƠNG TRÌNH BẠCH KIM
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="4">
                                                     CHƯƠNG TRÌNH KIM CƯƠNG
                                                 </div>
                                             </th>
@@ -231,7 +259,7 @@ function Product() {
                                     <tbody>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left')}>
                                                 <strong>Phạm vi lãnh thổ</strong>
                                             </td>
                                             <td>
@@ -242,7 +270,7 @@ function Product() {
                                             <td>
                                                 <strong>A</strong>
                                             </td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left')}>
                                                 <strong>ĐIỀU KHOẢN BẢO HIỂM CHÍNH</strong>
                                             </td>
                                             <td>&nbsp;</td>
@@ -251,81 +279,95 @@ function Product() {
                                             <td>
                                                 <b>I</b>
                                             </td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left')}>
                                                 <b>Tử vong/thương tật vĩnh viễn do tai nạn</b>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 100,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="1">
                                                     VND 200,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="2">
                                                     VND 300,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="3">
                                                     VND 500,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="4">
                                                     VND 1,000,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td class="align-left">Tử vong/thương tật toàn bộ vĩnh viễn do tai nạn</td>
+                                            <td className={cx('align-left')}>
+                                                Tử vong/thương tật toàn bộ vĩnh viễn do tai nạn
+                                            </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 100,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="1">
                                                     VND 200,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="2">
                                                     VND 300,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="3">
                                                     VND 500,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="4">
                                                     VND 1,000,000,000
                                                 </div>
-                                                {/* <!--<div class="item-tab" data-actab-group="1" data-actab-id="0">2,500,000/ngày <br /> 50,000,000/năm</div> */}
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                {/* <!--<div className={cx('item-tab"')} data-actab-group="1" data-actab-id="0">2,500,000/ngày <br /> 50,000,000/năm</div> */}
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="1">
                                                     5,000,000/ngày <br /> 100,000,000/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="2">
                                                     7,500,000/ngày <br /> 150,000,000/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="3">
                                                     10,000,000/ngày <br /> 200,000,000/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="4">
                                                     12,500,000/ngày <br /> 250,000,000/năm
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>2</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left')}>
                                                 Thương tật bộ phận vĩnh viễn do tai nạn: Chi trả theo Bảng tỷ lệ trả
                                                 tiền thương tật quy định tại quy tắc bảo hiểm Tai nạn nhóm
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 30,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="1">
                                                     VND 60,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="2">
                                                     VND 90,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="3">
                                                     VND 150,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="4">
                                                     VND 300,000,000
                                                 </div>
                                             </td>
@@ -334,23 +376,27 @@ function Product() {
                                             <td>
                                                 <b>II</b>
                                             </td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left')}>
                                                 <b>Chi phí y tế do tai nạn</b>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 10,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="1">
                                                     VND 20,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="2">
                                                     VND 30,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="3">
                                                     VND 50,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab')} data-actab-group="1" data-actab-id="4">
                                                     VND 100,000,000
                                                 </div>
                                             </td>
@@ -359,23 +405,27 @@ function Product() {
                                             <td>
                                                 <b>III</b>
                                             </td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 <b>Điều trị nội trú do ốm đau, bệnh tật/năm</b>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 35,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 50,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 100,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 150,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 200,000,000
                                                 </div>
                                             </td>
@@ -384,30 +434,34 @@ function Product() {
                                             <td>
                                                 <b>1</b>
                                             </td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Nằm viện do ốm đau, bệnh tật/ngày (tối đa 60 ngày/năm):
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     &nbsp;
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     &nbsp;
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     &nbsp;
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     &nbsp;
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     &nbsp;
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 <p>- Tiền giường, tiền ăn theo tiêu chuẩn tại bệnh viện</p>
                                                 <p>- Chi phí hành chính, chi phí máu, huyết tương</p>
                                                 <p>- Thuốc và các dược phẩm sử dụng trong khi nằm viện</p>
@@ -419,144 +473,168 @@ function Product() {
                                                 </p>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     Chi trả theo chi phí y tế thực tế, tối đa VND 1,750,000/ngày
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     Chi trả theo chi phí y tế thực tế, tối đa VND 2,500,000/ngày
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     Chi trả theo chi phí y tế thực tế, tối đa VND 5,000,000/ngày
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     Chi trả theo chi phí y tế thực tế, tối đa VND 7,500,000/ngày
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     Chi trả theo chi phí y tế thực tế, tối đa VND 10,000,000/ngày
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>2</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Phẫu thuật do ốm đau, bệnh tật(bao gồm phẫu thuật nội trú, phẫu thuật
                                                 trong ngày, phẫu thuật ngoại trú)
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 35,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 50,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 100,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 150,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 200,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Phẫu thuật liên quan đến cấy ghép nội tạng do ốm đau, bệnh tật (không
                                                 bao gồm chi phí mua các bộ phận nội tạng và chi phí hiến các bộ phận nội
                                                 tạng)
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 35,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 50,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 100,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 150,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 200,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>4</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Chi phí điều trị trước khi nhập viện (30 ngày trước khi nhập viện)
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 1,750,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 2,500,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 5,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 7,500,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 10,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>5</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Chi phí điều trị sau khi xuất viện (30 ngày kể từ ngày xuất viện)
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 1,750,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 2,500,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 5,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 7,500,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 10,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>6</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Chi phí y tá chăm sóc tại nhà sau khi xuất viện (tối đa 15 ngày/năm)
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 1,750,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 2,500,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 5,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 7,500,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 10,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>7</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Trợ cấp nằm viện/ngày (tối đa 60 ngày)
                                                 <p>
                                                     (Áp dụng trường hợp điều trị tại bệnh viện công, không bao gồm khoa
@@ -564,85 +642,101 @@ function Product() {
                                                 </p>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 35,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 50,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 100,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 150,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 200,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>8</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Dịch vụ xe cứu thương trong lãnh thổ Việt Nam, loại trừ bằng đường hàng
                                                 không
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 35,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 50,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 100,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 150,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 200,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>9</td>
-                                            <td class="align-left">Phục hồi chức năng</td>
+                                            <td className={cx('align-left"')}>Phục hồi chức năng</td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 3,500,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 5,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 10,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 15,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 20,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>10</td>
-                                            <td class="align-left">Trợ cấp mai táng phí</td>
+                                            <td className={cx('align-left"')}>Trợ cấp mai táng phí</td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 2,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 2,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 2,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 2,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 2,000,000
                                                 </div>
                                             </td>
@@ -651,7 +745,7 @@ function Product() {
                                             <td>
                                                 <strong>B</strong>
                                             </td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 <strong>ĐIỀU KHOẢN BẢO HIỂM BỔ SUNG</strong>
                                             </td>
                                             <td>&nbsp;</td>
@@ -660,99 +754,115 @@ function Product() {
                                             <td>
                                                 <b>I</b>
                                             </td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 <strong>ĐKBS 01 - Ngoại trú do ốm đau, bệnh tật/năm</strong>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 5,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 7,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 10,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 15,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 20,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 Chi phí khám bệnh, tiền thuốc theo kê đơn của bác sỹ, chi phí cho các
                                                 xét nghiệm, chụp XQ, siêu âm, chuẩn đoán hình ảnh trong việc điều trị
                                                 bệnh thuộc phạm vi bảo hiểm
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 1,000,000/lần khám, 10 lần khám/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 1,400,000/lần khám, 10 lần khám/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 2,000,000/lần khám, 10 lần khám/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 3,000,000/lần khám, 10 lần khám/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 4,000,000/lần khám, 10 lần khám/năm
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>2</td>
-                                            <td class="align-left">Vật lý trị liệu</td>
+                                            <td className={cx('align-left"')}>Vật lý trị liệu</td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 50,000 đồng/lần, 30 lần/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 70,000 đồng/lần, 30 lần/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 100,000 đồng/lần, 30 lần/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 150,000 đồng/lần, 30 lần/năm
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 200,000 đồng/lần, 30 lần/năm
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>II</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 <strong>ĐKBS 02 - Quyền lợi nha khoa/năm</strong>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 1,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 2,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 3,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 5,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 10,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 <p>- Khám chụp XQ</p>
                                                 <p>- Viêm nướu (lợi), nha chu</p>
                                                 <p>
@@ -763,49 +873,57 @@ function Product() {
                                                 <p>- Nhổ răng bệnh lý ( Không bao gồm phẫu thuật)</p>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 500,000/lần khám
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 1,000,000/lần khám
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 1,500,000/lần khám
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 2,500,000/lần khám
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 5,000,000/lần khám
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>III</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 <strong>ĐKBS 03 - Quyền lợi thai sản/năm</strong>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     Không
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     Không
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 10,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 20,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 30,000,000
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>a</td>
-                                            <td class="align-left">Sinh thường</td>
+                                            <td className={cx('align-left"')}>Sinh thường</td>
                                             <td rowspan="3">
                                                 Theo chi phí thực tế, tối đa không quá số tiền bảo hiểm quyền lợi thai
                                                 sản
@@ -813,66 +931,43 @@ function Product() {
                                         </tr>
                                         <tr>
                                             <td>b</td>
-                                            <td class="align-left">Sinh mổ</td>
+                                            <td className={cx('align-left"')}>Sinh mổ</td>
                                             {/* <!-- <td></td> --> */}
                                         </tr>
                                         <tr>
                                             <td>c</td>
-                                            <td class="align-left">Biến chứng thai sản</td>
+                                            <td className={cx('align-left"')}>Biến chứng thai sản</td>
                                             {/* <!-- <td></td> --> */}
                                         </tr>
                                         <tr>
                                             <td>IV</td>
-                                            <td class="align-left">
+                                            <td className={cx('align-left"')}>
                                                 <strong>
                                                     ĐKBS 04 - Tử vong, thương tật toàn bộ vĩnh viễn do ốm đau, bệnh tật
                                                 </strong>
                                             </td>
                                             <td>
-                                                <div class="item-tab active" data-actab-group="1" data-actab-id="0">
+                                                <div
+                                                    className={cx('item-tab active')}
+                                                    data-actab-group="1"
+                                                    data-actab-id="0"
+                                                >
                                                     VND 50,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="1">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="1">
                                                     VND 100,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="2">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="2">
                                                     VND 150,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="3">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="3">
                                                     VND 250,000,000
                                                 </div>
-                                                <div class="item-tab" data-actab-group="1" data-actab-id="4">
+                                                <div className={cx('item-tab"')} data-actab-group="1" data-actab-id="4">
                                                     VND 500,000,000
                                                 </div>
                                             </td>
                                         </tr>
-                                        {/* <!--<tr>
-                        <td>1</td>
-                        <td class="align-left">Tử vong/thương tật toàn bộ vĩnh viễn</td>
-                        <td>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="0">100,000,000</div>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="1">200,000,000</div>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="2">300,000,000</div>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="3">400,000,000</div>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="4">500,000,000</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td class="align-left">Thương tật bộ phận vĩnh viễn</td>
-                        <td>Theo tỷ lệ % thương tật được quy định trong Bảng tỷ lệ thương tật</td>
-                    </tr>
-                    <tr>
-                        <td>V</td>
-                        <td class="align-left"><strong>ĐKBS 05 - Chi phí y tế do tai nạn/năm</strong></td>
-                        <td>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="0">25,000,000</div>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="1">50,000,000</div>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="2">75,000,000</div>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="3">100,000,000</div>
-                            <div class="item-tab" data-actab-group="1" data-actab-id="4">125,000,000</div>
-                        </td>
-                    </tr>--> */}
                                     </tbody>
                                 </table>
                             </div>
