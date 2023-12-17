@@ -18,8 +18,6 @@ namespace Entity.Models.Claim
         public int TotalCost { get; set; }
         public Guid? CustomerId { get; set; }
         public Customer? Customer { get; set; }
-        public Guid? EmployeeID { get; set; }
-        public Employee? Employee { get; set; }
         public Contract? Contract { get; set; }
         public Guid? ContractId { get; set; }
     }

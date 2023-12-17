@@ -26,5 +26,6 @@ namespace WebAPI.Controllers.Contracts
             var result = await _service.Contracts.GetContracts();
             return Ok(result);
         }
+
     }
 }

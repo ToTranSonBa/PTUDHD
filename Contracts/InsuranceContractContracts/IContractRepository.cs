@@ -11,5 +11,6 @@ namespace Contracts.InsuranceContractContracts
     {
         bool CreateContract(Contract contract);
         Task<List<Contract>> GetAll(bool trackChanges);
+        Task<List<Contract>> GetByProductId(Guid productId, bool trackChanges);
     }
 }

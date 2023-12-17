@@ -26,5 +26,13 @@ namespace Repository.EntitiesRepository.Contracts
             .Include(e => e.Customer)
             .Include(e => e.Employee)
             .ToListAsync();
+        public async Task<List<Contract>> GetByProductId(Guid productId, bool trackChanges) => 
+            await FindByCondition(e=> e.InsuranceProductId == productId, trackChanges)
+            .Include(e => e.InsuranceProduct)
+            .Include(e => e.InsuranceProgram)
+            .Include(e => e.ContractHealthConditions)
+            .Include(e => e.Customer)
+            .Include(e => e.Employee)
+            .ToListAsync();
     }
 }

@@ -26,70 +26,11 @@ namespace Services.Insurances
         public async Task<List<InsuranceProductDto>> GetAll(bool trackChanges)
         {
             var products = await _repositoryManager.InsuranceProducts.GetAll(trackChanges);
-            var returnProducts = _mapper.Map<List<InsuranceProductDto>>(products);
-
-            foreach( var product in products) {
-                var rProduct = returnProducts.Where(p => p.ProductId == product.ProductId).SingleOrDefault();
-                if (rProduct != null)
-                {
-                    // Map entity to Dto condition
-                    rProduct.Conditions = _mapper.Map<List<HealthConditionProductDto>>(product.HealthConditionSource);
-
-                    // Map entity to Dto Benefit
-                    // cách làm:
-                    // 1. lặp qua danh sách product.benefitTypes
-                    // 2. Lấy danh sách benefit theo từng benefitType.
-                    // 3. lặp qua danh sách benefit và lấy danh sách product.costs theo benefit
-                    // 4. lặp qua danh sách cost vừa lấy và lấy thông tin của program của từng cost
-                    // 
-
-                    var ListBenefitTypeDto = new List<InsuranceBenefitTypeProductDto>();
-                    foreach(var benefitType in product.BenefitTypes)
-                    {
-                        // get benefitType and list benefit
-                        var BenefitType = await _repositoryManager.InsuranceBenefitType.GetByIdAsync(benefitType.BenefitTypeId, false);
-                        var benefitTypeDto = new InsuranceBenefitTypeProductDto
-                        {
-                            BenefitTypeId = benefitType.BenefitTypeId,
-                            Name = benefitType.Name,
-                            Benefits = new List<InsuranceBenefitProductDto>()
-                        };
-                        foreach(var benefit in BenefitType.Benefits)
-                        {
-                            var costs = product.Costs.Where(e => e.BenefitId == benefit.Id);
-                            var benefitdto = _mapper.Map<InsuranceBenefitProductDto>(benefit);
-                            benefitdto.benefitProgramCosts = new List<BenefitProgramCostDto>();
-                            // get information about Program
-                            foreach (var cost in  costs)
-                            {
-                                var program = await _repositoryManager.InsurancePrograms.GetByGuidId(cost.ProgramId, false);
-                                benefitdto.benefitProgramCosts.Add(new BenefitProgramCostDto
-                                {
-                                    Price = cost.Cost,
-                                    ProgramId = program.ProgramId,
-                                    ProgramName = program.Name
-                                });
-                            }
-                            benefitTypeDto.Benefits.Add(benefitdto);
-                        }
-                        ListBenefitTypeDto.Add(benefitTypeDto);
-                    }
-                    rProduct.benefitType = ListBenefitTypeDto;
-
-                    // price
-                    var ListPrice = new List<ProgramPriceDto>();
-                    foreach(var price in product.Prices)
-                    {
-                        var program = await _repositoryManager.InsurancePrograms.GetByGuidId(price.ProgramId, false);
-                        ListPrice.Add(new ProgramPriceDto
-                        {
-                            Price = price.Price,
-                            ProgramId=program.ProgramId,
-                            ProgramName = program.Name,
-                        });
-                    }
-                    rProduct.ProgramPrice = ListPrice;
-                }
+            var returnProducts = new List<InsuranceProductDto>();
+            foreach (var product in products)
+            {
+                var rProduct = await ConvertProductEntityToDto(product);
+                returnProducts.Add(rProduct);
             }
             return returnProducts;
         }
@@ -107,7 +48,7 @@ namespace Services.Insurances
         {
             var rProduct = _mapper.Map<InsuranceProductDto>(product);
             rProduct.Conditions = _mapper.Map<List<HealthConditionProductDto>>(product.HealthConditionSource);
-
+            rProduct.TotalQuantitySold = await TotalQuantitySoldOfProduct(product.Id);
             // Map entity to Dto Benefit
             // cách làm:
             // 1. lặp qua danh sách product.benefitTypes
@@ -165,6 +106,10 @@ namespace Services.Insurances
 
             return rProduct;
         }
+        private async Task<int> TotalQuantitySoldOfProduct(Guid ProductId)
+        {
+            return (await _repositoryManager.Contracts.GetByProductId(ProductId, false)).Count();
+        }
         public async Task AddInsuranceProduct (AddInsuranceProductDto productDto)
         {
             //var product = _mapper.Map<InsuranceProduct>(productDto);
@@ -172,7 +117,11 @@ namespace Services.Insurances
             {
                 Id = new Guid(),
                 PolicyName = productDto.PolicyName,
-                Description = productDto.Description,
+                InsuredParty = productDto.InsuredParty,
+                FeeGuarantee = productDto.FeeGuarantee,
+                Commitment = productDto.Commitment,
+                ParticipationProcedure = productDto.ParticipationProcedure,
+                TerritorialScope = productDto.TerritorialScope,
                 ShortDescription = productDto.ShortDescription
             };
             var check = _repositoryManager.InsuranceProducts.Add(product);
