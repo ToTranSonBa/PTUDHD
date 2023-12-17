@@ -1,7 +1,6 @@
 // Import your styles and image
 import './style.scss';
 import React, { useEffect, useState } from 'react';
-import * as Yup from 'yup';
 import bgImg from '../../assets/image/img1.jpg';
 import { LoginApi } from '../../services/ApiLogin/login';
 import { ToastContainer, toast } from 'react-toastify';
@@ -34,19 +33,23 @@ const Login = () => {
 
             const response = await LoginApi(email, password);
 
-            if (response && response.message) {
-                let token = response.response.access_token;
-                toast.success(response.response.message);
+            if (response && response.accessToken) {
+                const token = response.accessToken;
+                await toast.success('Login Successfully!');
                 localStorage.setItem('token', token);
                 navigate('/');
+            } else if (response.data && response.data.status === 400) {
+                toast.error(response.data.title);
+                localStorage.setItem('token', '');
             } else {
-                if (response && response.status) {
-                    toast.error(response.data.response.message);
+                if (response) {
+                    toast.error(response.data.message);
+                    localStorage.setItem('token', '');
                 }
-                console.log('Empty response:', response);
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+            toast.error('An unexpected error occurred. Please try again.');
         }
     };
 

@@ -6,17 +6,29 @@ import { SignupApi } from '../../services/ApiSignUp/signup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 
 const Register = () => {
     const navigate = useNavigate();
+    const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [birthday, setBirthday] = useState('');
+    const [address, setAddress] = useState('');
+    const [identifycationNumber, setIdentifycationNumber] = useState('');
 
     const handleClick = async () => {
         try {
-            // Validate email
+            //Validate userName
+            if (!userName) {
+                toast.error('User Name is required');
+                return;
+            }
+
+            //Validate email
             if (!email || !email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
                 toast.error('Please enter a valid email address');
                 return;
@@ -39,16 +51,46 @@ const Register = () => {
                 toast.error('Phone number is required');
                 return;
             }
-            console.log(email, password, name, phoneNumber);
-            const response = await SignupApi(email, password, name, phoneNumber);
-            console.log(response);
 
-            if (response.response && response.response.success) {
-                toast.success(response.response.message);
+            // Validate birthday
+            if (!birthday) {
+                toast.error('Birthday is required');
+                return;
+            }
+
+            // Validate address
+            if (!address) {
+                toast.error('Address is required');
+                return;
+            }
+
+            // Validate identificationNumber
+            if (!identifycationNumber) {
+                toast.error('Identification number is required');
+                return;
+            }
+
+            // Assigning roles and additional user data
+            const fullBirthday = birthday + 'T04:53:59.325Z';
+            const roles = ['Customer'];
+
+            const response = await SignupApi(
+                userName,
+                password,
+                email,
+                roles,
+                name,
+                identifycationNumber,
+                fullBirthday,
+                phoneNumber,
+                address,
+            );
+            if (response.response && response.response.status === 'Success') {
+                await toast.success(response.response.message + '. Please confirm your email to login!');
                 navigate('/login');
             } else {
                 if (response && response.status) {
-                    toast.error(response.data.response.message);
+                    toast.error(response.data.message);
                 }
                 console.log('Empty response:', response);
             }
@@ -65,6 +107,14 @@ const Register = () => {
                     <span>Create a new account!</span>
 
                     <form id="form" className="flex flex-col">
+                        <input
+                            type="text"
+                            id="userName"
+                            name="email"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                            placeholder="Enter your UserName"
+                        />
                         <input
                             type="email"
                             id="email"
@@ -97,7 +147,30 @@ const Register = () => {
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             placeholder="Enter your phone number"
                         />
-
+                        <input
+                            type="date"
+                            id="birthday"
+                            name="birthday"
+                            value={birthday}
+                            onChange={(e) => setBirthday(e.target.value)}
+                            placeholder="Enter your birthday"
+                        />
+                        <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            placeholder="Enter your address"
+                        />
+                        <input
+                            type="text"
+                            id="identifycationNumber"
+                            name="identifycationNumber"
+                            value={identifycationNumber}
+                            onChange={(e) => setIdentifycationNumber(e.target.value)}
+                            placeholder="Enter your identification number"
+                        />
                         <button type="button" className="btn" onClick={handleClick}>
                             Sign Up
                         </button>
