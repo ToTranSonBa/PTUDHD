@@ -14,7 +14,6 @@ function Product() {
         setActiveSection('product_des');
     };
 
-
     //
     const handelBenifit = () => {
         setActiveSection('benifits');

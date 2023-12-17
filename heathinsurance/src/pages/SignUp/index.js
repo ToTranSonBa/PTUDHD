@@ -6,8 +6,6 @@ import { SignupApi } from '../../services/ApiSignUp/signup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import 'react-datepicker/dist/react-datepicker.css';
-import axios from 'axios';
 
 const Register = () => {
     const navigate = useNavigate();
