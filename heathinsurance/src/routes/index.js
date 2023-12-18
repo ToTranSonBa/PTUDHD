@@ -20,8 +20,8 @@ const publicRoutes = [
     { path: '/login', component: Login, layout: HeaderOnly },
     { path: '/signup', component: SignUp, layout: HeaderOnly },
     { path: '/service', component: Services, layout: HeaderOnly },
-    { path: '/service/abc', component: Product, layout: ProductIntroduce },
-    { path: '/register/abc', component: Register, layout: RegisterInsurance },
+    { path: '/service:id', component: Product, layout: ProductIntroduce },
+    { path: '/register:id', component: Register, layout: RegisterInsurance },
     { path: '/account', component: Account },
 ];
 
