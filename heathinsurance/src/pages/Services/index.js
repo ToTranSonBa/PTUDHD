@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Service.module.scss';
 import { Link } from 'react-router-dom';
+import Banner from '../../assets/image/banner-top.jpg';
 
 //swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -25,8 +26,9 @@ const cx = classNames.bind(styles);
 function Services() {
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <h1> Sức khỏe</h1>
+            <div className={cx('header')}>
+                <img className={cx('banner_top')} src={Banner} alt="Banner" />
+                <h1 className={cx('title')}>Dịch vụ</h1>
             </div>
             <Swiper
                 effect={'coverflow'}

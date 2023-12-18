@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
@@ -10,11 +10,16 @@ const cx = classNames.bind(styles);
 function Product() {
     const [activeSection, setActiveSection] = useState('product_des');
     const [activeProgram, setactiveProgram] = useState('');
+    const [buttonTop, setButtonTop] = useState(0);
+
     const handelProductDescription = () => {
         setActiveSection('product_des');
     };
 
+<<<<<<< Updated upstream
     //
+=======
+>>>>>>> Stashed changes
     const handelBenifit = () => {
         setActiveSection('benifits');
     };
@@ -43,9 +48,32 @@ function Product() {
         setactiveProgram('diamond');
     };
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const content = document.querySelector('.content');
+            if (content) {
+                const contentRect = content.getBoundingClientRect();
+                const newTop = contentRect.top > 0 ? contentRect.top : 0;
+                setButtonTop(newTop);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []); // Sử dụng [] để chỉ gọi useEffect một lần khi component được mount
     return (
         <>
-            <div className={cx('container')}>
+            <div>
+                <div
+                    id={cx('dynamicButton')}
+                    className={cx('sticky-box', 'btn-base')}
+                    style={{ top: `${buttonTop}px` }}
+                >
+                    <Link to="/register/abc">Mua ngay</Link>
+                </div>
                 <div className={cx('header')}>
                     <img className={cx('banner_top')} src={Banner} alt="Banner" />
                     <h1 className={cx('title')}>Sức khỏe</h1>
