@@ -28,22 +28,7 @@ namespace Services.Contracts
             var rContracts = new List<ContractDto>();
             foreach(var contract in contracts)
             {
-                var contractDto = _mapper.Map<ContractDto>(contract);
-                contractDto.ProgramName = contract.InsuranceProgram.Name;
-                contractDto.ProductName = contract.InsuranceProduct.PolicyName;
-                contractDto.ProductId = contract.InsuranceProduct.ProductId;
-                contractDto.ProgramId = contract.InsuranceProgram.ProgramId;
-                contractDto.ContractHealthConditions = new List<ContractHealthConditionDto>();
-                foreach(var Item in contract.ContractHealthConditions)
-                {
-                    var Condition = await _repositoryManager.HealthConditions.GetByGuidIdAsync(Item.HealthConditionId, false);
-                    contractDto.ContractHealthConditions.Add(new ContractHealthConditionDto
-                    {
-                        ConditionId = Condition.HealthConditionId,
-                        ConditionName = Condition.Name,
-                        Status = Item.Status
-                    });
-                }
+                var contractDto = await ConvertEntityToDto(contract);
                 rContracts.Add(contractDto);
             }
             return rContracts;
@@ -68,16 +53,17 @@ namespace Services.Contracts
                 _repositoryManager.Customers.CreateCusomter(customer);
             }    
 
-
             //tạo hợp đồng
             var contract = _mapper.Map<Contract>(registerContractDto);
             contract.Customer = null;
             contract.Employee = null;
             contract.EmployeeID = null;
             contract.Id = new Guid();
+            contract.Status = ContractStatus.Unpaid.ToString();
             contract.InsuranceProductId = product.Id;
             contract.InsuranceProgramId = program.Id;
             contract.CustomerID = customer.Id;
+
             contract.ContractHealthConditions = new List<ContractHealthCondition>();
 
 
@@ -96,6 +82,79 @@ namespace Services.Contracts
                 throw new Exception("Contract can not be created");
             await _repositoryManager.SaveAsync();
             return true;
+        }
+        public async Task<List<ContractDto>> GetContractByStatus(ContractStatus status)
+        {
+            var checkStatus = CheckContractStatus(status.ToString());
+            if(string.IsNullOrEmpty(checkStatus))
+            {
+                throw new Exception("Invalid Status");
+            }
+            var contracts = await _repositoryManager.Contracts.GetContractsByStatus(status, false);
+            var contractsDto = new List<ContractDto>();
+            foreach(var contract in contracts)
+            {
+                var contractDto = await ConvertEntityToDto(contract);
+                contractsDto.Add(contractDto);
+            }
+            return contractsDto;
+        }
+        public async Task<ContractDto> GetContractById(int Id)
+        {
+            var contract = await _repositoryManager.Contracts.GetContractsById(Id, false);
+            if(contract == null)
+            {
+                throw new Exception($"Contract With Id: {Id} not exist");
+            }
+            var contractDto = await ConvertEntityToDto(contract);
+            return contractDto;
+        }
+
+        private async Task<ContractDto> ConvertEntityToDto(Contract contract)
+        {
+            var contractDto = _mapper.Map<ContractDto>(contract);
+            contractDto.ProgramName = contract.InsuranceProgram.Name;
+            contractDto.ProductName = contract.InsuranceProduct.PolicyName;
+            contractDto.ProductId = contract.InsuranceProduct.ProductId;
+            contractDto.ProgramId = contract.InsuranceProgram.ProgramId;
+            contractDto.ContractHealthConditions = new List<ContractHealthConditionDto>();
+            foreach (var Item in contract.ContractHealthConditions)
+            {
+                var Condition = await _repositoryManager.HealthConditions.GetByGuidIdAsync(Item.HealthConditionId, false);
+                contractDto.ContractHealthConditions.Add(new ContractHealthConditionDto
+                {
+                    ConditionId = Condition.HealthConditionId,
+                    ConditionName = Condition.Name,
+                    Status = Item.Status
+                });
+            }
+            return contractDto;
+        }
+        private string CheckContractStatus(string contractStatus)
+        {
+            if(contractStatus == ContractStatus.Unpaid.ToString())
+            {
+                return ContractStatus.Unpaid.ToString();
+            }
+            else if (contractStatus == ContractStatus.Paid.ToString())
+            {
+                return ContractStatus.Paid.ToString();
+            }
+            else if (contractStatus == ContractStatus.Processing.ToString())
+            {
+                return ContractStatus.Processing.ToString();
+            }
+            else if (contractStatus == ContractStatus.Completed.ToString())
+            {
+                return ContractStatus.Completed.ToString();
+            }
+            else if (contractStatus == ContractStatus.Expired.ToString())
+            {
+                return ContractStatus.Expired.ToString();
+            } else
+            {
+                return string.Empty;
+            }
         }
     }
 }

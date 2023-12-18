@@ -17,11 +17,11 @@ namespace Entity.Models.InsuranceContractModels
         public Guid Id { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ContractId { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime? StartDate { get; init; }
-        public DateTime? EndDate { get; init; }
-        public float? TotalPrice { get; init; }
-        public string? Status { get; init; }
+        public DateTime CreatedDate { get; init; } = DateTime.Now;
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public float? TotalPrice { get; set; }
+        public string? Status { get; set; }
         public Guid? CustomerID { get; set; }
         public Guid? EmployeeID { get; set; }
         public Guid? InsuranceProductId { get; set; }
@@ -37,6 +37,7 @@ namespace Entity.Models.InsuranceContractModels
         Unpaid,
         Paid,
         Processing,
-        Completed
+        Completed,
+        Expired,
     }
 }

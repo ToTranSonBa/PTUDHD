@@ -26,13 +26,29 @@ namespace Repository.EntitiesRepository.Contracts
             .Include(e => e.Customer)
             .Include(e => e.Employee)
             .ToListAsync();
-        public async Task<List<Contract>> GetByProductId(Guid productId, bool trackChanges) => 
-            await FindByCondition(e=> e.InsuranceProductId == productId, trackChanges)
+        public async Task<List<Contract>> GetByProductId(Guid productId, bool trackChanges) =>
+            await FindByCondition(e => e.InsuranceProductId == productId, trackChanges)
             .Include(e => e.InsuranceProduct)
             .Include(e => e.InsuranceProgram)
             .Include(e => e.ContractHealthConditions)
             .Include(e => e.Customer)
             .Include(e => e.Employee)
             .ToListAsync();
+        public async Task<List<Contract>> GetContractsByStatus(ContractStatus status, bool trackChanges) =>
+            await FindByCondition(e => e.Status == status.ToString(), trackChanges)
+            .Include(e => e.InsuranceProduct)
+            .Include(e => e.InsuranceProgram)
+            .Include(e => e.ContractHealthConditions)
+            .Include(e => e.Customer)
+            .Include(e => e.Employee)
+            .ToListAsync();
+        public async Task<Contract> GetContractsById(int Id, bool trackChanges) =>
+            await FindByCondition(e => e.ContractId == Id, trackChanges)
+            .Include(e => e.InsuranceProduct)
+            .Include(e => e.InsuranceProgram)
+            .Include(e => e.ContractHealthConditions)
+            .Include(e => e.Customer)
+            .Include(e => e.Employee)
+            .SingleOrDefaultAsync();
     }
 }

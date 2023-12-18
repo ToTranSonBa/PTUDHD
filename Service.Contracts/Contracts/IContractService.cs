@@ -1,4 +1,5 @@
-﻿using Shared.EntityDtos.Contract;
+﻿using Entity.Models.InsuranceContractModels;
+using Shared.EntityDtos.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Service.Contracts.Contracts
     {
         Task<bool> CreateContract(RegisterContractDto registerContractDto);
         Task<List<ContractDto>> GetContracts();
+        Task<List<ContractDto>> GetContractByStatus(ContractStatus status);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Entity.Models.InsuranceContractModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.EntityDtos.Contract;
@@ -26,6 +27,16 @@ namespace WebAPI.Controllers.Contracts
             var result = await _service.Contracts.GetContracts();
             return Ok(result);
         }
+        [HttpGet("Status")] 
+        public async Task<IActionResult> GetContractsWithContract(ContractStatus status) 
+        {
+            var result = await _service.Contracts.GetContractByStatus(status);
+            return Ok(result);
+        }
+        [HttpGet("ContractId")]
+        public Task<IActionResult> GetContract(int Id)
+        {
 
+        }
     }
 }
