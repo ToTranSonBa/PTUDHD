@@ -1,7 +1,5 @@
 //Layouts
 import { HeaderOnly } from '../components/Layout';
-import { ProductIntroduce } from '../components/Layout';
-import { RegisterInsurance } from '../components/Layout';
 
 // Pages
 import Home from '../pages/Home';
@@ -19,15 +17,9 @@ const publicRoutes = [
     { path: '/aboutme', component: AboutMe },
     { path: '/login', component: Login, layout: HeaderOnly },
     { path: '/signup', component: SignUp, layout: HeaderOnly },
-<<<<<<< Updated upstream
-    { path: '/service', component: Services, layout: HeaderOnly },
-    { path: '/service/:id', component: Product, layout: ProductIntroduce },
-    { path: '/register/:id', component: Register, layout: RegisterInsurance },
-=======
     { path: '/service', component: Services },
     { path: '/service/abc', component: Product },
     { path: '/register/abc', component: Register },
->>>>>>> Stashed changes
     { path: '/account', component: Account },
 ];
 

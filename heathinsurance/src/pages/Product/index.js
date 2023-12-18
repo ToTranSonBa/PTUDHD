@@ -16,10 +16,7 @@ function Product() {
         setActiveSection('product_des');
     };
 
-<<<<<<< Updated upstream
     //
-=======
->>>>>>> Stashed changes
     const handelBenifit = () => {
         setActiveSection('benifits');
     };

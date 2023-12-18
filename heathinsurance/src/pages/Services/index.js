@@ -19,7 +19,6 @@ import { FaArrowAltCircleRight } from 'react-icons/fa';
 
 //image
 import companylogo from '../../assets/image/Logo2.png';
-import Header from '../../components/Layout/components/Header/index';
 
 const cx = classNames.bind(styles);
 
