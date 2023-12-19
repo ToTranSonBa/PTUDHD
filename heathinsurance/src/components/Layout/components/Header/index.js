@@ -21,7 +21,9 @@ function Header() {
     var token = localStorage.getItem('token');
 
     //fake token
-    token = 'sdas';
+    if (!token || token === '') {
+        token = '';
+    }
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
