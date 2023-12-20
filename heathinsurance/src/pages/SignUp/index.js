@@ -33,8 +33,13 @@ const Register = () => {
             }
 
             // Validate password
-            if (!password) {
-                toast.error('Password is required');
+            if (
+                !password ||
+                !password.match(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/)
+            ) {
+                toast.error(
+                    'Password must be 7-19 characters and contain at least one letter, one number and a special character',
+                );
                 return;
             }
 

@@ -11,6 +11,9 @@ import Product from '../pages/Product';
 import Register from '../pages/Register';
 import Account from '../pages/Account';
 
+// admin pages
+import HomeAdmin from '../pages/Admin/Home';
+
 //
 const publicRoutes = [
     { path: '/', component: Home },
@@ -24,6 +27,6 @@ const publicRoutes = [
 ];
 
 //
-const privateRoutes = [];
+const privateRoutes = [{ path: '/admin/', component: HomeAdmin }];
 
 export { publicRoutes, privateRoutes };
