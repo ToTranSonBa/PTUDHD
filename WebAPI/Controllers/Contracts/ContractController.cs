@@ -34,9 +34,10 @@ namespace WebAPI.Controllers.Contracts
             return Ok(result);
         }
         [HttpGet("ContractId")]
-        public Task<IActionResult> GetContract(int Id)
+        public async Task<IActionResult> GetContract(int Id)
         {
-
+            var result = await _service.Contracts.GetContractById(Id);
+            return Ok(result);
         }
     }
 }

@@ -10,11 +10,13 @@ using Service.Contracts.Claims;
 using Service.Contracts.Contracts;
 using Service.Contracts.Customers;
 using Service.Contracts.Insurances;
+using Service.Contracts.Payments;
 using Service.Contracts.Staff;
 using Services.Claims;
 using Services.Contracts;
 using Services.Customers;
 using Services.Insurances;
+using Services.Payment.Momo;
 using Services.Staff;
 
 namespace Services
@@ -47,6 +49,9 @@ namespace Services
         private Lazy<IInsuranceBenefitTypeService> _insuranceBenefitTypeService;
         //Staff
         private Lazy<IEmployeeService> _employeeService;
+
+        // payment
+        private Lazy<IMomoService> _momoService;
         public ServiceManager (IRepositoryManager repositoryManager,
             IMapper mapper, EmailConfiguration emailConfiguration, 
             IConfiguration configuration,
@@ -83,6 +88,9 @@ namespace Services
 
             //Staff
             _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService(repositoryManager, mapper, userManager));
+
+            //payment
+            _momoService = new Lazy<IMomoService>(() => new MomoService());
         }
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IEmailService EmailService => _emailService.Value;
@@ -122,5 +130,9 @@ namespace Services
         //Employee
 
         public IEmployeeService Employees => _employeeService.Value;
+
+        //payment
+
+        public IMomoService Momo => _momoService.Value;
     }
 }

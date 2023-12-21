@@ -10,6 +10,7 @@ using Service.Contracts.Claims;
 using Service.Contracts.Contracts;
 using Service.Contracts.Customers;
 using Service.Contracts.Insurances;
+using Service.Contracts.Payments;
 using Service.Contracts.Staff;
 using System;
 using System.Collections.Generic;
@@ -44,5 +45,8 @@ namespace Service.Contracts
         IEmployeeService Employees { get; }
         IAuthenticationService AuthenticationService { get; }
         IEmailService EmailService { get; }
+
+        // payment
+        IMomoService Momo { get; }
     }
 }

@@ -34,10 +34,9 @@ namespace Entity.Models.InsuranceContractModels
     }
     public enum ContractStatus
     {
-        Unpaid,
-        Paid,
-        Processing,
-        Completed,
+        Waiting,
+        Cancelled,
+        Using,
         Expired,
     }
 }

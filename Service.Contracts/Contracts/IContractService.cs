@@ -13,5 +13,6 @@ namespace Service.Contracts.Contracts
         Task<bool> CreateContract(RegisterContractDto registerContractDto);
         Task<List<ContractDto>> GetContracts();
         Task<List<ContractDto>> GetContractByStatus(ContractStatus status);
+        Task<ContractDto> GetContractById(int Id);
     }
 }

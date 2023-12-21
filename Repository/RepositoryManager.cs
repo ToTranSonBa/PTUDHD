@@ -52,6 +52,9 @@ namespace Repository
         //Staff
         private Lazy<IEmployeeRepository> _employeeRepository;
 
+        // payment
+         
+
 
         public RepositoryManager(InsuranceDBContext insuranceDBContext) { 
             _dbContext = insuranceDBContext;

@@ -6,6 +6,7 @@ using Repository;
 using WebAPI.Extensions;
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
+using Config;
 
 var builder = WebApplication.CreateBuilder(args);
 var configure = builder.Configuration;
@@ -47,6 +48,8 @@ builder.Services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
 builder.Services.ConfigureCors();
 //register Identity
 
+builder.Services.Configure<MomoConfig>(
+    builder.Configuration.GetSection(MomoConfig.ConfigName));
 
 //Email configuration
 var email = configure.GetSection("EmailConfiguration").Get<EmailConfiguration>();

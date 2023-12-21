@@ -59,7 +59,7 @@ namespace Services.Contracts
             contract.Employee = null;
             contract.EmployeeID = null;
             contract.Id = new Guid();
-            contract.Status = ContractStatus.Unpaid.ToString();
+            contract.Status = ContractStatus.Waiting.ToString();
             contract.InsuranceProductId = product.Id;
             contract.InsuranceProgramId = program.Id;
             contract.CustomerID = customer.Id;
@@ -85,11 +85,6 @@ namespace Services.Contracts
         }
         public async Task<List<ContractDto>> GetContractByStatus(ContractStatus status)
         {
-            var checkStatus = CheckContractStatus(status.ToString());
-            if(string.IsNullOrEmpty(checkStatus))
-            {
-                throw new Exception("Invalid Status");
-            }
             var contracts = await _repositoryManager.Contracts.GetContractsByStatus(status, false);
             var contractsDto = new List<ContractDto>();
             foreach(var contract in contracts)
@@ -129,32 +124,6 @@ namespace Services.Contracts
                 });
             }
             return contractDto;
-        }
-        private string CheckContractStatus(string contractStatus)
-        {
-            if(contractStatus == ContractStatus.Unpaid.ToString())
-            {
-                return ContractStatus.Unpaid.ToString();
-            }
-            else if (contractStatus == ContractStatus.Paid.ToString())
-            {
-                return ContractStatus.Paid.ToString();
-            }
-            else if (contractStatus == ContractStatus.Processing.ToString())
-            {
-                return ContractStatus.Processing.ToString();
-            }
-            else if (contractStatus == ContractStatus.Completed.ToString())
-            {
-                return ContractStatus.Completed.ToString();
-            }
-            else if (contractStatus == ContractStatus.Expired.ToString())
-            {
-                return ContractStatus.Expired.ToString();
-            } else
-            {
-                return string.Empty;
-            }
         }
     }
 }
