@@ -24,17 +24,17 @@ function Header() {
     var token = localStorage.getItem('token');
 
     //fake token
-<<<<<<< Updated upstream
-    if (!token || token === '') {
-        token = '';
-    }
-=======
+    // if (!token || token === '') {
+    //     token = '';
+    // }
     token = 'áccs';
->>>>>>> Stashed changes
     return (
         <header className={cx('wrapper')}>
-            <div className={cx('logo')}>
-                <img src={companyLogo} alt="Logo" />
+            <div className={cx('logo')} style={{ cursor: 'pointer' }}>
+                <Link to="/">
+                    {' '}
+                    <img src={companyLogo} alt="Logo" />
+                </Link>
             </div>
             <nav className={cx('navbar')}>
                 <li>
