@@ -22,10 +22,22 @@ function Header() {
 
     // const thay vi var
     var token = localStorage.getItem('token');
+<<<<<<< HEAD
+=======
+
+    //fake token
+    // if (!token || token === '') {
+    //     token = '';
+    // }
+    token = 'áccs';
+>>>>>>> 6ab224b49220c62e99aca9183ba5f33c2c67841b
     return (
         <header className={cx('wrapper')}>
-            <div className={cx('logo')}>
-                <img src={companyLogo} alt="Logo" />
+            <div className={cx('logo')} style={{ cursor: 'pointer' }}>
+                <Link to="/">
+                    {' '}
+                    <img src={companyLogo} alt="Logo" />
+                </Link>
             </div>
             <nav className={cx('navbar')}>
                 <li>
