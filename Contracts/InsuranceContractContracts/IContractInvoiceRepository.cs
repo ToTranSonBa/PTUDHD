@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity.Models.InsuranceContractModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Contracts.InsuranceContractContracts
 {
     public interface IContractInvoiceRepository
     {
+        bool AddInvoice(ContractInvoice contractInvoice);
+        Task<List<ContractInvoice>> GetInvoiceByContractId(Guid contractI, bool trackChanges);
     }
 }

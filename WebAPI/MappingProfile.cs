@@ -37,6 +37,8 @@ namespace WebAPI
             CreateMap<Contract, RegisterContractDto>().ReverseMap();
             CreateMap<Contract, ContractDto>().ReverseMap();
 
+            CreateMap<ContractInvoice, ContractInvoiceDto> ().ReverseMap();
+
             //insurance
             CreateMap<InsuranceProduct, InsuranceProductDto>().ReverseMap();
             CreateMap<InsuranceProduct, AddInsuranceProductDto>().ReverseMap();

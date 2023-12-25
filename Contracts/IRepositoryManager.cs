@@ -2,7 +2,6 @@
 using Contracts.CustomerContracts;
 using Contracts.InsuranceContractContracts;
 using Contracts.InsuranceContracts;
-using Contracts.Payment;
 using Contracts.StaffContracts;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
@@ -42,9 +41,6 @@ namespace Contracts
         IHealthConditionRepository HealthConditions { get; }
         //Staff
         IEmployeeRepository Employees { get; }
-
-        // Payment
-        //IPaymentRepository Payment { get; }
 
         Task SaveAsync();
         void Save();

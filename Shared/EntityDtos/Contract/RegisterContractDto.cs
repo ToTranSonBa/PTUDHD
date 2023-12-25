@@ -21,8 +21,15 @@ namespace Shared.EntityDtos.Contract
         [Required]
         public float TotalPrice { get; init; }
         [Required]
+        public int PaymentMethod { get; init; }
+        [Required]
         public CustomerDto Customer { get; init; }
         [Required]
         public List<RegisterContractHealthConditionDto>? HealthConditions { get; init; }
+    }
+    public enum PaymentMehtod
+    {
+        MOMO,
+        Cash
     }
 }

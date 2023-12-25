@@ -10,9 +10,10 @@ namespace Service.Contracts.Contracts
 {
     public interface IContractService
     {
-        Task<bool> CreateContract(RegisterContractDto registerContractDto);
+        Task<ContractDto> CreateContract(RegisterContractDto registerContractDto);
         Task<List<ContractDto>> GetContracts();
         Task<List<ContractDto>> GetContractByStatus(ContractStatus status);
-        Task<ContractDto> GetContractById(int Id);
+        Task<ContractDto> GetContractById(Guid Id);
+        Task UpdateStatusFromUnpaidToPaid(Guid ContractId);
     }
 }

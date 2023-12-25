@@ -51,6 +51,13 @@ builder.Services.ConfigureCors();
 builder.Services.Configure<MomoConfig>(
     builder.Configuration.GetSection(MomoConfig.ConfigName));
 
+// accept xaml
+//builder.Services.AddControllers(config =>
+//{
+//    config.RespectBrowserAcceptHeader = true;
+//}).AddXmlDataContractSerializerFormatters();
+
+
 //Email configuration
 var email = configure.GetSection("EmailConfiguration").Get<EmailConfiguration>();
 builder.Services.AddSingleton(email);

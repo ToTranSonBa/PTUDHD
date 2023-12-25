@@ -15,8 +15,7 @@ namespace Entity.Models.InsuranceContractModels
     {
         [Key]
         public Guid Id { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ContractId { get; set; }
+        public Guid ContractId { get; set; } = new Guid();
         public DateTime CreatedDate { get; init; } = DateTime.Now;
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -34,6 +33,7 @@ namespace Entity.Models.InsuranceContractModels
     }
     public enum ContractStatus
     {
+        Unpaid,
         Waiting,
         Cancelled,
         Using,

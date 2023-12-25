@@ -1,6 +1,7 @@
 ﻿using Contracts.InsuranceContractContracts;
 using Entity.Models.Claim;
 using Entity.Models.InsuranceContractModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,14 @@ namespace Repository.EntitiesRepository.Contracts
     {
         public ContractInvoiceRepository(InsuranceDBContext insuranceDBContext) : base(insuranceDBContext)
         {
+        }
+        public bool AddInvoice(ContractInvoice contractInvoice)
+        {
+            return Create(contractInvoice);
+        }
+        public async Task<List<ContractInvoice>> GetInvoiceByContractId(Guid contractId, bool trackChanges)
+        {
+            return await FindByCondition(e => e.ContractID == contractId, trackChanges).ToListAsync();
         }
     }
 }

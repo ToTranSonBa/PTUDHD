@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.EntityDtos.Contract;
+using Shared.EntityDtos.Payment.Momo.Request;
 
 namespace WebAPI.Controllers.Contracts
 {
@@ -19,6 +20,18 @@ namespace WebAPI.Controllers.Contracts
         public async Task<IActionResult> AddContract([FromBody] RegisterContractDto registerContractDto)
         {
             var result = await _service.Contracts.CreateContract(registerContractDto);
+            if(registerContractDto.PaymentMethod == (int)PaymentMehtod.MOMO)
+            {
+                var momoOnetimePaymentRequest = new MomoOneTimePaymentRequestDto
+                {
+                    amount = result.TotalPrice.ToString(),
+                    orderId = result.ContractId.ToString(),
+                    orderInfo = $"Khách hàng {result.Customer.Name} thanh toán bảo hiểm {result.ProductName} chương trình {result.ProgramName} " +
+                    $"bằng hình thức thanh toán qua MOMO"
+                };
+                var linkPayment = _service.Momo.PaymentRequest(momoOnetimePaymentRequest);
+                return StatusCode(StatusCodes.Status201Created, new { result, linkPayment});
+            }
             return StatusCode(StatusCodes.Status201Created, result);
         }
         [HttpGet]
@@ -34,7 +47,7 @@ namespace WebAPI.Controllers.Contracts
             return Ok(result);
         }
         [HttpGet("ContractId")]
-        public async Task<IActionResult> GetContract(int Id)
+        public async Task<IActionResult> GetContract(Guid Id)
         {
             var result = await _service.Contracts.GetContractById(Id);
             return Ok(result);

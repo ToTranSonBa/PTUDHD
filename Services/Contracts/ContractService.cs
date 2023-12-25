@@ -33,9 +33,9 @@ namespace Services.Contracts
             }
             return rContracts;
         }
-        public async Task<bool> CreateContract(RegisterContractDto registerContractDto)
+        public async Task<ContractDto> CreateContract(RegisterContractDto registerContractDto)
         { 
-            // ktra hợp đồng tồn tại không
+            // ktra sản phẩm bảo hiểm tồn tại không
             var product = await _repositoryManager.InsuranceProducts.GetById(registerContractDto.ProductId, false);
             if(product == null)
                 throw new Exception($"Product with Id: {registerContractDto.ProductId} don't exits");
@@ -58,8 +58,9 @@ namespace Services.Contracts
             contract.Customer = null;
             contract.Employee = null;
             contract.EmployeeID = null;
+            contract.ContractId = Guid.NewGuid();
             contract.Id = new Guid();
-            contract.Status = ContractStatus.Waiting.ToString();
+            contract.Status = ContractStatus.Unpaid.ToString();
             contract.InsuranceProductId = product.Id;
             contract.InsuranceProgramId = program.Id;
             contract.CustomerID = customer.Id;
@@ -81,7 +82,9 @@ namespace Services.Contracts
             if (!_repositoryManager.Contracts.CreateContract(contract))
                 throw new Exception("Contract can not be created");
             await _repositoryManager.SaveAsync();
-            return true;
+            var contractConvert = await _repositoryManager.Contracts.GetContractsById(contract.ContractId, false);
+            var returnContract = await ConvertEntityToDto(contractConvert);
+            return returnContract;
         }
         public async Task<List<ContractDto>> GetContractByStatus(ContractStatus status)
         {
@@ -94,10 +97,10 @@ namespace Services.Contracts
             }
             return contractsDto;
         }
-        public async Task<ContractDto> GetContractById(int Id)
+        public async Task<ContractDto> GetContractById(Guid Id)
         {
             var contract = await _repositoryManager.Contracts.GetContractsById(Id, false);
-            if(contract == null)
+            if (contract == null)
             {
                 throw new Exception($"Contract With Id: {Id} not exist");
             }
@@ -124,6 +127,17 @@ namespace Services.Contracts
                 });
             }
             return contractDto;
+        }
+
+        public async Task UpdateStatusFromUnpaidToPaid(Guid ContractId)
+        {
+            var contract = await _repositoryManager.Contracts.GetContractsById(ContractId, true);
+            if (contract == null)
+            {
+                throw new Exception($"Contract with id: {ContractId} dose not exist!");
+            }
+            contract.Status = ContractStatus.Using.ToString();
+            await _repositoryManager.SaveAsync();
         }
     }
 }

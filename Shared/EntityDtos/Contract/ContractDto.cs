@@ -10,7 +10,7 @@ namespace Shared.EntityDtos.Contract
 {
     public class ContractDto
     {
-        public int ContractId { get; set; }
+        public Guid ContractId { get; set; }
         public DateTime? StartDate { get; init; }
         public DateTime? EndDate { get; init; }
         public float? TotalPrice { get; init; }

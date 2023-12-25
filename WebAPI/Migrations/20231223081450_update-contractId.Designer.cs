@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(InsuranceDBContext))]
-    partial class InsuranceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231223081450_update-contractId")]
+    partial class updatecontractId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,9 +180,6 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ContractId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -258,10 +257,6 @@ namespace WebAPI.Migrations
 
                     b.Property<int>("LastPrice")
                         .HasColumnType("int");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id", "ContractID");
 
@@ -619,29 +614,29 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c810ce78-0528-4be5-9ce4-8f2c68c14187",
-                            ConcurrencyStamp = "90a28774-1b09-4899-b4e0-1e1c3607d0f4",
+                            Id = "48e6b800-fa8b-4e3a-912e-c04b5a2c1824",
+                            ConcurrencyStamp = "d3e9a4cb-075a-4d04-83ed-9e610eda2e62",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "f50cb04a-044e-4f12-8fb8-972799ede9b1",
-                            ConcurrencyStamp = "278ad664-3ac8-48be-8e70-82ef0e32b3a9",
+                            Id = "a4e1002d-f064-49a0-a999-e187f5f2522f",
+                            ConcurrencyStamp = "d547a276-871b-4981-ab81-4bc143f251fd",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "9707ee4c-3108-4929-a021-8ad4df00016d",
-                            ConcurrencyStamp = "04bf5848-cbbf-41ba-8c51-f3423e8902e7",
+                            Id = "03c84532-e9c7-4d70-859e-772e432fdd9f",
+                            ConcurrencyStamp = "e466de1a-129c-4168-8cb4-e31ce01ed613",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "29b07df6-bec9-4ff4-b14c-733345d0ad84",
-                            ConcurrencyStamp = "12b1c792-5438-4a4c-baaf-53f26caea3bb",
+                            Id = "7aee3b14-b337-43a3-a6d5-314b9b4c2520",
+                            ConcurrencyStamp = "cf936be0-fb29-4cf0-9706-76122e9c9385",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });

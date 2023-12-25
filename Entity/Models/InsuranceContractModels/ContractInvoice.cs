@@ -16,8 +16,8 @@ namespace Entity.Models.InsuranceContractModels
         public Guid ContractID { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int InvoiceId { get; set; }
-
         public int LastPrice { get; set; } = 0;
+        public string PaymentMethod { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public Contract? Contract { get; set; }
     }
