@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity.Models.Claim;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace Contracts.ClaimContracts
 {
     public interface IClaimRequestRepository
     {
+        Task<List<ClaimRequest>> GetRequestByStatus(string status, bool trackChanges);
+        Task<List<ClaimRequest>> GetCustomerRequestByStatus(Guid CustomerId, string Status, bool trackChanges);
+        bool AddRequest(ClaimRequest claimRequest);
     }
 }

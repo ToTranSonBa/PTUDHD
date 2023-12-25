@@ -15,14 +15,9 @@ namespace Entity.Models.Claim
         [Key]
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
-        public PaymentMethods PaymentMethod { get; set; }
+        public string PaymentMethod { get; set; }
         public int TotalCost { get; set; }
         public Guid RequestID { get; set; }
         public ClaimRequest? Request { get; set; }
-    }
-    public enum PaymentMethods
-    {
-        ONLINE,
-        CASH
     }
 }

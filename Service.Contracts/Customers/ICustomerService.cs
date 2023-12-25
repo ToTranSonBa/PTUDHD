@@ -10,6 +10,6 @@ namespace Service.Contracts.Customers
     public interface ICustomerService
     {
         Task<CustomerDto> CreateCustomerAsync(CustomerCreateDto CustomerDto);
-        
+        Task<CustomerDto> GetCustomerByEmail(string email);
     }
 }

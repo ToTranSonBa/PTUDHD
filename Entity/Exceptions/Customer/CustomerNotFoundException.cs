@@ -9,7 +9,7 @@ namespace Entity.Exceptions.Customer
 {
     public class CustomerNotFoundException : NotFoundException
     {
-        public CustomerNotFoundException(int customerId) : base($"Customer with id: {customerId} doesn't exist in the database")
+        public CustomerNotFoundException(string property,string customerId) : base($"Customer with {property}: {customerId} doesn't exist in the database")
         {
         }
     }

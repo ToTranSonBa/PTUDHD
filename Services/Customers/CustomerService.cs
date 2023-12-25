@@ -32,7 +32,17 @@ namespace Services.Customers
             var customer = await _repositoryManager.Customers.GetCustomerAsnyc(id, trackChanges);
             if(customer == null)
             {
-                throw new CustomerNotFoundException(id);
+                throw new CustomerNotFoundException("id",id.ToString());
+            }
+            var customerReturn = _mapper.Map<CustomerDto>(customer);
+            return customerReturn;
+        }
+        public async Task<CustomerDto> GetCustomerByEmail(string email)
+        {
+            var customer = await _repositoryManager.Customers.GetCustomerByEmail(email, false);
+            if(customer == null )
+            {
+                throw new CustomerNotFoundException("email", email);
             }
             var customerReturn = _mapper.Map<CustomerDto>(customer);
             return customerReturn;
