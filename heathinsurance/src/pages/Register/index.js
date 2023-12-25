@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
@@ -9,10 +9,17 @@ import Banner from '../../assets/image/banner-top.jpg';
 import { RiHealthBookFill } from 'react-icons/ri';
 import { GiHealthNormal } from 'react-icons/gi';
 
+import { RegisterProductApi } from '../../services/ApiRegister/Register'
+import { PaymentApi } from '../../services/ApiPayment/Payment'
+
 const cx = classNames.bind(styles);
 
 function Register() {
+
+
     const [activeSection, setActiveSection] = useState('information_insurance');
+    const [productData, setProductData] = useState({});
+    const [selectedProgram, setSelectedProgram] = useState(null);
 
     //
     const handelProductDescription = () => {
@@ -21,6 +28,41 @@ function Register() {
     const handelHeathInfor = () => {
         setActiveSection('information_heath');
     };
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const fetchData = async () => {
+        try {
+            const response = await RegisterProductApi(); // Thay "yourApiCall" bằng hàm gọi API của bạn
+
+            // Lưu dữ liệu vào state
+            setProductData(response);
+        } catch (error) {
+            console.error(">>> Error fetching data: ", error);
+        }
+    }
+
+    const handleProgramChange = (programId) => {
+        // Cập nhật state khi chọn một chương trình mới
+        setSelectedProgram(programId);
+    };
+
+    const handlePayment = async () => {
+        const user = localStorage.getItem('token');
+        // Phân tách token thành ba phần: Header, Payload, Signature
+        var parts = user.split('.');
+
+        // Giải mã Payload
+        var decodedPayload = JSON.parse(atob(parts[1]));
+
+        // Lấy giá trị của thuộc tính "emailaddress"
+        var emailAddress = decodedPayload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+
+        const paymentLink = await PaymentApi();
+        window.open(paymentLink);
+    }
 
     return (
         <>
@@ -62,46 +104,43 @@ function Register() {
                                 </div>
                                 <div className={cx('insurance_policy')}>
                                     <span>Chương trình</span>
+                                    <select onChange={(e) => handleProgramChange(parseInt(e.target.value))}>
+                                        {productData.benefitType &&
+                                            productData.benefitType[0].benefits[0].benefitProgramCosts.map((program) => (
+                                                <option key={program.programId} value={program.programId}>
+                                                    {program.programName}
+                                                </option>
+                                            ))}
+                                    </select>
                                 </div>
                                 <div className={cx('main_terms')}>
-                                    <div>
-                                        <input type="checkbox"></input>
-                                        <span>Tử vong/ thương tật vĩnh viễn do tai nạn</span>
-                                        <input type="text" value="100,00VNĐ" />
-                                    </div>
-                                    <div>
-                                        <input type="checkbox"></input>
-                                        <span>Chi phí y tế do tai nạn</span>
-                                        <input type="text" value="100,00VNĐ" />
-                                    </div>
-                                    <div>
-                                        <input type="checkbox"></input>
-                                        <span>Điều trị nội trú do ốm đau, bệnh tật, biến chứng thai sản</span>
-                                        <input type="text" value="100,00VNĐ" />
-                                    </div>
-                                </div>
+                                    {selectedProgram !== null &&
+                                        productData.benefitType.map((benefitType) => (
+                                            <div key={benefitType.benefitTypeId}>
+                                                {benefitType.benefits.map((benefitDetail) => (
+                                                    <div key={benefitDetail.benefitId}>
+                                                        <input type="checkbox"></input>
+                                                        <span>{benefitDetail.benefitName}</span>
+                                                        {benefitDetail.benefitProgramCosts
+                                                            .filter((programCost) => programCost.programId === selectedProgram)
+                                                            .map((filteredProgramCost) => (
+                                                                <input
+                                                                    key={filteredProgramCost.programId}
+                                                                    type="text"
+                                                                    value={`${filteredProgramCost.price}VNĐ`}
+                                                                    readOnly
 
-                                <div className={cx('additional_terms')}>
-                                    <div>
-                                        <input type="checkbox"></input>
-                                        <span>Điều trị ngoại trú do ốm đau, bệnh tật</span>
-                                        <input type="text" value="100,00VNĐ" />
-                                    </div>
-                                    <div>
-                                        <input type="checkbox"></input>
-                                        <span>Quyền lợi nha khoa</span>
-                                        <input type="text" value="100,00VNĐ" />
-                                    </div>
-                                    <div>
-                                        <input type="checkbox"></input>
-                                        <span>Tử vong, thương tật toàn bộ vĩnh viễn không do nguyên nhân tai nạn</span>
-                                        <input type="text" value="100,00VNĐ" />
-                                    </div>
+                                                                />
+                                                            ))}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ))}
                                 </div>
 
                                 <div className={cx('fee')}>
                                     <span>Phí</span>
-                                    <input type="text" value="600,000VND" />
+                                    <input type="text" value='600000 VNĐ' readOnly />
                                 </div>
                             </div>
 
@@ -364,7 +403,7 @@ function Register() {
                                 id={cx('UPa_ks')}
                                 role="tabpanel"
                                 aria-labelledby="sk-tab"
-                                // onmouseup="bhhd_ngskKM_KTRA()"
+                            // onmouseup="bhhd_ngskKM_KTRA()"
                             >
                                 <div className={cx('title-form')}>
                                     <span>THÔNG TIN VỀ TÌNH TRẠNG SỨC KHỎE</span>
@@ -679,7 +718,7 @@ function Register() {
                             </table> */}
                         </section>
                     </div>
-                </div>
+                </div >
 
                 <div className={cx('bill')}>
                     <h1>Thông tin phí bảo hiểm</h1>
@@ -714,13 +753,14 @@ function Register() {
                         </div>
                     </div>
                     <hr />
-                    <button className={cx('pay-btn')}>
-                        <Link to="/payment/abc">Thanh toán</Link>
+                    <button className={cx('pay-btn')}
+                        onClick={() => handlePayment()}
+                    >
+                        Thanh toán
                     </button>
                 </div>
-            </div>
+            </div >
         </>
     );
 }
-
 export default Register;

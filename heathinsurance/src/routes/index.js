@@ -10,6 +10,7 @@ import Services from '../pages/Services';
 import Product from '../pages/Product';
 import Register from '../pages/Register';
 import Account from '../pages/Account';
+import PaymentPage from '../pages/Payment/Payment';
 
 // admin pages
 import HomeAdmin from '../pages/Admin/Home';
@@ -24,6 +25,8 @@ const publicRoutes = [
     { path: '/service/:id', component: Product },
     { path: '/register/:id', component: Register },
     { path: '/account', component: Account },
+    { path: '/payment', component: PaymentPage },
+
 ];
 
 //

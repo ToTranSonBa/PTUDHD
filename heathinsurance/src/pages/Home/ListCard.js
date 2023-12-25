@@ -59,7 +59,6 @@ const ListCard = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://localhost:7112/api/InsuraceProgram');
-                console.log('check>>>', response);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

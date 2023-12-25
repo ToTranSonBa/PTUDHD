@@ -22,15 +22,6 @@ function Header() {
 
     // const thay vi var
     var token = localStorage.getItem('token');
-
-    //fake token
-<<<<<<< Updated upstream
-    if (!token || token === '') {
-        token = '';
-    }
-=======
-    token = 'áccs';
->>>>>>> Stashed changes
     return (
         <header className={cx('wrapper')}>
             <div className={cx('logo')}>
