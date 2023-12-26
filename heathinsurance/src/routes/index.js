@@ -14,6 +14,7 @@ import PaymentPage from '../pages/Payment/Payment';
 
 // admin pages
 import HomeAdmin from '../pages/Admin/Home';
+import AddProduct from '../pages/AddProduct/AddProduct';
 
 //
 const publicRoutes = [
@@ -26,6 +27,7 @@ const publicRoutes = [
     { path: '/register/:id', component: Register },
     { path: '/account', component: Account },
     { path: '/payment', component: PaymentPage },
+    { path: '/addproduct', component:AddProduct  },
 
 ];
 
