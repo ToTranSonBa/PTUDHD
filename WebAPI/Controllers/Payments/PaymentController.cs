@@ -21,7 +21,6 @@ namespace WebAPI.Controllers.Payments
         [HttpPost("momo-payment")]
         public IActionResult Payment([FromBody] MomoOneTimePaymentRequestDto paymentRequest)
         {
-
             var paymentUrl = _service.Momo.PaymentRequest(paymentRequest);
             return Ok(paymentUrl.ToString());
         }
@@ -42,7 +41,7 @@ namespace WebAPI.Controllers.Payments
                     PaymentMethod = PaymentMehtod.MOMO.ToString()
                 };
                 await _service.ContractsInvoices.addContractInvoice(invoiceDto);
-                return Ok();
+                return Ok("Thanh toán thành công");
             }
             else
             {

@@ -34,7 +34,9 @@ namespace Services.Contracts
             return rContracts;
         }
         public async Task<ContractDto> CreateContract(RegisterContractDto registerContractDto)
-        { 
+        {
+            if (registerContractDto == null)
+                throw new Exception($"Register Contract is null.");
             // ktra sản phẩm bảo hiểm tồn tại không
             var product = await _repositoryManager.InsuranceProducts.GetById(registerContractDto.ProductId, false);
             if(product == null)
@@ -50,6 +52,7 @@ namespace Services.Contracts
             if (customer == null)
             {
                 customer = _mapper.Map<Customer>(registerContractDto.Customer);
+                customer.Id = Guid.NewGuid();
                 _repositoryManager.Customers.CreateCusomter(customer);
             }    
 
@@ -67,18 +70,22 @@ namespace Services.Contracts
 
             contract.ContractHealthConditions = new List<ContractHealthCondition>();
 
-
-            // Them dieu kien suc khoe
-            foreach(var conditionDto in registerContractDto.HealthConditions)
+            if(registerContractDto.HealthConditions.Count() > 0)
             {
-                var condtion = product.HealthConditionSource.Where(p => p.HealthConditionId == conditionDto.Id).SingleOrDefault();
-                contract.ContractHealthConditions.Add(new ContractHealthCondition
+                foreach (var conditionDto in registerContractDto.HealthConditions)
                 {
-                    ContractId = contract.Id,
-                    HealthConditionId = condtion.Id,
-                    Status = conditionDto.Status,
-                });
+                    var condtion = product.HealthConditionSource.Where(p => p.HealthConditionId == conditionDto.Id).SingleOrDefault();
+                    if (condtion == null)
+                        continue;
+                    contract.ContractHealthConditions.Add(new ContractHealthCondition
+                    {
+                        ContractId = contract.Id,
+                        HealthConditionId = condtion.Id,
+                        Status = conditionDto.Status,
+                    });
+                }
             }
+
             if (!_repositoryManager.Contracts.CreateContract(contract))
                 throw new Exception("Contract can not be created");
             await _repositoryManager.SaveAsync();
@@ -111,6 +118,7 @@ namespace Services.Contracts
         private async Task<ContractDto> ConvertEntityToDto(Contract contract)
         {
             var contractDto = _mapper.Map<ContractDto>(contract);
+            contractDto.CreateDate = contract.CreatedDate;
             contractDto.ProgramName = contract.InsuranceProgram.Name;
             contractDto.ProductName = contract.InsuranceProduct.PolicyName;
             contractDto.ProductId = contract.InsuranceProduct.ProductId;

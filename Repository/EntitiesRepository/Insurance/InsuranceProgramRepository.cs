@@ -40,5 +40,14 @@ namespace Repository.EntitiesRepository.Insurance
         {
             return await FindByCondition(e => e.Id == id, trackChanges).SingleOrDefaultAsync();
         }
+        public async Task<bool> checkExistById(int id)
+        {
+            var program = await FindByCondition(e => e.ProgramId == id, false).SingleOrDefaultAsync();
+            if(program != null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

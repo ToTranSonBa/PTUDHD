@@ -15,9 +15,9 @@ namespace Entity.Models.Claim
         [Key]
         public Guid Id { get; set; }
         public DateTime? CreatedDate {  get; set; }
-        public string MedicalBill {  get; set; }
-        public int TotalCost { get; set; }
-        public string Status { get; set; }
+        public string? MedicalCondition {  get; set; }
+        public string? MedicalHistory { get; set; }
+        public string? Status { get; set; }
         public Guid? CustomerId { get; set; }
         public Customer? Customer { get; set; }
         public Contract? Contract { get; set; }

@@ -16,10 +16,11 @@ namespace WebAPI.Controllers.Contracts
         { 
             this._service = serviceManager;
         }
-        [HttpPost] 
+        [HttpPost]
         public async Task<IActionResult> AddContract([FromBody] RegisterContractDto registerContractDto)
         {
             var result = await _service.Contracts.CreateContract(registerContractDto);
+            string linkPayment = string.Empty;
             if(registerContractDto.PaymentMethod == (int)PaymentMehtod.MOMO)
             {
                 var momoOnetimePaymentRequest = new MomoOneTimePaymentRequestDto
@@ -29,16 +30,19 @@ namespace WebAPI.Controllers.Contracts
                     orderInfo = $"Khách hàng {result.Customer.Name} thanh toán bảo hiểm {result.ProductName} chương trình {result.ProgramName} " +
                     $"bằng hình thức thanh toán qua MOMO"
                 };
-                var linkPayment = _service.Momo.PaymentRequest(momoOnetimePaymentRequest);
-                return StatusCode(StatusCodes.Status201Created, new { result, linkPayment});
+                linkPayment = _service.Momo.PaymentRequest(momoOnetimePaymentRequest);
+                
             }
-            return StatusCode(StatusCodes.Status201Created, result);
+            return StatusCode(StatusCodes.Status201Created, new { result, linkPayment });
         }
         [HttpGet]
         public async Task<IActionResult> GetContracts()
         {
             var result = await _service.Contracts.GetContracts();
-            return Ok(result);
+            if (result.Count() > 0)
+                return Ok(result);
+            else
+                return NoContent();
         }
         [HttpGet("Status")] 
         public async Task<IActionResult> GetContractsWithContract(ContractStatus status) 

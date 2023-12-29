@@ -67,7 +67,7 @@ namespace Services
             _claimHealthServiceService = new Lazy<IClaimHealthServiceService>(() => new ClaimHealthServiceService());
             _claimInvoiceService = new Lazy<IClaimInvoiceService>(() => new ClaimInvoiceService());
             _claimPaymentRepsitory = new Lazy<IClaimPaymentService>(() => new ClaimPaymentService());
-            _claimRequestService = new Lazy<IClaimRequestService>(() => new ClaimRequestService());
+            _claimRequestService = new Lazy<IClaimRequestService>(() => new ClaimRequestService(repositoryManager));
 
             //Customer
             _customerService = new Lazy<ICustomerService>(() => new CustomerService(repositoryManager, mapper, userManager));

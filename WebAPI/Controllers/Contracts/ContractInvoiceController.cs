@@ -19,6 +19,5 @@ namespace WebAPI.Controllers.Contracts
             var result = await _service.ContractsInvoices.GetInvoiceByContractId(contractId);
             return Ok(result);
         }
-
     }
 }

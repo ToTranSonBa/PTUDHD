@@ -18,6 +18,7 @@ namespace Shared.EntityDtos.Contract
         public CustomerDto? Customer { get; set; }
         public EmployeeDto? Employee { get; set; }
         public string ProductName { get; set; }
+        public DateTime CreateDate { get; set; }
         public int ProductId { get; set; }
         public string? ProgramName { get; set; }
         public int? ProgramId { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.EntityDtos.Claim;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Service.Contracts.Claims
 {
     public interface IClaimRequestService
     {
+        Task CreateRequest(CreateClaimRequestDto requestDto);
+        Task<List<ClaimRequestDto>> GetClaimRequestOfCustomer(int cusotmerId);
     }
 }

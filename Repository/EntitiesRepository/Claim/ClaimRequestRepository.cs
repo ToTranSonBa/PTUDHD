@@ -19,8 +19,17 @@ namespace Repository.EntitiesRepository.Claim
             return Create(claimRequest);
         }
         public async Task<List<ClaimRequest>> GetCustomerRequestByStatus(Guid CustomerId, string Status, bool trackChanges)
-            => await FindByCondition(e => e.CustomerId == CustomerId && e.Status == Status, trackChanges).ToListAsync();
+            => await FindByCondition(e => e.CustomerId == CustomerId && e.Status == Status, trackChanges)
+            .Include(e => e.Contract)
+            .Include(e => e.Customer).ToListAsync();
+        public async Task<List<ClaimRequest>> GetCustomerRequest(Guid CustomerId, bool trackChanges)
+            => await FindByCondition(e => e.CustomerId == CustomerId , trackChanges)
+            .Include(e => e.Contract)
+            .Include(e => e.Customer)
+            .ToListAsync();
         public async Task<List<ClaimRequest>> GetRequestByStatus(string status, bool trackChanges)
-            => await FindByCondition(e => e.Status == status, trackChanges).ToListAsync();
-    }
+            => await FindByCondition(e => e.Status == status, trackChanges)
+            .Include(e => e.Contract)
+            .Include(e => e.Customer)
+            .ToListAsync();    }
 }
