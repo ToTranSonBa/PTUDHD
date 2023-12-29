@@ -17,5 +17,10 @@ namespace WebAPI.Controllers
             var result = await _services.Customers.GetCustomerByEmail(email);
             return Ok(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetCustomer()
+        {
+            return Ok(await _services.Customers.GetCustomers());
+        }
     }
 }

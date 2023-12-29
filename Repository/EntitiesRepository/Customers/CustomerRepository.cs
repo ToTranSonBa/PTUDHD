@@ -26,5 +26,7 @@ namespace Repository.EntitiesRepository.Customers
         {
             return await FindByCondition(e => e.Email == Email, trackChange).SingleOrDefaultAsync();
         }
+        public async Task<List<Customer>> GetCustomers(bool trackChanges) 
+            => await FindAll(trackChanges).ToListAsync();
     }
 }

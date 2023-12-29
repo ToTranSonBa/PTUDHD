@@ -47,6 +47,15 @@ namespace Services.Customers
             var customerReturn = _mapper.Map<CustomerDto>(customer);
             return customerReturn;
         }
+        public async Task<List<CustomerDto>> GetCustomers()
+        {
+            var customers = await _repositoryManager.Customers.GetCustomers(false);
+            if(customers.Count == 0)
+            {
+                throw new Exception("Internal server error");
+            }
+            return _mapper.Map<List<CustomerDto>>(customers);
+        }
         public async Task<CustomerDto> CreateCustomerAsync(CustomerCreateDto CustomerDto)
         {
 

@@ -12,5 +12,6 @@ namespace Contracts.CustomerContracts
         bool CreateCusomter(Customer customer);
         Task<Customer> GetCustomerAsnyc(int customerId, bool trachChanges);
         Task<Customer> GetCustomerByEmail(string Email, bool trackChange);
+        Task<List<Customer>> GetCustomers(bool trackChanges);
     }
 }
