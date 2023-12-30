@@ -1,9 +1,7 @@
 import React,{useState,useEffect} from "react";
-import { toast } from "react-toastify";
-import Banner from '../../assets/image/banner-top.jpg';
 import { useNavigate } from 'react-router-dom';
 import getProTypeFromApi  from "../../services/ApiProduct/getProductType";
-import Benefittype from "./Benefittype";
+import './Style.css'
 
 
 
@@ -190,85 +188,125 @@ function AddProduct() {
                 <img className={('banner_top')} src={Banner} alt="Banner" />
                 <h1 className={('title')}>Sức khỏe</h1>
             </div> */}
-            <div>
+            <div >
                 <header/>
-                <div className="col-sm-6 offset-sm-3">
+                {/* <div className="col-sm-6 offset-sm-3"> */}
+                {/* <div className="row gy-2 gx-3 align-items-center col-auto"> */}
+                <form className="row g-6">
                     <br/>
-                <input type="text" className="form-control" 
-                onChange={(e)=>setName(e.target.value)}
-                placeholder="Name of product"/> <br/>
+                    <label for="nameofProduct" class="form-label">Name of Product: </label>
+                    <input id="nameofProduct" type="text" className="form-control" 
+                    onChange={(e)=>setName(e.target.value)}
+                    placeholder="Name of product"/> <br/>
 
-                {/* <input type="text" className="form-control" 
-                onChange={(e)=>setImg(e.target.files[0])}
-                placeholder="Name of product"/> <br/> */}
+                    {/* <input type="text" className="form-control" 
+                    onChange={(e)=>setImg(e.target.files[0])}
+                    placeholder="Name of product"/> <br/> */}
+                    <div class="row">
+                        <div class="col-half">
+                            <div class="input-group">
+                                    <input type="text" className="form-control" 
+                                    onChange={(e)=>setPrice(e.target.value)}
+                                    placeholder="Price of product"/> <br/>
+                            </div>
+                        </div>              
+                        <div class="col-half">
+                            <div class="input-group">   
+                                    <input type="text" className="form-control"
+                                    onChange={(e)=>setCost(e.target.value)}
+                                    placeholder="Cost"/> <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-half">
+                            <input type="text" className="form-control" 
+                            onChange={(e)=>setParty(e.target.value)}
+                            placeholder="Insurance Party"/> 
+                        </div>
+                        <div class="col-half">
+                            <input type="text" className="form-control"
+                            onChange={(e)=>setTerritory(e.target.value)}
+                            placeholder="Territory Scope"/> 
+                        </div>
+                    </div>
+                    <input type="text" className="form-control" 
+                    onChange={(e)=>setProcedure(e.target.value)}
+                    placeholder="Participation Procedure"/> <br/>
+                    
+                    <input type="text" className="form-control" 
+                    onChange={(e)=>setFeeGuarantee(e.target.value)}
+                    placeholder="Guarantee Fee"/> <br/>
+                    
+                    <input type="text" className="form-control" 
+                    onChange={(e)=>setCommitment(e.target.value)}
+                    placeholder="Commitment"/> <br/>
+                    
+                    <input type="text" className="form-control" 
+                    onChange={(e)=>setDecription(e.target.value)}
+                    placeholder="Short Description"/> <br/>
 
-                <input type="text" className="form-control" 
-                onChange={(e)=>setPrice(e.target.value)}
-                placeholder="Price of product"/> <br/>
+                    <label htmlFor="type">Type:</label>
+                    <select id="type" className="form-control" value={BenefitType} onChange={(e)=>{setBenefitType(e.target.value);  console.log(e.target.value)}}>
+                    {/* <select className="form-control" value={BenefitType} > */}
+                        <option value="" disabled>Inusurance Benefit Type</option>
+                        {
+                            data.map((user) =>(
+                            //<option key={user.benefitTypeId} value={`${user.benefitTypeId},${user.name}`}>{user.name}</option>
+                            <option key={user.benefitTypeId} value={user.benefitTypeId}>{user.name}</option>
+                            ))
+                        }                      
+                    </select>
+                    <br/>
+                    
+                    <table>
+                        <tr>
+                            <th>Benefit-type ID</th>
+                            <th>Benefit-type Name</th>
+                            <th>Add</th>
+                        </tr>
+                        <tr>
+                            <td>youtube</td>
+                            <td>kakarot</td>
+                            <td><input type="checkbox" value=""></input></td>
+                        </tr>
+                        {                                
+                            data.map((item) =>
+                            (
+                                <tr>
+                                    <td>{item.benefitTypeId}</td>
+                                    <td>{item.name}</td>
+                                    <td><input type="checkbox" value={item.benefitTypeId}></input></td>
+                                </tr>
+                            ))
+                        }
+                    </table>
+                    {/* <label htmlFor="benefits">Benefit:</label>
+                    <select 
+                        id="benefits" 
+                        className="form-control" 
+                        value={Benefit} 
+                        onChange={(e) => {
+                            // Xử lý khi benefit được chọn
+                            setBenefitType(e.target.value);  console.log(e.target.value)
+                        }}
+                    >
+                    <option value="" disabled>Select a benefit</option>
+                    {benefits.map(benefit => (
+                        <option key={benefit.benefitId} value={benefit.benefitId}>
+                            {benefit.benefitName}
+                        </option>
+                    ))}
+                    </select> */}
 
-                <input type="text" className="form-control"
-                onChange={(e)=>setCost(e.target.value)}
-                placeholder="Cost"/> <br/>
-
-                <input type="text" className="form-control" 
-                onChange={(e)=>setParty(e.target.value)}
-                placeholder="Insurance Party"/> <br/>
-                
-                <input type="text" className="form-control"
-                onChange={(e)=>setTerritory(e.target.value)}
-                placeholder="Territory Scope"/> <br/>
-                
-                <input type="text" className="form-control" 
-                onChange={(e)=>setProcedure(e.target.value)}
-                placeholder="Participation Procedure"/> <br/>
-                
-                <input type="text" className="form-control" 
-                onChange={(e)=>setFeeGuarantee(e.target.value)}
-                placeholder="Guarantee Fee"/> <br/>
-                
-                <input type="text" className="form-control" 
-                onChange={(e)=>setCommitment(e.target.value)}
-                placeholder="Commitment"/> <br/>
-                
-                <input type="text" className="form-control" 
-                onChange={(e)=>setDecription(e.target.value)}
-                placeholder="Short Description"/> <br/>
-
-                <label htmlFor="type">Type:</label>
-                <select id="type" className="form-control" value={BenefitType} onChange={(e)=>{setBenefitType(e.target.value);  console.log(e.target.value)}}>
-                {/* <select className="form-control" value={BenefitType} > */}
-                    <option value="" disabled>Inusurance Benefit Type</option>
-                    {
-                        data.map((user) =>(
-                        //<option key={user.benefitTypeId} value={`${user.benefitTypeId},${user.name}`}>{user.name}</option>
-                        <option key={user.benefitTypeId} value={user.benefitTypeId}>{user.name}</option>
-                        ))
-                    }                      
-                </select>
-                <br/>
-
-                <label htmlFor="benefits">Benefit:</label>
-                <select 
-                    id="benefits" 
-                    className="form-control" 
-                    value={Benefit} 
-                    onChange={(e) => {
-                        // Xử lý khi benefit được chọn
-                        setBenefitType(e.target.value);  console.log(e.target.value)
-                    }}
-                >
-                <option value="" disabled>Select a benefit</option>
-                {benefits.map(benefit => (
-                    <option key={benefit.benefitId} value={benefit.benefitId}>
-                        {benefit.benefitName}
-                    </option>
-                ))}
-            </select>
-
-                <button onClick={addProduct} className=" btn btn-primary">Add Product</button>
-                </div>
+                </form>
+                <div class="btn">
+                    <button onClick={addProduct} class="btn-primary">Add Product</button>
+                </div>    
             </div>
-        </>        
+            
+        </>  
+                  
     )
 }
 
