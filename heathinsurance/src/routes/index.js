@@ -21,6 +21,7 @@ import ListRequest from '../pages/ListRequest';
 import AddInsurance from '../pages/AddInsurance';
 import UpdateInsurance from '../pages/UpdateInsurance';
 import DetailInsurance from '../pages/DetailInsurance';
+import DetailContract from '../pages/DetailContract';
 
 //
 const publicRoutes = [
@@ -37,11 +38,12 @@ const publicRoutes = [
     //private
     { path: '/admin', component: DashBoard, layout: SidebarOnly },
     { path: '/admin/registers', component: ListRegister, layout: SidebarOnly },
+    { path: '/admin/detail-contract/:id', component: DetailContract, layout: SidebarOnly },
     { path: '/admin/users', component: ListUser, layout: SidebarOnly },
     { path: '/admin/insurances', component: ListInsurance, layout: SidebarOnly },
     { path: '/admin/add-insurances', component: AddInsurance, layout: SidebarOnly },
     { path: '/admin/update-insurances', component: UpdateInsurance, layout: SidebarOnly },
-    { path: '/admin/detail-insurance', component: DetailInsurance, layout: SidebarOnly },
+    { path: '/admin/detail-insurance/:id', component: DetailInsurance, layout: SidebarOnly },
     { path: '/admin/request', component: ListRequest, layout: SidebarOnly },
 ];
 

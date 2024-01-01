@@ -57,10 +57,10 @@ const Login = () => {
         <section className="login-form">
             <div className="register">
                 <div className="col-1">
-                    <h2>Sign In</h2>
-                    <span>Welcome back to our website!</span>
-
                     <form id="form" className="flex flex-col">
+                        <h2>Sign In</h2>
+                        <span>Welcome back to our website!</span>
+                        <span className="underline" />
                         <input
                             type="email"
                             id="email"

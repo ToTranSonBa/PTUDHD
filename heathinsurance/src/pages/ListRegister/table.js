@@ -94,7 +94,7 @@ function Table() {
                                             </td>
                                             <td>
                                                 <Link
-                                                    to={`/view/${curElem.contractId}`}
+                                                    to={`/admin/detail-contract/${curElem.contractId}`}
                                                     className="view  mx-auto"
                                                     title="View"
                                                     data-toggle="tooltip"

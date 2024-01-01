@@ -12,3 +12,6 @@ export const updateInsurancesApi = () => {
 export const offInsurancesApi = () => {
     return axios.post('/InsuranceProduct');
 };
+export const getInsuranceByIdApi = (id) => {
+    return axios.get(`/InsuranceProduct/${id}`);
+};

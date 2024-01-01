@@ -29,9 +29,7 @@ const ListCard = () => {
     }, []);
     return (
         <div className="container-list wrapper">
-            {product.length === 0 ? (
-                <div className="no-products-message">Không có bảo hiểm nào.</div>
-            ) : (
+            {product && product.length > 0 ? (
                 product.map((curElem) => (
                     <div className="card_item" key={curElem.productId}>
                         <div className="card_inner">
@@ -55,6 +53,8 @@ const ListCard = () => {
                         </div>
                     </div>
                 ))
+            ) : (
+                <div className="no-products-message">Không có bảo hiểm nào.</div>
             )}
         </div>
     );

@@ -10,5 +10,5 @@ export const rejectRegistersApi = (id) => {
     return axios.get('/Contract');
 };
 export const DetailRegistersApi = (id) => {
-    return axios.get('/Contract');
+    return axios.get(`/Contract/ContractId?Id=${id}`);
 };

@@ -74,7 +74,7 @@ function Table() {
                                     <th>Phạm vi</th>
                                     <th>Chỉnh sửa</th>
                                     <th>Xem chi tiết</th>
-                                    <th>Xóa</th>
+                                    <th>Vô hiệu</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,7 +98,7 @@ function Table() {
                                             </td>
                                             <td>
                                                 <Link
-                                                    to={`/view/${curElem.productId}`}
+                                                    to={`/admin/detail-insurance/${curElem.productId}`}
                                                     className="view  mx-auto"
                                                     title="View"
                                                     data-toggle="tooltip"

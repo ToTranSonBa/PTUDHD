@@ -174,6 +174,7 @@ const Register = () => {
                             onChange={(e) => setIdentifycationNumber(e.target.value)}
                             placeholder="Enter your identification number"
                         />
+
                         <button type="button" className="btn" onClick={handleClick}>
                             Sign Up
                         </button>
@@ -188,7 +189,7 @@ const Register = () => {
                     </form>
                 </div>
                 <div className="col-2">
-                    <img src={bgImg} alt="" />
+                    <img src={bgImg} alt="" className="form-image" style={{ height: '1068.03px' }} />
                 </div>
             </div>
         </section>

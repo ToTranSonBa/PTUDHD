@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
-import ImageUpload from './imageUpload';
-import { getInsuranceByIdApi } from '../../services/Admin/ApiInsurance/insurance';
+import { DetailRegistersApi } from '../../services/Admin/ApiRegister/register';
 import { useParams } from 'react-router-dom';
 
-const DetailInsurance = () => {
-    const [insurance, setInsurance] = useState({});
+const DetailContract = () => {
+    const [contract, setContract] = useState({});
     const { id } = useParams();
     useEffect(() => {
         const fetchData = async () => {
             try {
                 console.log('check>>', id);
-                const response = await getInsuranceByIdApi(id);
+                const response = await DetailRegistersApi(id);
                 console.log('check>>', response);
-                setInsurance(response);
+                setContract(response);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -24,19 +23,14 @@ const DetailInsurance = () => {
     return (
         <div style={{ paddingLeft: '260px' }}>
             <div style={{ height: '100px', width: '100%', textAlign: 'center', marginTop: '50px' }}>
-                <span style={{ fontSize: '25px', color: 'green', paddingTop: '50px', fontWeight: 'bold' }}>
-                    Thêm Bảo Hiểm
-                </span>
+                <span style={{ fontSize: '25px', color: 'green', paddingTop: '50px', fontWeight: 'bold' }}></span>
             </div>
             <div className="details">
-                <div className="big-img" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <ImageUpload />
-                </div>
                 <div className="box">
                     <form>
                         <div className="row">
                             <label htmlFor="productName">Tên Bảo Hiểm</label>
-                            <input type="text" id="productName" name="name" value={insurance.policyName} />
+                            <input type="text" id="productName" name="name" value={contract.productName} />
                         </div>
                         <div className="row">
                             <label htmlFor="productPrice">Price</label>
@@ -44,14 +38,7 @@ const DetailInsurance = () => {
                         </div>
                         <div className="row">
                             <label htmlFor="productDescription">Description</label>
-                            <textarea id="productDescription" name="description" value={insurance.shortDescription} />
-                        </div>
-                        <div className="row">
-                            <button type="submit" className="add">
-                                <span style={{ fontWeight: 'bold', color: 'white', fontSize: '15px' }}>
-                                    Thêm Bảo Hiểm
-                                </span>
-                            </button>
+                            <textarea id="productDescription" name="description" value={contract.programName} />
                         </div>
                     </form>
                 </div>
@@ -60,4 +47,4 @@ const DetailInsurance = () => {
     );
 };
 
-export default DetailInsurance;
+export default DetailContract;
