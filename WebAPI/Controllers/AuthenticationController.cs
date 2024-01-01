@@ -162,7 +162,8 @@ namespace WebAPI.Controllers
                         {
                             AccessToken = result.Token.AccessToken,
                             RefreshToken = result.Token.RefreshToken,
-                            ValidTo = result.Token.ValidTo
+                            ValidTo = result.Token.ValidTo,
+                            Role = result.Token.Role,
                         });
             }
         }

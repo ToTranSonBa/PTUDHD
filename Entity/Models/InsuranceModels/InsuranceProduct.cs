@@ -21,6 +21,7 @@ namespace Entity.Models.InsuranceModels
         public string? FeeGuarantee { get; set; }
         public string? Commitment { get; set; }
         public string? ShortDescription { get; set; }
+        public string? ImageUrl { get; set; }
 
         public ICollection<InsuranceBenefitType>? BenefitTypes { get; set; }
         public ICollection<InsuranceBenefitCost>? Costs { get; set; }

@@ -112,8 +112,10 @@ namespace Services
                 await _userManager.UpdateAsync(resultUsername);
 
                 var accessToken = await GenerateJWTToken(userLoginDto.Email);
+                var role = await _userManager.GetRolesAsync(resultUsername);
 
-                var response = new LoginRespone { AccessToken = accessToken.token, RefreshToken = refreshToken, ValidTo = accessToken.ValidTo };
+                var response = new LoginRespone { AccessToken = accessToken.token, RefreshToken = refreshToken, ValidTo = accessToken.ValidTo,
+                Role = role.First()};
                 return (LoginStatus.SUCCESS, response);
             }
             else
@@ -128,10 +130,22 @@ namespace Services
             {
                 return new (string.Empty, DateTime.Now);
             }
+            var role = await _userManager.GetRolesAsync(resultUser);
+            if(role.Count == 0)
+            {
+                var customerRole = await _roleManager.GetRoleNameAsync(new IdentityRole
+                {
+                    Name = "Customer",
+                    NormalizedName = "CUSTOMER"
+                });
+                await _userManager.AddToRoleAsync(resultUser, customerRole);
+                role = await _userManager.GetRolesAsync(resultUser);
+            }
             var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email, Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.Role, role.First())
 
                 };
 

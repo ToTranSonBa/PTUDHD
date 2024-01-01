@@ -21,6 +21,7 @@ namespace Shared.EntityDtos.Insurances.InsuranceProduct
         public string? Commitment { get; set; }
         public int? TotalQuantitySold { get; set; }
         public string? ShortDescription { get; set; }
+        public string? ImageUrl { get; set; }
         public List<HealthConditionProductDto> Conditions { get; set; }
         public List<InsuranceBenefitTypeProductDto> benefitType { get; set; }
         public List<ProgramPriceDto> ProgramPrice { get; set; }
