@@ -5,9 +5,10 @@
 }
 
 .container {
-    width: auto !important;
-    display: block !important;
+    //width: auto !important;
+    //display: block !important;
     justify-content: initial !important; /* Reset or override other styles */
     flex-direction: initial !important;
     margin-top: 80px;
+    width: 100%;
 }

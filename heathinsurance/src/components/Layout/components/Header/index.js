@@ -22,15 +22,12 @@ function Header() {
 
     // const thay vi var
     var token = localStorage.getItem('token');
-<<<<<<< HEAD
-=======
 
     //fake token
-    // if (!token || token === '') {
-    //     token = '';
-    // }
-    token = 'áccs';
->>>>>>> 6ab224b49220c62e99aca9183ba5f33c2c67841b
+    if (!token || token === '') {
+        token = '';
+    }
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('logo')} style={{ cursor: 'pointer' }}>

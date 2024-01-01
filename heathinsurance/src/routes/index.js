@@ -1,5 +1,5 @@
 //Layouts
-import { HeaderOnly } from '../components/Layout';
+import { HeaderOnly, SidebarOnly } from '../components/Layout';
 
 // Pages
 import Home from '../pages/Home';
@@ -13,7 +13,14 @@ import Account from '../pages/Account';
 import PaymentPage from '../pages/Payment/Payment';
 
 // admin pages
-import HomeAdmin from '../pages/Admin/Home';
+import ListUser from '../pages/ListUser';
+import ListRegister from '../pages/ListRegister';
+import ListInsurance from '../pages/ListInsurance';
+import DashBoard from '../pages/DashBoard';
+import ListRequest from '../pages/ListRequest';
+import AddInsurance from '../pages/AddInsurance';
+import UpdateInsurance from '../pages/UpdateInsurance';
+import DetailInsurance from '../pages/DetailInsurance';
 
 //
 const publicRoutes = [
@@ -27,9 +34,15 @@ const publicRoutes = [
     { path: '/account', component: Account },
     { path: '/payment', component: PaymentPage },
 
+    //private
+    { path: '/admin', component: DashBoard, layout: SidebarOnly },
+    { path: '/admin/registers', component: ListRegister, layout: SidebarOnly },
+    { path: '/admin/users', component: ListUser, layout: SidebarOnly },
+    { path: '/admin/insurances', component: ListInsurance, layout: SidebarOnly },
+    { path: '/admin/add-insurances', component: AddInsurance, layout: SidebarOnly },
+    { path: '/admin/update-insurances', component: UpdateInsurance, layout: SidebarOnly },
+    { path: '/admin/detail-insurance', component: DetailInsurance, layout: SidebarOnly },
+    { path: '/admin/request', component: ListRequest, layout: SidebarOnly },
 ];
 
-//
-const privateRoutes = [{ path: '/admin/', component: HomeAdmin }];
-
-export { publicRoutes, privateRoutes };
+export { publicRoutes };

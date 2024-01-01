@@ -1,6 +1,6 @@
 .slideshow-container {
     max-width: 100%;
-    max-height: 500px; /* Set a fixed height for the container */
+    max-height: 650px; /* Set a fixed height for the container */
     overflow: hidden; /* Hide overflow content */
     position: relative;
     margin: auto;
