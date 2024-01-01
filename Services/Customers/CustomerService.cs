@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entity.Exceptions;
 using Entity.Exceptions.Customer;
 using Entity.Models;
 using Entity.Models.Customers;
@@ -52,7 +53,7 @@ namespace Services.Customers
             var customers = await _repositoryManager.Customers.GetCustomers(false);
             if(customers.Count == 0)
             {
-                throw new Exception("Internal server error");
+                throw new ReturnBadRequestException("Internal server error");
             }
             return _mapper.Map<List<CustomerDto>>(customers);
         }

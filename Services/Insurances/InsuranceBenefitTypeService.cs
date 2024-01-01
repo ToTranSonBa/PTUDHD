@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entity.Exceptions;
 using Entity.Models.InsuranceModels;
 using Service.Contracts.Insurances;
 using Shared.EntityDtos.Insurances.InsuranceBenefit;
@@ -36,7 +37,7 @@ namespace Services.Insurances
             var benefitTypes = await _repositoryManager.InsuranceBenefitType.GetAll(false);
             if(benefitTypes.Count == 0)
             {
-                throw new Exception();
+                throw new ReturnNotFoundException("Benefit type not found");
             }
             var returnBenefitTypes = _mapper.Map<List<InsuranceBenefitTypeDto>>(benefitTypes);
             return returnBenefitTypes;

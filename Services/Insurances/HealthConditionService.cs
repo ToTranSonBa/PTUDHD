@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entity.Exceptions;
 using Entity.Models.InsuranceModels;
 using Service.Contracts.Insurances;
 using Shared.EntityDtos.Insurances.HealthCondition;
@@ -38,7 +39,7 @@ namespace Services.Insurances
             var condition = _mapper.Map<HealthCondition>(conditionDto);
             var result = _repository.HealthConditions.Add(condition);
             if (!result)
-                throw new Exception();
+                throw new ReturnBadRequestException("Condition is added unsuccessfully");
             await _repository.SaveAsync();
             var conditionReturn = _mapper.Map<HealthConditionDto>(condition);
             return conditionReturn;

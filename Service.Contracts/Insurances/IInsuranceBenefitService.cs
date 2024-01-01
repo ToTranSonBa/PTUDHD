@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.EntityDtos.Insurances.InsuranceBenefit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Service.Contracts.Insurances
 {
     public interface IInsuranceBenefitService
     {
+        Task AddBenefit(int benefitTypeId, AddInsuranceBenefitDto benefitDto);
     }
 }

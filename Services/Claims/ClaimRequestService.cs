@@ -1,7 +1,10 @@
 ﻿using Contracts;
+using Entity.Exceptions;
 using Entity.Models.Claim;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Service.Contracts.Claims;
 using Shared.EntityDtos.Claim;
+using Shared.EntityDtos.Contract;
 
 namespace Services.Claims
 {
@@ -11,13 +14,39 @@ namespace Services.Claims
         public ClaimRequestService(IRepositoryManager repositoryManager) { 
             _repository = repositoryManager;
         }
+        private async Task<ClaimRequestDto> ConvertEntityToDto(ClaimRequest request)
+        {
+            var dto = new ClaimRequestDto
+            {
+                CreatedDate = request.CreatedDate,
+                ContractId = request.ContractId,
+                MedicalCondition = request.MedicalCondition,
+                MedicalHistory = request.MedicalHistory,
+                Status = request.Status,
+                CustomerId = request.Customer.CustomerId,
+                CustomerName = request.Customer.Name
+            };
+            var contract = await _repository.Contracts.GetContractsById(request.ContractId.GetValueOrDefault(), false);
+            dto.ProductName = contract.InsuranceProduct.PolicyName;
+            return dto;
+        }
         public async Task CreateRequest(CreateClaimRequestDto requestDto)
         {
+            var Contract = await _repository.Contracts.GetContractsById(requestDto.ContractId, false);
+            if(Contract == null)
+            {
+                throw new ReturnBadRequestException($"Contract with id: {requestDto.ContractId} dose not exist ");
+            }
+            var customer = (await _repository.Customers.GetCustomerAsnyc(requestDto.CustomerId, false));
+            if (customer == null)
+            {
+                throw new ReturnBadRequestException($"Customer with id: {requestDto.CustomerId} dose not exist ");
+            }
             var newRequest = new ClaimRequest
             {
                 CreatedDate = requestDto.RequestDate,
-                ContractId = (await _repository.Contracts.GetContractsById(requestDto.ContractId, false)).Id,
-                CustomerId = (await _repository.Customers.GetCustomerAsnyc(requestDto.CustomerId, false)).Id,
+                ContractId = Contract.Id,
+                CustomerId = customer.Id,
                 MedicalCondition = requestDto.MedicalCondition,
                 MedicalHistory = requestDto.MedicalHistory,
                 Status = RequestStatus.Waiting.ToString()
@@ -39,16 +68,17 @@ namespace Services.Claims
             var returnRequest = new List<ClaimRequestDto>();
             foreach(var request in requests)
             {
-                returnRequest.Add(new ClaimRequestDto
-                {
-                    CreatedDate = request.CreatedDate,
-                    ContractId = request.ContractId,
-                    MedicalCondition = request.MedicalCondition,
-                    MedicalHistory = request.MedicalHistory,
-                    Status = request.Status,
-                    CustomerId = request.Customer.CustomerId,
-                    CustomerName = request.Customer.Name
-                });
+                returnRequest.Add(await ConvertEntityToDto(request));
+            }
+            return returnRequest;
+        }
+        public async Task<List<ClaimRequestDto>> GetClaimRequestByStatus(RequestStatus Status)
+        {
+            var requests = await _repository.ClaimRequests.GetRequestByStatus(Status.ToString(), false);
+            var returnRequest = new List<ClaimRequestDto>();
+            foreach (var request in requests)
+            {
+                returnRequest.Add(await ConvertEntityToDto(request));
             }
             return returnRequest;
         }

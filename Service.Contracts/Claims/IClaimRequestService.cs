@@ -1,4 +1,5 @@
-﻿using Shared.EntityDtos.Claim;
+﻿using Entity.Models.Claim;
+using Shared.EntityDtos.Claim;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Service.Contracts.Claims
     {
         Task CreateRequest(CreateClaimRequestDto requestDto);
         Task<List<ClaimRequestDto>> GetClaimRequestOfCustomer(int cusotmerId);
+        Task<List<ClaimRequestDto>> GetClaimRequestByStatus(RequestStatus Status);
     }
 }

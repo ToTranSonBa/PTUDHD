@@ -13,6 +13,7 @@ namespace Shared.EntityDtos.Claim
         public string? MedicalHistory { get; set; }
         public string? Status { get; set; }
         public Guid? ContractId { get; set; }
+        public string? ProductName { get; set; }
         public int? CustomerId { get; set; }
         public string CustomerName { get; set; }
     }

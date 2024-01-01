@@ -9,6 +9,5 @@ namespace Shared.EntityDtos.Insurances.InsuranceBenefit
     public class AddInsuranceBenefitTypeDto
     {
         public string? Name { get; set; }
-        public List<AddInsuranceBenefitDto> Benefits { get; set; }
     }
 }

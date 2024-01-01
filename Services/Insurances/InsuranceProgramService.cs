@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entity.Exceptions;
 using Entity.Models.InsuranceModels;
 using Service.Contracts.Insurances;
 using Shared.EntityDtos.Insurances;
@@ -33,7 +34,7 @@ namespace Services.Insurances
             var result = _repositoryManager.InsurancePrograms.Add(program);
             if (!result)
             {
-                throw new Exception();
+                throw new ReturnBadRequestException($"Program is added unscessfully");
             }
             await _repositoryManager.SaveAsync();
             var programReturn = _mapper.Map<InsuranceProgramDto>(program);

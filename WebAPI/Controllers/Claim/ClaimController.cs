@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Entity.Models.Claim;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.EntityDtos.Claim;
@@ -20,7 +21,7 @@ namespace WebAPI.Controllers.Claim
             await _service.ClaimRequests.CreateRequest(claimRequestDto);
             return StatusCode(StatusCodes.Status201Created);
         }
-        [HttpGet("int:CustomerId")] 
+        [HttpGet("CustomerId")] 
         public async Task<IActionResult> GetRequestOfCustomer(int customerId)
         {
             var result = await _service.ClaimRequests.GetClaimRequestOfCustomer(customerId);
@@ -29,6 +30,11 @@ namespace WebAPI.Controllers.Claim
                 return NoContent();
             }
             return Ok(result);
+        }
+        [HttpGet("status/{status}")]
+        public async Task<IActionResult> GetRequestsByStatus(RequestStatus status)
+        {
+            return Ok(await _service.ClaimRequests.GetClaimRequestByStatus(status));
         }
     }
 }

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entity.Exceptions
 {
-    public abstract class NotFoundException : Exception
+    public class ReturnBadRequestException : BadRequestException
     {
-        protected NotFoundException(string message)
-            : base(message)
+        public ReturnBadRequestException(string message) : base(message)
         {
         }
     }

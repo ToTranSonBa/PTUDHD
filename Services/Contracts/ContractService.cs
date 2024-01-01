@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entity.Exceptions;
 using Entity.Models.Customers;
 using Entity.Models.InsuranceContractModels;
 using Entity.Models.InsuranceModels;
@@ -36,16 +37,16 @@ namespace Services.Contracts
         public async Task<ContractDto> CreateContract(RegisterContractDto registerContractDto)
         {
             if (registerContractDto == null)
-                throw new Exception($"Register Contract is null.");
+                throw new ReturnNotFoundException($"Register Contract is null.");
             // ktra sản phẩm bảo hiểm tồn tại không
             var product = await _repositoryManager.InsuranceProducts.GetById(registerContractDto.ProductId, false);
             if(product == null)
-                throw new Exception($"Product with Id: {registerContractDto.ProductId} don't exits");
+                throw new ReturnNotFoundException($"Product with Id: {registerContractDto.ProductId} don't exits");
 
             // kiem tra chuong trinh
             var program = await _repositoryManager.InsurancePrograms.GetById(registerContractDto.ProgramId);
             if (program == null)
-                throw new Exception($"Proram with Id: {registerContractDto.ProgramId} don't exits");
+                throw new ReturnNotFoundException($"Proram with Id: {registerContractDto.ProgramId} don't exits");
 
             var customer = await _repositoryManager.Customers.GetCustomerByEmail(registerContractDto.Customer.Email, false);
             // khách hàng không tồn tại thì thêm khách hàng
@@ -87,7 +88,7 @@ namespace Services.Contracts
             }
 
             if (!_repositoryManager.Contracts.CreateContract(contract))
-                throw new Exception("Contract can not be created");
+                throw new ReturnBadRequestException("Contract can not be created");
             await _repositoryManager.SaveAsync();
             var contractConvert = await _repositoryManager.Contracts.GetContractsById(contract.ContractId, false);
             var returnContract = await ConvertEntityToDto(contractConvert);
@@ -142,7 +143,7 @@ namespace Services.Contracts
             var contract = await _repositoryManager.Contracts.GetContractsById(ContractId, true);
             if (contract == null)
             {
-                throw new Exception($"Contract with id: {ContractId} dose not exist!");
+                throw new ReturnNotFoundException($"Contract with id: {ContractId} dose not exist!");
             }
             contract.Status = ContractStatus.Using.ToString();
             await _repositoryManager.SaveAsync();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entity.Exceptions;
 using Entity.Exceptions.Insurance;
 using Entity.Models.InsuranceModels;
 using Service.Contracts.Insurances;
@@ -172,7 +173,7 @@ namespace Services.Insurances
                 var benefitType = await _repositoryManager.InsuranceBenefitType.GetByIdAsync(benefitTypeDto.BenefitTypeId, false);
                 if(benefitType == null)
                 {
-                    throw new Exception();
+                    throw new ReturnNotFoundException($"Benefit type with id: {benefitTypeDto.BenefitTypeId} not found");
                 }
                 product.BenefitTypes.Add(benefitType);
                 foreach(var benefit in benefitTypeDto.Benefits)
