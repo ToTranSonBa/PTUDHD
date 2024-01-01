@@ -1,3 +1,5 @@
+
+
 //Layouts
 import { HeaderOnly, SidebarOnly } from '../components/Layout';
 
@@ -47,4 +49,12 @@ const publicRoutes = [
     { path: '/admin/request', component: ListRequest, layout: SidebarOnly },
 ];
 
+<<<<<<< Updated upstream
 export { publicRoutes };
+=======
+//
+const privateRoutes = [{ path: '/admin/', component: HomeAdmin }];
+
+
+export { publicRoutes, privateRoutes };
+>>>>>>> Stashed changes

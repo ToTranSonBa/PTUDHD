@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
+
 
 import styles from './Register.module.scss';
 import Banner from '../../assets/image/banner-top.jpg';
@@ -9,17 +10,22 @@ import Banner from '../../assets/image/banner-top.jpg';
 import { RiHealthBookFill } from 'react-icons/ri';
 import { GiHealthNormal } from 'react-icons/gi';
 
-import { RegisterProductApi } from '../../services/ApiRegister/Register'
-import { PaymentApi } from '../../services/ApiPayment/Payment'
+import { RegisterProductApi, RegisterCustomerApi, RegisterContractApi } from '../../services/ApiRegister/Register'
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
 function Register() {
 
-
+    let negative = useNavigate();
     const [activeSection, setActiveSection] = useState('information_insurance');
     const [productData, setProductData] = useState({});
     const [selectedProgram, setSelectedProgram] = useState(null);
+    const [startDay, setStartDay] = useState('');
+    const [toDay, setToDay] = useState('');
+    const [checkQuestionOne, setCheckQuestionOne] = useState(false);
+    const [checkQuestionTwo, setCheckQuestionTwo] = useState(false);
+    const [totalFee, setTotalFee] = useState(0);
 
     //
     const handelProductDescription = () => {
@@ -47,22 +53,71 @@ function Register() {
     const handleProgramChange = (programId) => {
         // Cập nhật state khi chọn một chương trình mới
         setSelectedProgram(programId);
+        calculateTotalFee(programId);
     };
 
+    const calculateTotalFee = (programId) => {
+        const selectedProgramPrice = productData.programPrice.find(
+            (price) => price.programId === programId
+        );
+
+        if (selectedProgramPrice) {
+            // Lấy giá trị từ programPrice của chương trình được chọn
+            const totalProgramFee = selectedProgramPrice.price;
+
+            // Cập nhật state cho tổng phí
+            setTotalFee(totalProgramFee);
+        }
+        else {
+            setTotalFee(0);
+        }
+    };
+
+    const handleDateChange = (event, setter) => {
+        const selectedDate = event.target.value;
+        setter(selectedDate);
+    };
+
+    const handleCheckHealth = (event, setter) => {
+        const selectedHealth = event.target.checked;
+        if (selectedHealth) {
+            toast.error("Bạn không đủ điều kiện sức khỏe để đăng kí bảo Hiểm");
+        }
+    };
     const handlePayment = async () => {
-        const user = localStorage.getItem('token');
-        // Phân tách token thành ba phần: Header, Payload, Signature
-        var parts = user.split('.');
 
-        // Giải mã Payload
-        var decodedPayload = JSON.parse(atob(parts[1]));
 
-        // Lấy giá trị của thuộc tính "emailaddress"
-        var emailAddress = decodedPayload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
 
-        const paymentLink = await PaymentApi();
-        window.open(paymentLink);
+        try {
+            if (!startDay || !toDay) {
+                toast.error('Vui lòng chọn cả hai ngày');
+            }
+            else {
+                const user = localStorage.getItem('token');
+                // Phân tách token thành ba phần: Header, Payload, Signature
+                let parts = user.split('.');
+
+                // Giải mã Payload
+                let decodedPayload = JSON.parse(atob(parts[1]));
+
+                // Lấy giá trị của thuộc tính "emailaddress"
+                let emailAddress = decodedPayload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+                const customer = await RegisterCustomerApi(emailAddress);
+
+                await RegisterContractApi(3, selectedProgram, startDay, toDay, totalFee, 0, customer, [{ id: 1, status: true }]);
+                toast.success('Đăng kí thành công');
+                negative("/");
+                // const linkMomo = contract.linkPayment;
+                // window.open(linkMomo);
+            }
+
+        } catch (error) {
+            toast.error('Đăng kí thất bại');
+        }
+
+
     }
+
 
     return (
         <>
@@ -95,11 +150,11 @@ function Register() {
                                 <div className={cx('insurance_duration')}>
                                     <div>
                                         <span>Thời hạn BH từ</span>
-                                        <input type="date" />
+                                        <input value={startDay} onChange={(event) => handleDateChange(event, setStartDay)} type="date" />
                                     </div>
                                     <div>
                                         <span>Đến</span>
-                                        <input type="date" />
+                                        <input value={toDay} onChange={(event) => handleDateChange(event, setToDay)} type="date" />
                                     </div>
                                 </div>
                                 <div className={cx('insurance_policy')}>
@@ -119,7 +174,7 @@ function Register() {
                                             <div key={benefitType.benefitTypeId}>
                                                 {benefitType.benefits.map((benefitDetail) => (
                                                     <div key={benefitDetail.benefitId}>
-                                                        <input type="checkbox"></input>
+                                                        <input type="checkbox" checked={true}></input>
                                                         <span>{benefitDetail.benefitName}</span>
                                                         {benefitDetail.benefitProgramCosts
                                                             .filter((programCost) => programCost.programId === selectedProgram)
@@ -140,7 +195,7 @@ function Register() {
 
                                 <div className={cx('fee')}>
                                     <span>Phí</span>
-                                    <input type="text" value='600000 VNĐ' readOnly />
+                                    <input type="text" value={`${totalFee} VND`} readOnly />
                                 </div>
                             </div>
 
@@ -179,7 +234,8 @@ function Register() {
                                             type="checkbox"
                                             id="ctl00_ContentPlaceHolder1_ckC"
                                             className={cx('css_checkbox')}
-                                            onchange="bhhd_ngsk_TT(this)"
+                                            checked={checkQuestionOne}
+                                            onChange={(event) => handleCheckHealth(event, setCheckQuestionOne)}
                                         />
                                         <span className={cx('form-check-label')} style={{ paddingRight: '200px' }}>
                                             Có
@@ -191,7 +247,7 @@ function Register() {
                                             id="ctl00_ContentPlaceHolder1_ckK"
                                             className={cx('css_checkbox', 'form-check-input')}
                                             style={{ paddingLeft: '200px' }}
-                                            onchange="bhhd_ngsk_TT(this)"
+                                            onChange="bhhd_ngsk_TT(this)"
                                             checked="checked"
                                         />
                                         <span className={cx('form-check-label')}>Không</span>
@@ -235,7 +291,8 @@ function Register() {
                                             type="checkbox"
                                             id="ctl00_ContentPlaceHolder1_ccC"
                                             className={cx('css_checkbox')}
-                                            onchange="bhhd_ngsk_TT2(this)"
+                                            checked={checkQuestionTwo}
+                                            onChange={(event) => handleCheckHealth(event, setCheckQuestionTwo)}
                                         />
                                         <span className={cx('form-check-label')} style={{ paddingRight: '200px' }}>
                                             Có
@@ -729,7 +786,7 @@ function Register() {
                         </div>
                         <div className={cx('col', 'column', 'align-right')}>
                             <span id={cx('phi_tien_phi')} tenkieu="gchu" ten_goc="tien_phi" kieu_unicode="C" kt_xoa="K">
-                                0
+                                {totalFee}
                             </span>
                             <span id={cx('vndphi')} className={cx('price')}>
                                 {' '}
@@ -744,7 +801,7 @@ function Register() {
                         </div>
                         <div className={cx('col', 'column', 'align-right')}>
                             <span id={cx('phi_tien_phi')} tenkieu="gchu" ten_goc="tien_phi" kieu_unicode="C" kt_xoa="K">
-                                0
+                                {totalFee}
                             </span>
                             <span id={cx('vndphi')} className={cx('price')}>
                                 {' '}
@@ -756,7 +813,7 @@ function Register() {
                     <button className={cx('pay-btn')}
                         onClick={() => handlePayment()}
                     >
-                        Thanh toán
+                        Đăng kí
                     </button>
                 </div>
             </div >

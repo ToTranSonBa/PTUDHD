@@ -1,20 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import styles from './Product.module.scss';
 import Banner from '../../assets/image/banner-top.jpg';
 
+import { ProductApi } from '../../services/ApiProduct/Product'
+
 const cx = classNames.bind(styles);
 
-function Product() {
+const Product = () => {
+    const { id } = useParams();
     const [activeSection, setActiveSection] = useState('product_des');
     const [activeProgram, setactiveProgram] = useState('');
     const [buttonTop, setButtonTop] = useState(0);
 
+    const [productData, setProductData] = useState({});
+
     const handelProductDescription = () => {
         setActiveSection('product_des');
+
     };
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+    const fetchData = async () => {
+        try {
+            const response = await ProductApi(id); // Thay "yourApiCall" bằng hàm gọi API của bạn
+            console.log(">>> check product: ", response);
+            // Lưu dữ liệu vào state
+            setProductData(response);
+        } catch (error) {
+            console.error(">>> Error fetching data: ", error);
+        }
+    }
+    const conditions = productData && productData.conditions ? productData.conditions : [];
 
     //
     const handelBenifit = () => {
@@ -44,6 +65,7 @@ function Product() {
     const programHandleDiamond = () => {
         setactiveProgram('diamond');
     };
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -92,9 +114,7 @@ function Product() {
                             hiện những ước mơ, hoài bão.
                         </h5>
                         <h5>
-                            Chính vì thế, gói bảo hiểm Health Care ra đời như một giải pháp giúp nâng cao chất lượng
-                            cũng như giá trị cuộc sống. Theo đó, sản phẩm được thiết kế với mức bồi thường tối đa lên
-                            tới 1.000.000.000 vnđ/người/năm
+                            {productData.shortDescription}
                         </h5>
                     </div>
 
@@ -103,37 +123,24 @@ function Product() {
                             <span>Đối tượng được Bảo hiểm</span>
                         </h3>
                         <span>
-                            Công dân Việt Nam hoặc người nước ngoài công tác, học tập tại Việt Nam độ tuổi từ 15 ngày
-                            tuổi tới 65 tuổi, bảo hiểm tối đa đến 70 tuổi nếu Người được bảo hiểm tái tục liên tục tại
-                            AAA từ năm 65 tuổi loại trừ:
+                            {productData.insuredParty}
                         </span>
                         <p>
-                            - Những người bị bệnh tâm thần, bệnh phong, hội chứng down, tự kỷ
-                            <br />
-                            - Những người bị thương tật vĩnh viễn từ 50% trở lên
-                            <br />- Những người đang trong thời gian điều trị bệnh hoặc thương tật hoặc bị ung thư.
+                            {conditions.map((condition, index) => (
+                                <React.Fragment key={index}>
+                                    - {condition.name}
+                                    <br />
+                                </React.Fragment>
+                            ))}
                         </p>
-                        <span>Điều này chỉ áp dụng đối với các trường hợp tham gia bảo hiểm năm đầu tiên.</span>
-                        <p>
-                            - Trường hợp tham gia bảo hiểm không đúng đối tượng và điều kiện quy định trên, AAA có quyền
-                            chấm dứt bảo hiểm, không chịu trách nhiệm với quyền lợi bảo hiểm đã đăng ký và không hoàn
-                            phí bảo hiểm
-                            <br />
-                            - Trẻ em từ 15 ngày tuổi đến 06 tuổi bắt buộc mua kèm với bố/mẹ hoặc bố/mẹ đã tham gia ít
-                            nhất 01 chương trình bảo hiểm sức khỏe AAA Care còn hiệu lực tại AAA và gói bảo hiểm của con
-                            chỉ được áp dụng mức tương đương hoặc thấp hơn gói bảo hiểm của bố hoặc mẹ (bao gồm cả điều
-                            khoản chính và điều khoản bổ sung). Trường hợp trẻ từ 15 ngày tuổi đến 06 tuổi muốn tham gia
-                            độc lập cần tăng phí 30%.
-                            <br />- Nguyên tắc tính tuổi tham gia: Là tuổi của Người được bảo hiểm vào ngày có hiệu lực
-                            của Hợp đồng bảo hiểm tính theo lần sinh nhật liền kề trước ngày Hợp đồng có hiệu lực
-                        </p>
+
                     </div>
 
                     <div className={cx('country')}>
                         <h3 className={cx('under-title')}>
                             <span>PHẠM VI LÃNH THỔ:</span>
                         </h3>
-                        <small>Việt Nam</small>
+                        <small>{productData.territorialScope}</small>
                     </div>
 
                     <div className={cx('additional_term')}>
@@ -141,8 +148,7 @@ function Product() {
                             <span>QUYỀN LỢI BẢO HIỂM BỔ SUNG:</span>
                         </h3>
                         <small>
-                            Điều trị ngoại trú do ốm đau, bệnh tật; Bảo hiểm Nha khoa; Bảo hiểm Thai sản; Tử vong,
-                            thương tật toàn bộ vĩnh viễn không phải do nguyên nhân tai nạn
+                            {productData.feeGuarantee}
                         </small>
                     </div>
                     <div className={cx('parti_procedure')}>
@@ -164,19 +170,7 @@ function Product() {
                             <span>CAM KẾT:</span>
                         </h3>
                         <p>
-                            Tôi cam kết thông tin khai báo là chính xác, trung thực và hoàn toàn chịu trách nhiệm về các
-                            thông tin đã khai báo.
-                            <br />
-                            Đồng thời, tôi đã đọc, hiểu rõ và đã được Bên bảo hiểm cung cấp, giải thích rõ ràng, đầy đủ
-                            điều kiện điều khoản bảo hiểm, điều khoản loại trừ bảo hiểm trong Quy tắc bảo hiểm của AAA.
-                            <br />
-                            Trường hợp không có mối quan hệ với người được bảo hiểm (Vợ, chồng, cha, mẹ, con, anh ruột,
-                            chị ruột, em ruột hoặc người khác có quan hệ nuôi dưỡng, cấp dưỡng hoặc người có quyền lợi
-                            về tài chính hoặc quan hệ lao động) thì tôi cam kết đã được sự đồng ý của người được bảo
-                            hiểm về việc tham gia chương trình bảo hiểm.
-                            <br />
-                            Trường hợp thông tin khai báo có sự sai sót, không trung thực, AAA được quyền từ chối một
-                            phần hoặc toàn bộ số tiền bồi thường liên quan.
+                            {productData.commitment}
                         </p>
                     </div>
                 </section>
