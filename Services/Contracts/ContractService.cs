@@ -148,5 +148,24 @@ namespace Services.Contracts
             contract.Status = ContractStatus.Using.ToString();
             await _repositoryManager.SaveAsync();
         }
+        public async Task<List<ContractDto>> GetContractByCustomerIdAndStatus(int customerId, ContractStatus status)
+        {
+            var customer = await _repositoryManager.Customers.GetCustomerAsnyc(customerId, false);
+            if (customer == null)
+            {
+                throw new ReturnNotFoundException($"Customer with id: {customerId} dose not exist");
+            }
+            var contracts = await _repositoryManager.Contracts.GetContractsByCustomerIdAndStatus(customer.Id, status.ToString(), false);
+            if(contracts.Count() == 0)
+            {
+                throw new ReturnNoContentException("");
+            }
+            var rContracts = new List<ContractDto>();
+            foreach (var contract in contracts)
+            {
+                rContracts.Add(await ConvertEntityToDto(contract));
+            }
+            return rContracts;
+        }
     }
 }

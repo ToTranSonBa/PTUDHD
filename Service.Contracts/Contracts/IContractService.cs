@@ -15,5 +15,6 @@ namespace Service.Contracts.Contracts
         Task<List<ContractDto>> GetContractByStatus(ContractStatus status);
         Task<ContractDto> GetContractById(Guid Id);
         Task UpdateStatusFromUnpaidToPaid(Guid ContractId);
+        Task<List<ContractDto>> GetContractByCustomerIdAndStatus(int customerId, ContractStatus status);
     }
 }

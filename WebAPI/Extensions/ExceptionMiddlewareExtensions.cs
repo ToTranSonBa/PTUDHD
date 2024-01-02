@@ -23,6 +23,7 @@ namespace WebAPI.Extensions
                         {
                             NotFoundException => StatusCodes.Status404NotFound,
                             BadRequestException => StatusCodes.Status400BadRequest,
+                            NoContentException => StatusCodes.Status204NoContent,
                             _ => StatusCodes.Status500InternalServerError
                         };
 
