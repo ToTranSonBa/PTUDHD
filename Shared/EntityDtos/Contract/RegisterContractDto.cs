@@ -20,6 +20,8 @@ namespace Shared.EntityDtos.Contract
         public DateTime EndDate { get; init; }
         [Required]
         public float TotalPrice { get; init; }
+        public string HealthDeclaration { get; set; }
+
         [Required]
         public int PaymentMethod { get; init; }
         [Required]

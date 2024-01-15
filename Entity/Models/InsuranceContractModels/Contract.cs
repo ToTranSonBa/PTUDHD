@@ -21,6 +21,7 @@ namespace Entity.Models.InsuranceContractModels
         public DateTime? EndDate { get; set; }
         public float? TotalPrice { get; set; }
         public string? Status { get; set; }
+        public string? HealthDeclaration { get; set; }
         public Guid? CustomerID { get; set; }
         public Guid? EmployeeID { get; set; }
         public Guid? InsuranceProductId { get; set; }
@@ -33,10 +34,10 @@ namespace Entity.Models.InsuranceContractModels
     }
     public enum ContractStatus
     {
-        Unpaid,
-        Waiting,
-        Cancelled,
-        Using,
-        Expired,
+        Unpaid, //0
+        Waiting, // 1
+        Cancelled, // 2
+        Using, // 3
+        Expired, //4
     }
 }
