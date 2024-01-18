@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 
@@ -21,6 +22,14 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetCustomer()
         {
             return Ok(await _services.Customers.GetCustomers());
+        }
+        [Authorize(Roles ="Customer")]
+        [HttpGet("getinformation")] 
+        public async Task<IActionResult> GetInformation()
+        {
+            var customerEmail = HttpContext.User.Claims.ElementAt(0).Value;
+            var customer = await _services.Customers.GetCustomerByEmail(customerEmail);
+            return Ok(customer);
         }
     }
 }
