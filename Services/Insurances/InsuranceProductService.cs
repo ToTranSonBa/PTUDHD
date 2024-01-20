@@ -125,7 +125,7 @@ namespace Services.Insurances
                 ParticipationProcedure = productDto.ParticipationProcedure,
                 TerritorialScope = productDto.TerritorialScope,
                 ShortDescription = productDto.ShortDescription,
-                ImageUrl = ImageHelper.Upload(productDto.ImageUrl)
+                ImageUrl = productDto.ImageUrl
             };
             var check = _repositoryManager.InsuranceProducts.Add(product);
 
