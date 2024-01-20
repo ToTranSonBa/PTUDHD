@@ -6,4 +6,4 @@ const ServicesProductApi = async () => {
 
 export {
     ServicesProductApi
-};
+}; 

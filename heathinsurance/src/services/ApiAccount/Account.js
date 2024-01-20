@@ -1,14 +1,13 @@
 import axios from '../axios-customize';
 
-const GetContractApi = async (customerId, status) => {
-    return axios.get(`/Contract/${customerId}/status/${status}`);
-};
-
-const RegisterCustomerApi = async (email) => {
+const AccountCustomerApi = async (email) => {
     return axios.get(`/customer/${email}`);
 };
 
+const ContractsCustomerApi = async (CustomerDd, status) => {
+    return axios.get(`Contract/${CustomerDd}/status/${status}`);
+};
 
 export {
-    GetContractApi, RegisterCustomerApi
+    AccountCustomerApi, ContractsCustomerApi
 };

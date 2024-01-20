@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 
@@ -16,16 +16,205 @@ import { toast } from 'react-toastify';
 const cx = classNames.bind(styles);
 
 function Register() {
-
+    const { id } = useParams();
     let negative = useNavigate();
     const [activeSection, setActiveSection] = useState('information_insurance');
     const [productData, setProductData] = useState({});
-    const [selectedProgram, setSelectedProgram] = useState(null);
+    const [selectedProgram, setSelectedProgram] = useState(1);
     const [startDay, setStartDay] = useState('');
     const [toDay, setToDay] = useState('');
-    const [checkQuestionOne, setCheckQuestionOne] = useState(false);
-    const [checkQuestionTwo, setCheckQuestionTwo] = useState(false);
     const [totalFee, setTotalFee] = useState(0);
+    const [answers, setAnswers] = useState([]);
+
+    let listDisease = [
+        {
+            listOne: "Bệnh hệ thần kinh",
+            Disease: [
+                {
+                    number: 1,
+                    name: 'Viêm hệ thần kinh trung ương (Não)',
+                    status: false
+                }, {
+                    number: 2,
+                    name: 'Parkinson, Alzheimer',
+                    status: false
+                }, {
+                    number: 3,
+                    name: 'Thoái hóa khác của hệ thần kinh',
+                    status: false
+                }, {
+                    number: 4,
+                    name: 'Mất trí nhớ, hôn mê, bại não, liệt',
+                    status: false
+                }, {
+                    number: 5,
+                    name: 'Bỏng dưới độ III',
+                    status: false
+                }, {
+                    number: 6,
+                    name: 'Hội chứng Apallic',
+                    status: false
+                }, {
+                    number: 7,
+                    name: '	Phẫu thuật não',
+                    status: false
+                }, {
+                    number: 8,
+                    name: 'Viêm màng não, viêm não do virus',
+                    status: false
+                }, {
+                    number: 9,
+                    name: 'Xơ cứng rải rác (đa xơ cứng)',
+                    status: false
+                }, {
+                    number: 10,
+                    name: 'Loạn dưỡng cơ',
+                    status: false
+                }, {
+                    number: 11,
+                    name: 'Nhược cơ',
+                    status: false
+                }, {
+                    number: 12,
+                    name: 'Bỏng nặng từ độ III trở lên',
+                    status: false
+                }
+            ]
+        },
+        {
+            listOne: "Bệnh hệ hô hấp",
+            Disease: [
+                {
+                    number: 13,
+                    name: 'Suy phổi, tràn khí phổi, suy hô hấp mãn tính',
+                    status: false
+                }, {
+                    number: 14,
+                    name: 'Phẫu thuật cất bỏ 1 bên phổi',
+                    status: false
+                }, {
+                    name: 'Tăng áp động mạch phối',
+                    status: false
+                }, {
+                    number: 15,
+                    name: 'Bệnh phổi giai đoạn cuối',
+                    status: false
+                }
+            ]
+        },
+        {
+            listOne: "Bệnh hệ tuần hoàn",
+            Disease: [
+                {
+                    number: 16,
+                    name: 'Tim',
+                    status: false
+                }, {
+                    number: 17,
+                    name: 'Tăng áp lực động mạch vành vô căn',
+                    status: false
+                }, {
+                    number: 18,
+                    name: 'Mạch máu não/đột quy (xuất huyết não, xơ cứng động mạch)',
+                    status: false
+                }, {
+                    name: 'Nhồi máu cơ tim, suy tìm mắt bù, bệnh tim giai đoạn cuối',
+                    status: false
+                }, {
+                    number: 19,
+                    name: 'Phẫu thuật động mạch chủ/van tim, ghép tim',
+                    status: false
+                }, {
+                    number: 20,
+                    name: 'Phẫu thuật nối tắt động mạch vành',
+                    status: false
+                }
+            ]
+        },
+        {
+            listOne: "Bệnh hệ tiêu hóa",
+            Disease: [
+                {
+                    number: 21,
+                    name: 'Viêm gan A',
+                    status: false
+                }, {
+                    number: 22,
+                    name: 'Viêm gan B',
+                    status: false
+                }, {
+                    number: 23,
+                    name: 'Viêm gan C',
+                    status: false
+                }, {
+                    number: 24,
+                    name: 'Viêm gan siêu vi tối cấp',
+                    status: false
+                }, {
+                    number: 25,
+                    name: 'Xơ gan',
+                    status: false
+                }, {
+                    number: 26,
+                    name: 'Bệnh Crohn',
+                    status: false
+                }, {
+                    number: 27,
+                    name: 'Phẫu thuật gan',
+                    status: false
+                }, {
+                    number: 28,
+                    name: 'Suy gan (bệnh gan giai đoạn cuối)',
+                    status: false
+                }
+            ]
+        },
+        {
+            listOne: "Bệnh hệ tiết niệu",
+            Disease: [
+                {
+                    number: 29,
+                    name: 'Suy thận, teo thận, sỏi thận cả 2 bên',
+                    status: false
+                }, {
+                    number: 30,
+                    name: 'Chạy thận nhân tạo',
+                    status: false
+                }
+            ]
+        },
+        {
+            listOne: "Bệnh hệ nội tiết, dinh dưỡng, chuyển hóa",
+            Disease: [
+                {
+                    number: 31,
+                    name: 'Rối loạn tuyến giáp',
+                    status: false
+                }, {
+                    number: 32,
+                    name: 'Cường giáp',
+                    status: false
+                }, {
+                    number: 33,
+                    name: 'Suy giáp',
+                    status: false
+                }, {
+                    number: 34,
+                    name: 'Basedow (Bướu cổ)',
+                    status: false
+                }, {
+                    number: 35,
+                    name: 'Tiểu đường chỉ số trên 11 mmol/l Tiểu đường đã gây biến chứng',
+                    status: false
+                }, {
+                    number: 36,
+                    name: 'Tiểu đường chỉ số từ 8 - 10 mmol/l',
+                    status: false
+                }
+            ]
+        }
+    ]
+    const [diseaseList, setDiseaseList] = useState(listDisease);
 
     //
     const handelProductDescription = () => {
@@ -38,13 +227,21 @@ function Register() {
     useEffect(() => {
         fetchData()
     }, [])
+    useEffect(() => {
+        calculateTotalFee(selectedProgram);
+    }, [productData])
 
     const fetchData = async () => {
         try {
-            const response = await RegisterProductApi(); // Thay "yourApiCall" bằng hàm gọi API của bạn
+            const response = await RegisterProductApi(id);
 
-            // Lưu dữ liệu vào state
             setProductData(response);
+            const initialAnswers = response.conditions.map((condition) => ({
+                id: condition.healthConditionId,
+                status: false,
+            }));
+            setAnswers(initialAnswers);
+
         } catch (error) {
             console.error(">>> Error fetching data: ", error);
         }
@@ -57,9 +254,9 @@ function Register() {
     };
 
     const calculateTotalFee = (programId) => {
-        const selectedProgramPrice = productData.programPrice.find(
+        const selectedProgramPrice = productData && productData.benefitType ? productData.programPrice.find(
             (price) => price.programId === programId
-        );
+        ) : 0;
 
         if (selectedProgramPrice) {
             // Lấy giá trị từ programPrice của chương trình được chọn
@@ -73,20 +270,18 @@ function Register() {
         }
     };
 
-    const handleDateChange = (event, setter) => {
+    const handleDateChange = (event, setDate) => {
         const selectedDate = event.target.value;
-        setter(selectedDate);
-    };
+        setDate(selectedDate);
 
-    const handleCheckHealth = (event, setter) => {
-        const selectedHealth = event.target.checked;
-        if (selectedHealth) {
-            toast.error("Bạn không đủ điều kiện sức khỏe để đăng kí bảo Hiểm");
+        // Nếu bạn muốn toDay là 1 năm sau startDay
+        if (setDate === setStartDay) {
+            const oneYearLater = new Date(selectedDate);
+            oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+            setToDay(oneYearLater.toISOString().split('T')[0]);
         }
     };
     const handlePayment = async () => {
-
-
 
         try {
             if (!startDay || !toDay) {
@@ -103,12 +298,14 @@ function Register() {
                 // Lấy giá trị của thuộc tính "emailaddress"
                 let emailAddress = decodedPayload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
                 const customer = await RegisterCustomerApi(emailAddress);
-
-                await RegisterContractApi(3, selectedProgram, startDay, toDay, totalFee, 0, customer, [{ id: 1, status: true }]);
+                const selectedDiseases = getDiseasesWithTrueStatus();
+                let selectedDiseasesString = "";
+                selectedDiseasesString = selectedDiseases.join(', ');
+                await RegisterContractApi(id, selectedProgram, startDay, toDay, totalFee, selectedDiseasesString, 0, customer, answers);
                 toast.success('Đăng kí thành công');
                 negative("/");
-                // const linkMomo = contract.linkPayment;
-                // window.open(linkMomo);
+
+
             }
 
         } catch (error) {
@@ -118,6 +315,80 @@ function Register() {
 
     }
 
+    const handleCheckboxChange = (healthConditionId, answer) => {
+        setAnswers((prevAnswers) =>
+            prevAnswers.map((ans) =>
+                ans.id === healthConditionId ? { ...ans, status: answer } : ans
+            )
+        );
+    };
+
+    const handleDiseaseCheckboxChange = (listOne, diseaseNumber) => {
+        // Tìm bệnh lý trong state diseaseList
+        const updatedList = diseaseList.map(category => {
+            if (category.listOne === listOne) {
+                return {
+                    ...category,
+                    Disease: category.Disease.map(disease => {
+                        if (disease.number === diseaseNumber) {
+                            return {
+                                ...disease,
+                                status: !disease.status, // Đảo ngược trạng thái
+                            };
+                        }
+                        return disease;
+                    }),
+                };
+            }
+            return category;
+        });
+
+        // Cập nhật state diseaseList
+        setDiseaseList(updatedList);
+    };
+
+    const renderDiseaseRows = () => {
+        return diseaseList.map((category, index) => (
+            <React.Fragment key={index}>
+                <tr>
+                    <td colSpan="3" style={{ fontWeight: 'bold' }}>
+                        {category.listOne}
+                    </td>
+                </tr>
+                {category.Disease.map((disease, subIndex) => (
+                    <tr key={subIndex}>
+                        <td>{disease.number}</td>
+                        <td>
+                            <span>{disease.name}</span>
+                        </td>
+                        <td>
+                            <input
+                                type="checkbox"
+                                className="css_checkbox"
+                                checked={disease.status} // Kết nối trạng thái checkbox với trạng thái của bệnh
+                                onChange={() => handleDiseaseCheckboxChange(category.listOne, disease.number)}
+                            />
+                        </td>
+                    </tr>
+                ))}
+            </React.Fragment>
+        ));
+    };
+
+    const getDiseasesWithTrueStatus = () => {
+        const diseasesWithTrueStatus = [];
+
+        // Lặp qua danh sách bệnh và kiểm tra trạng thái
+        diseaseList.forEach(category => {
+            category.Disease.forEach(disease => {
+                if (disease.status) {
+                    diseasesWithTrueStatus.push(disease.name);
+                }
+            });
+        });
+
+        return diseasesWithTrueStatus;
+    };
 
     return (
         <>
@@ -154,7 +425,7 @@ function Register() {
                                     </div>
                                     <div>
                                         <span>Đến</span>
-                                        <input value={toDay} onChange={(event) => handleDateChange(event, setToDay)} type="date" />
+                                        <input value={toDay} readOnly type="date" />
                                     </div>
                                 </div>
                                 <div className={cx('insurance_policy')}>
@@ -169,28 +440,25 @@ function Register() {
                                     </select>
                                 </div>
                                 <div className={cx('main_terms')}>
-                                    {selectedProgram !== null &&
-                                        productData.benefitType.map((benefitType) => (
-                                            <div key={benefitType.benefitTypeId}>
-                                                {benefitType.benefits.map((benefitDetail) => (
-                                                    <div key={benefitDetail.benefitId}>
-                                                        <input type="checkbox" checked={true}></input>
-                                                        <span>{benefitDetail.benefitName}</span>
-                                                        {benefitDetail.benefitProgramCosts
-                                                            .filter((programCost) => programCost.programId === selectedProgram)
-                                                            .map((filteredProgramCost) => (
-                                                                <input
-                                                                    key={filteredProgramCost.programId}
-                                                                    type="text"
-                                                                    value={`${filteredProgramCost.price}VNĐ`}
-                                                                    readOnly
-
-                                                                />
-                                                            ))}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ))}
+                                    {productData && productData.benefitType && Object.values(productData.benefitType).map((benefitType) => (
+                                        <div key={benefitType.benefitTypeId}>
+                                            {benefitType.benefits.map((benefitDetail) => (
+                                                <div key={benefitDetail.benefitId}>
+                                                    <span>{benefitDetail.benefitName}</span>
+                                                    {benefitDetail.benefitProgramCosts
+                                                        .filter((programCost) => programCost.programId === selectedProgram)
+                                                        .map((filteredProgramCost) => (
+                                                            <input
+                                                                key={filteredProgramCost.programId}
+                                                                type="text"
+                                                                value={`${filteredProgramCost.price}VNĐ`}
+                                                                readOnly
+                                                            />
+                                                        ))}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
                                 </div>
 
                                 <div className={cx('fee')}>
@@ -204,250 +472,43 @@ function Register() {
                                     <RiHealthBookFill />
                                     <h2>Thông tin tình trạng sức khỏe</h2>
                                 </div>
-                                <span className={cx('standard_labed', 'form-group', 'row')}>
-                                    <strong>
-                                        <u>Câu 1: </u>
-                                    </strong>
-                                    &nbsp; Người được bảo hiểm có thuộc các trường hợp dưới đây hay không?
-                                    <br />
-                                    <span style={{ paddingLeft: '40px' }}>
-                                        {' '}
-                                        - Những người bị bệnh tâm thần, bệnh phong, hội chứng down, tự kỷ;{' '}
-                                    </span>
-                                    <span style={{ paddingLeft: '40px' }}>
-                                        {' '}
-                                        - Những người bị thương tật vĩnh viễn từ 50% trở lên;{' '}
-                                    </span>
-                                    <span style={{ paddingLeft: '40px' }}>
-                                        {' '}
-                                        - Những người đang trong thời gian điều trị bệnh hoặc thương tật hoặc bị ung
-                                        thư.
-                                    </span>
-                                    <span>
-                                        {' '}
-                                        Điều này chỉ áp dụng đối với các trường hợp tham gia bảo hiểm năm đầu tiên.
-                                    </span>
-                                </span>
-                                <div className={cx('form-inline')} style={{ justifyContent: 'center' }}>
-                                    <div className={cx('form-inline')}>
-                                        <input
-                                            type="checkbox"
-                                            id="ctl00_ContentPlaceHolder1_ckC"
-                                            className={cx('css_checkbox')}
-                                            checked={checkQuestionOne}
-                                            onChange={(event) => handleCheckHealth(event, setCheckQuestionOne)}
-                                        />
-                                        <span className={cx('form-check-label')} style={{ paddingRight: '200px' }}>
-                                            Có
-                                        </span>
-                                    </div>
-                                    <div className={cx('form-inline', 'mx-md-3')}>
-                                        <input
-                                            type="checkbox"
-                                            id="ctl00_ContentPlaceHolder1_ckK"
-                                            className={cx('css_checkbox', 'form-check-input')}
-                                            style={{ paddingLeft: '200px' }}
-                                            onChange="bhhd_ngsk_TT(this)"
-                                            checked="checked"
-                                        />
-                                        <span className={cx('form-check-label')}>Không</span>
-                                    </div>
-                                </div>
-                                <span className={cx('standard_labed', 'form-group')}>
-                                    <strong>
-                                        <u></u>
-                                    </strong>
-                                    <p>
+                                {productData && productData.conditions && productData.conditions.length > 0 ? (productData.conditions.map((condition, index) => (
+                                    <div key={index} className="standard_labed form-group row">
                                         <strong>
-                                            <u>Câu 2:</u>
+                                            <u>Câu {index + 1}: </u>
                                         </strong>
-                                        &nbsp;Trong vòng 3 năm qua, Người được bảo hiểm đã từng được chẩn đoán, xuất
-                                        hiện triệu chứng phải đi khám, điều trị hay đã được chuyên gia y tế khuyên Người
-                                        được bảo hiểm phải điều trị hay không?
-                                    </p>
-                                </span>
-                                <span className={cx('standard_labed', 'form-group', 'row')}>
-                                    <strong>
-                                        <u>Lưu ý: </u>
-                                    </strong>
-                                    &nbsp;Người được bảo hiểm không trả lời ‘CÓ” đối với các bệnh/ tình trạng y tế dưới
-                                    đây:
-                                    <span style={{ paddingLeft: '40px' }}>
-                                        {' '}
-                                        - Phụ nữ sinh con (sinh thường, sinh mổ) mà không có biến chứng thai sản;
-                                    </span>
-                                    <span style={{ paddingLeft: '40px' }}>
-                                        {' '}
-                                        - Cúm và cảm lạnh theo mùa thông thường, viêm dạ dày cấp tính, viêm ruột thừa
-                                        cấp tính, viêm amidan cấp tính, nhiễm trùng đường tiết niệu, bệnh tả, thương
-                                        hàn, sốt xuất huyết mà Người được bảo hiểm đã được điều trị và đã hồi phục hoàn
-                                        toàn hoặc nếu Người được bảo hiểm sử dụng bất kỳ loại thực phẩm bổ sung sức khỏe
-                                        tổng quát nào.
-                                    </span>
-                                </span>
-                                <div className={cx('form-inline')} style={{ justifyContent: 'center' }}>
-                                    <div className={cx('form-inline')}>
-                                        <input
-                                            type="checkbox"
-                                            id="ctl00_ContentPlaceHolder1_ccC"
-                                            className={cx('css_checkbox')}
-                                            checked={checkQuestionTwo}
-                                            onChange={(event) => handleCheckHealth(event, setCheckQuestionTwo)}
-                                        />
-                                        <span className={cx('form-check-label')} style={{ paddingRight: '200px' }}>
-                                            Có
-                                        </span>
-                                    </div>
-                                    <div className={cx('form-inline', 'mx-md-3')}>
-                                        <input
-                                            type="checkbox"
-                                            id="ctl00_ContentPlaceHolder1_ccK"
-                                            className={cx('css_checkbox', 'form-check-input')}
-                                            onchange="bhhd_ngsk_TT2(this)"
-                                            style={{ paddingLeft: '200px' }}
-                                            checked="checked"
-                                        />
-                                        <span className={cx('form-check-label')}>Không</span>
-                                    </div>
-                                </div>
-                                <div
-                                    className={cx('form-wrap', ' row')}
-                                    id={cx('Upa_mota_benh')}
-                                    style={{ display: 'none' }}
-                                >
-                                    <span style={{ paddingLeft: '17px' }}>
-                                        {' '}
-                                        Nếu câu trả lời là có, yêu cầu mô tả chi tiết thời gian, tình trạng bệnh tật,
-                                        thương tật đã/đang điều trị:
-                                    </span>
-                                    <div className={cx('form-group', 'col-sm-12')}>
-                                        <span className={cx('input_label', 'col_15', 'iterm_form')}>Mô tả</span>
-                                        <div className={cx('input-group')}>
-                                            <textarea
-                                                name="ctl00$ContentPlaceHolder1$mota_benh"
-                                                rows="2"
-                                                cols="20"
-                                                id="ctl00_ContentPlaceHolder1_mota_benh"
-                                                className={cx('css_nd', ' form-control')}
-                                                ten_goc="mota_benh"
-                                                onkeyup="nd_up(event)"
-                                                placeholder="-- Mô tả chi tiết thời gian, tình trạng bệnh tật, thương tật đã/đang điều trị(nếu có) --"
-                                                onfocus="contro_select(this);"
-                                            ></textarea>
+                                        {condition.name}
+                                        <br />
+
+                                        <div className="form-inline" style={{ justifyContent: 'center' }}>
+                                            <div className="form-inline">
+                                                <input
+                                                    type="checkbox"
+                                                    className=" form-check-input"
+                                                    checked={answers && answers.length > 0 ? answers.find((ans) => ans.id === condition.healthConditionId)?.status === true ? true : false : false}
+                                                    onChange={() => handleCheckboxChange(condition.healthConditionId, true)}
+                                                />
+                                                <span className="form-check-label" style={{ paddingRight: '200px' }}>
+                                                    Có
+                                                </span>
+
+                                                <input
+                                                    type="checkbox"
+                                                    className=" form-check-input"
+                                                    style={{ paddingLeft: '200px' }}
+                                                    checked={answers && answers.length > 0 ? answers.find((ans) => ans.id === condition.healthConditionId)?.status === false ? true : false : true}
+                                                    onChange={() => handleCheckboxChange(condition.healthConditionId, false)}
+                                                />
+                                                <span className="form-check-label">Không</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                ))) : (
+                                    <p>không có dữ liệu</p>
+                                )}
 
-                                <span className={cx('standard_labed', 'form-group', 'row')} style={{ display: 'none' }}>
-                                    3. Người được bảo hiểm có mắc một hay các bệnh: bệnh ung thư, u bướu các loại, huyết
-                                    áp, tim mạch, viêm/loét dạ dày, viêm khớp, viêm gan (A,B,C), sỏi các loại trong hệ
-                                    thống bài tiết, viêm xoang, đái tháo đường, hen phế quản, viêm thận, thoái hóa
-                                    xương, trĩ, bệnh liên quan đến hệ thống tái tạo máu như lọc máu, thay máu, Parkinson
-                                </span>
-                                <div className={cx('form-inline')} style={{ display: 'none' }}>
-                                    <div className={cx('form-inline')}>
-                                        <input
-                                            type="checkbox"
-                                            id="ctl00_ContentPlaceHolder1_cuC"
-                                            className={cx('css_checkbox')}
-                                            onchange="bhhd_ngsk_TT3(this)"
-                                        />
-                                        <span className={cx('form-check-label')}>Có</span>
-                                    </div>
-                                    <div className={cx('form-inline', 'mx-md-3')}>
-                                        <input
-                                            type="checkbox"
-                                            id="ctl00_ContentPlaceHolder1_cuK"
-                                            checked="checked"
-                                            onchange="bhhd_ngsk_TT3(this)"
-                                            className={cx('css_checkbox', ' form-check-input')}
-                                        />
-                                        <span className={cx('form-check-label')}>Không</span>
-                                    </div>
-                                </div>
-
-                                <button
-                                    style={{ margin: '5px' }}
-                                    className={cx('declare_heathy')}
-                                    onClick={handelHeathInfor}
-                                >
-                                    <Link to="">Khai báo tình trạng sức khỏe</Link>
-                                </button>
-                                {/* <div
-                                    className={cx('form-inline', ' button-bill', 'declare_heathy')}
-                                    style={{ justifyContent: 'center' }}
-                                >
-                                    <div
-                                        id="QPa_thanhtoans"
-                                        className={cx('btn', 'mic-btn-base', 'tt_ac css_tab_ngang_de')}
-                                        style={{ margin: '5px' }}
-                                    >
-                                        <div id="UPa_thanhtoans" onclick="bhhd_ngskK_khaibao()">
-                                            Khai báo tình trạng sức khỏe
-                                        </div>
-                                    </div>
-                                </div> */}
                             </div>
-                            {/* <div>
-                                    <h3>Câu 1:</h3>
-                                    <span>Người được bảo hiểm có thuộc các trường hợp dưới đây hay không? </span>
-                                    <p>
-                                        - Những người bị bệnh tâm thần, bệnh phong, hội chứng down, tự kỷ;
-                                        <br></br> - Những người bị thương tật vĩnh viễn từ 50% trở lên;<br></br> - Những
-                                        người đang trong thời gian điều trị bệnh hoặc thươngtật hoặc bị ung thư.
-                                    </p>
-                                    <span>
-                                        Điều này chỉ áp dụng đối với các trường hợp tham gia bảo hiểm năm đầu tiên.
-                                    </span>
-                                    <div>
-                                        <div>
-                                            <input type="checkbox"></input>
-                                            <span>Có</span>
-                                        </div>
-                                        <div>
-                                            <input type="checkbox"></input>
-                                            <span>Không</span>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div>
-                                    <h3>Câu 2:</h3>
-                                    <span>
-                                        Trong vòng 3 năm qua, Người được bảo hiểm đã từng được chẩn đoán, xuất hiện
-                                        triệu chứng phải đi khám, đi ều trị hay đã được chuyên gia y tế khuyên Người
-                                        được bảo hiểm phải điều trị hay không?{' '}
-                                    </span>
-                                </div>
-
-                                <div>
-                                    <h3>Lưu ý:</h3>
-                                    <span>
-                                        Người được bảo hiểm không trả lời ‘CÓ” đối với các bệnh/ tình trạng y tế dưới
-                                        đây:{' '}
-                                    </span>
-                                    <p>
-                                        - Phụ nữ sinh con (sinh thường, sinh mổ) mà không có biến chứng thai sản;
-                                        <br></br> - Cúm và cảm lạnh theo mùa thông thường, viêm dạ dày cấp tính, viêm
-                                        ruột thừa cấp tính, viêm amidan cấp tính, nhiễm trùng đường tiết niệu, bệnh tả,
-                                        thương hàn, sốt xuất huyết mà Người được bảo hiểm đã được điều trị và đã hồi
-                                        phục hoàn toàn hoặc nếu Người được bảo hiểm sử dụng bất kỳ loại thực phẩm bổ
-                                        sung sức khỏe tổng quát nào.
-                                    </p>
-                                    <div>
-                                        <div>
-                                            <input type="checkbox"></input>
-                                            <span>Có</span>
-                                        </div>
-                                        <div>
-                                            <input type="checkbox"></input>
-                                            <span>Không</span>
-                                        </div>
-                                    </div>
-                                    <button className={cx('declare_heathy')} onClick={handelHeathInfor}>
-                                        <Link to="">Khai báo tình trạng sức khỏe</Link>
-                                    </button>
-                                </div> */}
                         </section>
 
                         {/* tình trạng sức khỏe */}
@@ -472,307 +533,11 @@ function Register() {
                                             <th width="70%">Bạn có mắc phải những bệnh dưới đây không?</th>
                                             <th>Có</th>
                                         </tr>
-                                        <tr>
-                                            <td colspan="3" style={{ fontWeight: 'bold' }}>
-                                                Bệnh hệ thần kinh
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
+                                        {renderDiseaseRows()}
 
-                                            <td id="bb1C" className={cx('r-align-text')}>
-                                                <span
-                                                    id={cx('ctl00_ContentPlaceHolder1_lsb1')}
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb1"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Viêm hệ thần kinh trung ương (Não)
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" className={cx('css_checkbox')} />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td id="bb2C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb2"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb2"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Parkinson, Alzheimer
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt2C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td id="bb3C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb3"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb3"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Thoái hóa khác của hệ thần kinh
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt3C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td id="bb4C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb4"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb4"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Mất trí nhớ, hôn mê, bại não, liệt
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt4C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td id="bb5C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb5"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb5"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Bỏng dưới độ III
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt5C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>6</td>
-                                            <td id="bb6C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb6"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb6"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Bỏng nặng từ độ III trở lên
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt6C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>7</td>
-                                            <td id="bb7C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb7"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb7"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Hội chứng Apallic
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt7C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>8</td>
-                                            <td id="bb8C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb8"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb8"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Phẫu thuật não
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt8C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>9</td>
-                                            <td id="bb9C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb9"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb9"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Viêm màng não, viêm não do virus
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt9C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>10</td>
-                                            <td id="bb10C" className={cx('r-align-text')}>
-                                                <span
-                                                    id="ctl00_ContentPlaceHolder1_lsb10"
-                                                    tenkieu="gchu"
-                                                    ten_goc="lsb10"
-                                                    kieu_unicode="C"
-                                                    kt_xoa="X"
-                                                >
-                                                    Bệnh tế bảo thân kinh vận động
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_tt10C"
-                                                    className={cx('css_checkbox')}
-                                                />
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>II </td>
-                                            <td>
-                                                <b>
-                                                    Bệnh khác{' '}
-                                                    <span style={{ color: 'red' }}>
-                                                        (Chỉ ghi kết luận trong vòng 3 năm gần đây)
-                                                    </span>
-                                                </b>
-                                                <input
-                                                    type="text"
-                                                    id="ctl00_ContentPlaceHolder1_bkhactxt"
-                                                    className="css_ma form-control"
-                                                    onfocus="contro_select(this);"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    id="ctl00_ContentPlaceHolder1_bkhac"
-                                                    className={cx('css_checkbox')}
-                                                    onchange="bhhd_bt_benhkhac_CHECK()"
-                                                />
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
-
-                            {/* <span className={cx('title-form')}>Thông tin về tình trạng sức khỏe</span>
-                            <table className={cx('information_heath_table')}>
-                                <tbody>
-                                    <tr>
-                                        <th>STT</th>
-                                        <th>Bạn có mắc phải những bệnh dưới đây không?</th>
-                                        <th>Có</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Bệnh hệ thần kinh</td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <th>Viêm hệ thần kinh trung ương</th>
-                                        <th>
-                                            <input type="checkbox" />
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>2</th>
-                                        <th>Parkinson, Alzheimer</th>
-                                        <th>
-                                            <input type="checkbox" />
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>3</th>
-                                        <th>Thoái hóa khác của hệ thần kinh</th>
-                                        <th>
-                                            <input type="checkbox" />
-                                        </th>
-                                    </tr>
-                                    {/* bệnh hệ hô hấp */}
-                            {/* <tr>
-                                        <td>Bệnh hệ hô hấp</td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <th>Suy phổi</th>
-                                        <th>
-                                            <input type="checkbox" />
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>2</th>
-                                        <th>Phẫu thuật cắt 1 bên phổi</th>
-                                        <th>
-                                            <input type="checkbox" />
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>3</th>
-                                        <th>Tăng áp động mạch phổi</th>
-                                        <th>
-                                            <input type="checkbox" />
-                                        </th>
-                                    </tr>
-                                </tbody>
-                            </table> */}
                         </section>
                     </div>
                 </div >

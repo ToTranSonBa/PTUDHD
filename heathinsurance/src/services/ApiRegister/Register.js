@@ -1,15 +1,15 @@
 import axios from '../axios-customize';
 
-const RegisterProductApi = async () => {
-    return axios.get(`/InsuranceProduct/${3}`);
+const RegisterProductApi = async (productId) => {
+    return axios.get(`/InsuranceProduct/${productId}`);
 };
 
 const RegisterCustomerApi = async (email) => {
     return axios.get(`/customer/${email}`);
 };
 
-const RegisterContractApi = async (productId, programId, startDay, toDay, totalPrice, paymentMethod, customer, healthConditions) => {
-    return axios.post(`/Contract`, { productId, programId, startDay, toDay, totalPrice, paymentMethod, customer, healthConditions });
+const RegisterContractApi = async (productId, programId, startDate, endDate, totalPrice, healthDeclaration, paymentMethod, customer, healthConditions) => {
+    return axios.post(`/Contract`, { productId, programId, startDate, endDate, totalPrice, healthDeclaration, paymentMethod, customer, healthConditions });
 };
 
 export {
