@@ -16,7 +16,7 @@ namespace WebAPI.Controllers.Claim
             _service = serviceManager;
         }
         [HttpPost]
-        public async Task<IActionResult> AddRequest([FromBody] CreateClaimRequestDto claimRequestDto)
+        public async Task<IActionResult> AddRequest([FromForm] CreateClaimRequestDto claimRequestDto)
         {
             await _service.ClaimRequests.CreateRequest(claimRequestDto);
             return StatusCode(StatusCodes.Status201Created);

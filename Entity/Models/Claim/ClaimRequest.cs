@@ -15,8 +15,8 @@ namespace Entity.Models.Claim
         [Key]
         public Guid Id { get; set; }
         public DateTime? CreatedDate {  get; set; }
-        public string? MedicalCondition {  get; set; }
-        public string? MedicalHistory { get; set; }
+        //public string? MedicalCondition {  get; set; }
+        //public string? MedicalHistory { get; set; }
         public string? Status { get; set; }
         public string HospitalBillAmount { get; set; } // Số tiền hóa đơn viện phí
         public Guid? CustomerId { get; set; }

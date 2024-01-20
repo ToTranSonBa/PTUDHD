@@ -5,6 +5,7 @@ using Org.BouncyCastle.Asn1.Ocsp;
 using Service.Contracts.Claims;
 using Shared.EntityDtos.Claim;
 using Shared.EntityDtos.Contract;
+using Shared.Helper;
 
 namespace Services.Claims
 {
@@ -20,8 +21,8 @@ namespace Services.Claims
             {
                 CreatedDate = request.CreatedDate,
                 ContractId = request.ContractId,
-                MedicalCondition = request.MedicalCondition,
-                MedicalHistory = request.MedicalHistory,
+                //MedicalCondition = request.MedicalCondition,
+                //MedicalHistory = request.MedicalHistory,
                 Status = request.Status,
                 CustomerId = request.Customer.CustomerId,
                 CustomerName = request.Customer.Name
@@ -44,11 +45,12 @@ namespace Services.Claims
             }
             var newRequest = new ClaimRequest
             {
-                CreatedDate = requestDto.RequestDate,
+                CreatedDate = DateTime.Now,
                 ContractId = Contract.Id,
                 CustomerId = customer.Id,
-                MedicalCondition = requestDto.MedicalCondition,
-                MedicalHistory = requestDto.MedicalHistory,
+                //MedicalCondition = requestDto.MedicalCondition,
+                //MedicalHistory = requestDto.MedicalHistory,
+                HospitalBillAmount = ImageHelper.Upload(requestDto.HospitalBillAmount),
                 Status = RequestStatus.Waiting.ToString()
             };
             if(!_repository.ClaimRequests.AddRequest(newRequest))

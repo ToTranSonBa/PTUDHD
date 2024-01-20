@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.EntityDtos.Contract;
 using Shared.EntityDtos.Payment.Momo.Request;
+using Shared.Helper;
 
 namespace WebAPI.Controllers.Contracts
 {
@@ -61,5 +62,26 @@ namespace WebAPI.Controllers.Contracts
         {
             return Ok( await _service.Contracts.GetContractByCustomerIdAndStatus(customerId, status));
         }
+        [HttpPost("uploadImange")]
+        public IActionResult updateImage([FromForm] IFormFile formFile)
+        {
+            return Ok(ImageHelper.Upload(formFile));
+        }
+        [HttpGet("GetImage")]
+        public IActionResult GetIamge(string path)
+        {
+            string filePath = Directory.GetCurrentDirectory() + "\\wwwroot\\" + path;
+            try
+            {
+                var stream = System.IO.File.ReadAllBytes(filePath);
+                return File(stream, "image/jpeg");
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status404NotFound, "Image not found");
+            }
+        }
+    
     }
+    
 }

@@ -8,6 +8,7 @@ using Shared.EntityDtos.Insurances.HealthCondition;
 using Shared.EntityDtos.Insurances.InsuranceBenefit;
 using Shared.EntityDtos.Insurances.InsuranceProduct;
 using Shared.EntityDtos.Insurances.InsuranceProgram;
+using Shared.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,7 +124,8 @@ namespace Services.Insurances
                 Commitment = productDto.Commitment,
                 ParticipationProcedure = productDto.ParticipationProcedure,
                 TerritorialScope = productDto.TerritorialScope,
-                ShortDescription = productDto.ShortDescription
+                ShortDescription = productDto.ShortDescription,
+                ImageUrl = ImageHelper.Upload(productDto.ImageUrl)
             };
             var check = _repositoryManager.InsuranceProducts.Add(product);
 
