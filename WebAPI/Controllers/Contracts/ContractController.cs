@@ -20,20 +20,20 @@ namespace WebAPI.Controllers.Contracts
         public async Task<IActionResult> AddContract([FromBody] RegisterContractDto registerContractDto)
         {
             var result = await _service.Contracts.CreateContract(registerContractDto);
-            string linkPayment = string.Empty;
-            if(registerContractDto.PaymentMethod == (int)PaymentMehtod.MOMO)
-            {
-                var momoOnetimePaymentRequest = new MomoOneTimePaymentRequestDto
-                {
-                    amount = result.TotalPrice.ToString(),
-                    orderId = result.ContractId.ToString(),
-                    orderInfo = $"Khách hàng {result.Customer.Name} thanh toán bảo hiểm {result.ProductName} chương trình {result.ProgramName} " +
-                    $"bằng hình thức thanh toán qua MOMO"
-                };
-                linkPayment = _service.Momo.PaymentRequest(momoOnetimePaymentRequest);
-                
-            }
-            return StatusCode(StatusCodes.Status201Created, new { result, linkPayment });
+            //string linkPayment = string.Empty;
+            //if(registerContractDto.PaymentMethod == (int)PaymentMehtod.MOMO)
+            //{
+            //    var momoOnetimePaymentRequest = new MomoOneTimePaymentRequestDto
+            //    {
+            //        amount = result.TotalPrice.ToString(),
+            //        orderId = result.ContractId.ToString(),
+            //        orderInfo = $"Khách hàng {result.Customer.Name} thanh toán bảo hiểm {result.ProductName} chương trình {result.ProgramName} " +
+            //        $"bằng hình thức thanh toán qua MOMO"
+            //    };
+            //    linkPayment = _service.Momo.PaymentRequest(momoOnetimePaymentRequest);
+
+            //}
+            return StatusCode(StatusCodes.Status201Created, result);
         }
         [HttpGet]
         public async Task<IActionResult> GetContracts()

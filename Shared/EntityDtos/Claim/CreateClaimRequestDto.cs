@@ -19,7 +19,7 @@ namespace Shared.EntityDtos.Claim
         [Required]
         public string MedicalHistory { get; set; } // Lịch sử bệnh án
         [Required]
-        public decimal HospitalBillAmount { get; set; } // Số tiền hóa đơn viện phí
+        public string HospitalBillAmount { get; set; } // Số tiền hóa đơn viện phí
         [Required]
         public DateTime RequestDate { get; set; }
     }

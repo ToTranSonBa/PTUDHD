@@ -18,6 +18,7 @@ namespace Entity.Models.Claim
         public string? MedicalCondition {  get; set; }
         public string? MedicalHistory { get; set; }
         public string? Status { get; set; }
+        public string HospitalBillAmount { get; set; } // Số tiền hóa đơn viện phí
         public Guid? CustomerId { get; set; }
         public Customer? Customer { get; set; }
         public Contract? Contract { get; set; }
