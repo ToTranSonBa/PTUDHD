@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Img3 from '../../assets/image/bh3.png';
+import { Image } from 'cloudinary-react';
 import './ListCard.css';
 import { useNavigate } from 'react-router-dom';
 import { HomeApi } from '../../services/ApiHome/home';
@@ -34,7 +34,10 @@ const ListCard = () => {
                     <div className="card_item" key={curElem.productId}>
                         <div className="card_inner">
                             <div className="image">
-                                <img src={Img3} alt="" />
+                                <Image
+                                    cloudName={process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}
+                                    publicId={curElem.imageUrl}
+                                />
                             </div>
                             <div className="name">{curElem.policyName}</div>
                             <div className="detail-box">
