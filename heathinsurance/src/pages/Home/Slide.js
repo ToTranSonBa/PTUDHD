@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-'use client';
-
 import React, { useEffect, useState } from 'react';
 import './style.css';
 
@@ -16,7 +13,7 @@ const Slide = () => {
             setSlideIndex(newIndex);
         };
 
-        const intervalId = setInterval(showSlides, 2000);
+        const intervalId = setInterval(showSlides, 10000);
 
         return () => {
             clearInterval(intervalId);

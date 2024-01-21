@@ -16,11 +16,9 @@
 }
 
 #form {
-    max-width: 320px;
     width: 100%;
     padding: 2em;
     box-sizing: border-box; /* Ensure padding is included in the width calculation */
-
     > input,
     .btn {
         border: 1px solid #e9ecef;
@@ -33,10 +31,15 @@
         outline: none;
     }
 
+    > input::placeholder {
+        color: black;
+    }
     > .btn {
-        background-color: #003049;
+        text-transform: uppercase;
+        background-color: #126131;
         color: #e9ecef;
         font-size: 1em;
+        font-weight: 600;
         cursor: pointer;
     }
 }
@@ -60,6 +63,18 @@
 
 .form-image {
     width: 472px;
-    height: 1068.03px;
+    // height: 1068.03px;
     object-fit: contain;
+}
+
+.login-link {
+    text-decoration: underline;
+    text-decoration-color: #126131;
+    color: #126131;
+
+    &:hover {
+        text-decoration: none;
+        font-weight: 800;
+        color: #126131;
+    }
 }

@@ -1,5 +1,6 @@
 // Import your styles and image
-import './Signup.module.scss';
+import classNames from 'classnames/bind';
+import styles from './Signup.module.scss';
 import React, { useState } from 'react';
 import bgImg from '../../assets/image/img1.jpg';
 import { SignupApi } from '../../services/ApiSignUp/signup';
@@ -102,17 +103,19 @@ const Register = () => {
         }
     };
 
-    return (
-        <section className="login-form">
-            <div className="register">
-                <div className="col-1">
-                    <h2>Sign Up</h2>
-                    <span>Create a new account!</span>
+    const cx = classNames.bind(styles);
 
-                    <form id="form" className="flex flex-col">
+    return (
+        <section className={cx('register-form')}>
+            <div className={cx('register')}>
+                <div className={cx('col-1')}>
+                    <h2 style={{ textTransform: 'uppercase', fontWeight: '800', color: '#126131' }}>Sign Up</h2>
+                    <span style={{ color: '#126131' }}>Create a new account!</span>
+
+                    <form id={cx('form')} className={cx('flex', 'flex-col')}>
                         <input
                             type="text"
-                            id="userName"
+                            id={cx('userName')}
                             name="email"
                             value={userName}
                             onChange={(e) => setUserName(e.target.value)}
@@ -120,7 +123,7 @@ const Register = () => {
                         />
                         <input
                             type="email"
-                            id="email"
+                            id={cx('email')}
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -128,7 +131,7 @@ const Register = () => {
                         />
                         <input
                             type="password"
-                            id="password"
+                            id={cx('password')}
                             name="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -136,7 +139,7 @@ const Register = () => {
                         />
                         <input
                             type="text"
-                            id="name"
+                            id={cx('name')}
                             name="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -144,7 +147,7 @@ const Register = () => {
                         />
                         <input
                             type="tel"
-                            id="phoneNumber"
+                            id={cx('phoneNumber')}
                             name="phoneNumber"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
@@ -152,7 +155,7 @@ const Register = () => {
                         />
                         <input
                             type="date"
-                            id="birthday"
+                            id={cx('birthday')}
                             name="birthday"
                             value={birthday}
                             onChange={(e) => setBirthday(e.target.value)}
@@ -160,7 +163,7 @@ const Register = () => {
                         />
                         <input
                             type="text"
-                            id="address"
+                            id={cx('address')}
                             name="address"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
@@ -168,28 +171,28 @@ const Register = () => {
                         />
                         <input
                             type="text"
-                            id="identifycationNumber"
+                            id={cx('identifycationNumber')}
                             name="identifycationNumber"
                             value={identifycationNumber}
                             onChange={(e) => setIdentifycationNumber(e.target.value)}
                             placeholder="Enter your identification number"
                         />
 
-                        <button type="button" className="btn" onClick={handleClick}>
+                        <button type="button" className={cx('btn')} onClick={handleClick}>
                             Sign Up
                         </button>
                         <ToastContainer />
-                        <span className="underline" />
+                        <span className={cx('underline')} />
                         <p>
                             Already have an account?{' '}
-                            <a href="/login" className="login-link">
+                            <a href="/login" className={cx('login-link')}>
                                 Log In
                             </a>
                         </p>
                     </form>
                 </div>
-                <div className="col-2">
-                    <img src={bgImg} alt="" className="form-image" style={{ height: '1068.03px' }} />
+                <div className={cx('col-2')}>
+                    <img src={bgImg} alt="" className={cx('form-image')} style={{ height: '1068.03px' }} />
                 </div>
             </div>
         </section>

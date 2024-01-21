@@ -23,7 +23,7 @@
 }
 
 .slideshow-container {
-    max-width: 80%;
+    max-width: 82%;
     position: relative;
     margin: auto;
 }
@@ -118,17 +118,26 @@
 /* Fading animation */
 .fade {
     animation-name: fade;
-    animation-duration: 1.5s;
+    animation-duration: 10s;
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 10s;
 }
 
 @keyframes fade {
-    from {
-        opacity: 0.4;
+    0% {
+        opacity: 0.8;
     }
-    to {
+    50% {
         opacity: 1;
     }
+    100% {
+        opacity: 0.8;
+    }
 }
+
 .my-5 {
     background-color: #eee;
 }

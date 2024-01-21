@@ -24,6 +24,7 @@
     height: 100%;
     .left_container {
         flex: 7; // Takes up 70% of the container
+        margin-left: 1rem;
         & .active {
             display: block;
         }
@@ -31,6 +32,7 @@
     .bill {
         flex: 3; // Takes up 30% of the container
         height: max-content;
+        margin-right: 1rem;
     }
 }
 

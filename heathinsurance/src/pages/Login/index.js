@@ -58,7 +58,7 @@ const Login = () => {
             <div className="register">
                 <div className="col-1">
                     <form id="form" className="flex flex-col">
-                        <h2>Sign In</h2>
+                        <h2 className="title_signin">Sign In</h2>
                         <span>Welcome back to our website!</span>
                         <span className="underline" />
                         <input

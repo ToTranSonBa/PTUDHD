@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './Product.module.scss';
 import Banner from '../../assets/image/banner-top.jpg';
 
-import { ProductApi } from '../../services/ApiProduct/Product'
+import { ProductApi } from '../../services/ApiProduct/Product';
 
 const cx = classNames.bind(styles);
 
@@ -13,7 +13,7 @@ const Product = () => {
     const { id } = useParams();
     const [activeSection, setActiveSection] = useState('product_des');
     const [activeProgram, setactiveProgram] = useState('');
-    const [buttonTop, setButtonTop] = useState(0);
+    const [buttonTop, setButtonTop] = useState(100);
 
     const [productData, setProductData] = useState({});
 
@@ -21,7 +21,6 @@ const Product = () => {
 
     const handelProductDescription = () => {
         setActiveSection('product_des');
-
     };
     useEffect(() => {
         // Gọi fetchData khi component được render lần đầu tiên
@@ -29,27 +28,22 @@ const Product = () => {
     }, []);
 
     useEffect(() => {
-        console.log("check dieu kien ",)
+        console.log('check dieu kien ');
     }, [productData]);
-
-
-
 
     const fetchData = async (productId) => {
         try {
             const response = await ProductApi(productId);
-            console.log(">>>check response: ", response);
+            console.log('>>>check response: ', response);
             if (response) {
-
                 setProductData(response);
             } else {
                 setProductData({});
             }
         } catch (error) {
-            console.error(">>> Error fetching data: ", error);
+            console.error('>>> Error fetching data: ', error);
         }
-    }
-
+    };
 
     const conditions = productData && productData.conditions ? productData.conditions : [];
     //
@@ -78,7 +72,7 @@ const Product = () => {
 
     const programHandlePlatinum = () => {
         setactiveProgram('platinum');
-        setSelectedProgram(4)
+        setSelectedProgram(4);
     };
 
     const programHandleDiamond = () => {
@@ -87,11 +81,28 @@ const Product = () => {
     };
 
     const getProgramPrice = (benefit, selectedProgram) => {
-        const selectedProgramInfo = benefit.benefitProgramCosts.find(program => program.programId === selectedProgram);
-        return selectedProgramInfo ? selectedProgramInfo.price : "N/A";
+        const selectedProgramInfo = benefit.benefitProgramCosts.find(
+            (program) => program.programId === selectedProgram,
+        );
+        return selectedProgramInfo ? selectedProgramInfo.price : 'N/A';
     };
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const content = document.querySelector('.content');
+            if (content) {
+                const contentRect = content.getBoundingClientRect();
+                const newTop = contentRect.top > 0 ? contentRect.top : 0;
+                setButtonTop(newTop);
+            }
+        };
 
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []); // Sử dụng [] để chỉ gọi useEffect một lần khi component được mount
     return (
         <>
             <div id={cx('dynamicButton')} className={cx('sticky-box', 'btn-base')} style={{ top: `${buttonTop}px` }}>
@@ -122,19 +133,14 @@ const Product = () => {
                             Vốn quý của con người là Sức Khỏe. Đảm bảo một sức khỏe tốt sẽ giúp chúng ta an tâm thực
                             hiện những ước mơ, hoài bão.
                         </h5>
-                        <h5>
-                            {productData.shortDescription}
-                        </h5>
+                        <h5>{productData.shortDescription}</h5>
                     </div>
 
                     <div className={cx('beneficiary')}>
                         <h3 className={cx('under-title')}>
                             <span>Đối tượng được Bảo hiểm</span>
                         </h3>
-                        <span>
-                            {productData.insuredParty}
-                        </span>
-
+                        <span>{productData.insuredParty}</span>
                     </div>
 
                     <div className={cx('country')}>
@@ -148,9 +154,7 @@ const Product = () => {
                         <h3 className={cx('under-title')}>
                             <span>QUYỀN LỢI BẢO HIỂM BỔ SUNG:</span>
                         </h3>
-                        <small>
-                            {productData.feeGuarantee}
-                        </small>
+                        <small>{productData.feeGuarantee}</small>
                     </div>
                     <div className={cx('parti_procedure')}>
                         <h3 className={cx('under-title')}>
@@ -170,9 +174,7 @@ const Product = () => {
                         <h3 className={cx('under-title')}>
                             <span>CAM KẾT:</span>
                         </h3>
-                        <p>
-                            {productData.commitment}
-                        </p>
+                        <p>{productData.commitment}</p>
                     </div>
                 </section>
                 <section id={cx('benifits')} className={cx({ active: activeSection === 'benifits' })}>
@@ -184,19 +186,15 @@ const Product = () => {
                         <nav className={cx('program')}>
                             <li onClick={programHandleCopper}>
                                 <Link to="">Chương trình Đồng</Link>
-
                             </li>
                             <li onClick={programHandleSilver}>
                                 <Link to="">Chương trình Bạc</Link>
-
                             </li>
                             <li onClick={programHandleGold}>
                                 <Link to="">Chương trình Vàng</Link>
-
                             </li>
                             <li onClick={programHandlePlatinum}>
                                 <Link to="">Chương trình Bạch Kim</Link>
-
                             </li>
                             <li onClick={programHandleDiamond}>
                                 <Link to="">Chương trình Kim Cương</Link>
@@ -210,21 +208,19 @@ const Product = () => {
                                         <th>STT</th>
                                         <th>QUYỀN LỢI BẢO HIỂM</th>
                                         <th>
-                                            <div
-                                                className={cx('item-tab', { 'active': selectedProgram === 1 })}
-                                            >
+                                            <div className={cx('item-tab', { active: selectedProgram === 1 })}>
                                                 CHƯƠNG TRÌNH ĐỒNG
                                             </div>
-                                            <div className={cx('item-tab', { 'active': selectedProgram === 2 })} >
+                                            <div className={cx('item-tab', { active: selectedProgram === 2 })}>
                                                 CHƯƠNG TRÌNH BẠC
                                             </div>
-                                            <div className={cx('item-tab', { 'active': selectedProgram === 3 })} >
+                                            <div className={cx('item-tab', { active: selectedProgram === 3 })}>
                                                 CHƯƠNG TRÌNH VÀNG
                                             </div>
-                                            <div className={cx('item-tab', { 'active': selectedProgram === 4 })}>
+                                            <div className={cx('item-tab', { active: selectedProgram === 4 })}>
                                                 CHƯƠNG TRÌNH BẠCH KIM
                                             </div>
-                                            <div className={cx('item-tab', { 'active': selectedProgram === 5 })} >
+                                            <div className={cx('item-tab', { active: selectedProgram === 5 })}>
                                                 CHƯƠNG TRÌNH KIM CƯƠNG
                                             </div>
                                         </th>
@@ -253,9 +249,7 @@ const Product = () => {
                                                 {benefitType.benefits.map((benefit, index) => (
                                                     <tr key={benefit.benefitId}>
                                                         <td>{index + 1}</td>
-                                                        <td className={cx('align-left')}>
-                                                            {benefit.benefitName}
-                                                        </td>
+                                                        <td className={cx('align-left')}>{benefit.benefitName}</td>
                                                         <td>
                                                             <div
                                                                 className={cx('item-tab active')}
@@ -315,6 +309,6 @@ const Product = () => {
             </div>
         </>
     );
-}
+};
 
 export default Product;

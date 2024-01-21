@@ -1,5 +1,3 @@
-
-
 //Layouts
 import { HeaderOnly, SidebarOnly } from '../components/Layout';
 
@@ -50,5 +48,3 @@ const publicRoutes = [
 ];
 
 export { publicRoutes };
-
-

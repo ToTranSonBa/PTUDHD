@@ -27,11 +27,13 @@ const ListCard = () => {
         };
         fetchData();
     }, []);
+
     return (
         <div className="container-list wrapper">
             {product && product.length > 0 ? (
+                // slide
                 product.map((curElem) => (
-                    <div className="card_item" key={curElem.productId}>
+                    <div className="card_item" key={curElem.id}>
                         <div className="card_inner">
                             <div className="image">
                                 <Image
@@ -39,20 +41,22 @@ const ListCard = () => {
                                     publicId={curElem.imageUrl}
                                 />
                             </div>
-                            <div className="name">{curElem.policyName}</div>
+                            <div className="name">{curElem.name}</div>
                             <div className="detail-box">
-                                <span className="description">
-                                    {curElem.shortDescription.length > 20
-                                        ? `${curElem.shortDescription.substring(0, 20)}...`
-                                        : curElem.shortDescription}
-                                </span>
+                                <p className="description">
+                                    {curElem.description.length > 20
+                                        ? `${curElem.description.substring(0, 70)}...`
+                                        : curElem.description}
+                                </p>
                             </div>
-                            <button className="btn-card" onClick={() => handleSeeMore(curElem.productId)}>
-                                Xem chi tiết
-                            </button>
-                            <button className="btn-card" onClick={() => handleRegister(curElem.productId)}>
-                                Mua ngay
-                            </button>
+                            <div className="button">
+                                <button className="btn detail-btn" onClick={() => handleSeeMore(curElem.productId)}>
+                                    Xem chi tiết
+                                </button>
+                                <button className="btn buynow" onClick={() => handleRegister(curElem.productId)}>
+                                    Mua ngay
+                                </button>
+                            </div>
                         </div>
                     </div>
                 ))

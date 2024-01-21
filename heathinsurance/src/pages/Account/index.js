@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './Account.module.scss';
 import Banner from '../../assets/image/banner-top.jpg';
 
-import { AccountCustomerApi, ContractsCustomerApi } from '../../services/ApiAccount/Account'
+import { AccountCustomerApi, ContractsCustomerApi } from '../../services/ApiAccount/Account';
 
 const cx = classNames.bind(styles);
 
@@ -14,7 +14,7 @@ function Account() {
     const [activeListInsurance, setActiveListInsurance] = useState('list_isActive');
     const [activeListRequire, setActiveListRequire] = useState('list_isPaid');
     const [contractStatus, setContractStatus] = useState(0);
-    const [contractsOfCustomer, setContractsOfCustomer] = useState([])
+    const [contractsOfCustomer, setContractsOfCustomer] = useState([]);
 
     //
     const handelListInsurance = (state) => {
@@ -85,8 +85,7 @@ function Account() {
 
     const handelIsActive = () => {
         setActiveListInsurance('list_isActive');
-        setContractStatus(3)
-
+        setContractStatus(3);
     };
 
     const handelIsExpired = () => {
@@ -106,7 +105,7 @@ function Account() {
     };
 
     useEffect(() => {
-        fetchData()
+        fetchData();
     }, [activeListInsurance]);
 
     const fetchData = async () => {
@@ -119,15 +118,15 @@ function Account() {
             let decodedPayload = JSON.parse(atob(parts[1]));
 
             // Lấy giá trị của thuộc tính "emailaddress"
-            let emailAddress = decodedPayload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+            let emailAddress = decodedPayload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
             const customer = await AccountCustomerApi(emailAddress);
 
             const contractsCustomer = await ContractsCustomerApi(customer.customerId, contractStatus);
             setContractsOfCustomer(contractsCustomer);
         } catch (error) {
-            console.error(">>> Error fetching data: ", error);
+            console.error('>>> Error fetching data: ', error);
         }
-    }
+    };
     return (
         <>
             <div className={cx('container')}>
@@ -152,9 +151,6 @@ function Account() {
                     <section id={cx('list_insurance')} className={cx({ active: activeSection === 'list_insurance' })}>
                         <div className={cx('left_list')}>
                             <nav className={cx('navigation_leftList')}>
-                                <li onClick={handelIsUnpaid}>
-                                    <Link to="">Chưa thanh toán</Link>
-                                </li>
                                 <li onClick={handelIsWaiting}>
                                     <Link to="">Chờ duyệt</Link>
                                 </li>
@@ -196,7 +192,6 @@ function Account() {
                                                 <td>
                                                     <button>Chi tiết</button>
                                                 </td>
-
                                             </tr>
                                         ))
                                     ) : (
@@ -214,6 +209,9 @@ function Account() {
                     >
                         <div className={cx('left_list')}>
                             <nav className={cx('navigation_leftList')}>
+                                <li onClick={handelIsUnpaid}>
+                                    <Link to="">Chưa thanh toán</Link>
+                                </li>
                                 <li onClick={handelIsPaid}>
                                     <Link to="">Đã được thanh toán</Link>
                                 </li>
