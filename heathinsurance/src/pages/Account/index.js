@@ -31,6 +31,10 @@ function Account() {
         if (revenue) {
             revenue.style.display = 'none';
         }
+        const profile = document.getElementById(cx('profile'));
+        if (profile) {
+            profile.style.display = 'none';
+        }
     };
 
     const handelListRequire = (state) => {
@@ -48,6 +52,10 @@ function Account() {
         if (revenue) {
             revenue.style.display = 'none';
         }
+        const profile = document.getElementById(cx('profile'));
+        if (profile) {
+            profile.style.display = 'none';
+        }
     };
 
     const handelRevenue = () => {
@@ -63,6 +71,30 @@ function Account() {
         const revenue = document.getElementById(cx('revenue'));
         if (revenue) {
             revenue.style.display = 'flex';
+        }
+        const profile = document.getElementById(cx('profile'));
+        if (profile) {
+            profile.style.display = 'none';
+        }
+    };
+
+    const handelProfile = () => {
+        setActiveSection('profile');
+        const listInsuranceSection = document.getElementById(cx('list_insurance'));
+        if (listInsuranceSection) {
+            listInsuranceSection.style.display = 'none';
+        }
+        const listRequireSection = document.getElementById(cx('list_require'));
+        if (listRequireSection) {
+            listRequireSection.style.display = 'none';
+        }
+        const revenue = document.getElementById(cx('revenue'));
+        if (revenue) {
+            revenue.style.display = 'none';
+        }
+        const profile = document.getElementById(cx('profile'));
+        if (profile) {
+            profile.style.display = 'flex';
         }
     };
 
@@ -127,6 +159,28 @@ function Account() {
             console.error('>>> Error fetching data: ', error);
         }
     };
+    
+    const [isEditing, setIsEditing] = useState(true);
+    const [userData, setUserData] = useState({});
+    
+    const handleEditClick = () => {
+        setIsEditing(false);
+    };
+    
+    const handleSaveClick = () => {
+        // Perform save action (e.g., update data on the server)
+        // For simplicity, we'll just toggle back to view mode
+        setIsEditing(true);
+    };
+    
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUserData((prevData) => ({
+        ...prevData,
+        [name]: value,
+        }));
+    };
+    
     return (
         <>
             <div className={cx('container')}>
@@ -144,6 +198,9 @@ function Account() {
                     </li>
                     <li onClick={handelRevenue}>
                         <Link to="">Chi tiêu</Link>
+                    </li>
+                    <li onClick={handelProfile}>
+                        <Link to="">Thông tin cá nhân</Link>
                     </li>
                 </nav>
 
@@ -260,6 +317,168 @@ function Account() {
 
                     <section id={cx('revenue')} className={cx({ active: activeSection === 'revenue' })}>
                         <h1>Revenue</h1>
+                    </section>
+                    <section id={cx('profile')} className={cx({ active: activeSection === 'profile' })}>
+                    {isEditing ? (
+                        <div class="col-md-8">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h5 class="mb-0">Full Name:</h5>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                        Kenneth Valdez
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h5 class="mb-0">Birthday:</h5>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                        01 - 01 - 0001
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h5 class="mb-0">Identity Card Number:</h5>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                        1234567890
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h5 class="mb-0">Email:</h5>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            fip@jukmuh.al
+                                        </div>
+                                    </div>
+                               
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h5 class="mb-0">Phone:</h5>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        (239) 816-9029
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h5 class="mb-0">Mobile:</h5>
+                                    </div>
+                                        <div class="col-sm-9 text-secondary">
+                                        (320) 380-4539
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h5 class="mb-0">Address:</h5>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        Bay Area, San Francisco, CA
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a className="btn btn-info " onClick={handleEditClick}>Chỉnh sửa</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        ) : (
+                            <div class="col-md-8">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h5 class="mb-0">Họ và tên:</h5>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    
+                                                    <input type="text" name="Name" class="form-control" placeholder='Ví dụ:  Nguyen Văn A' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <h5 class="mb-0">Ngày sinh:</h5>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    
+                                                    <input type="date" name="Birthday" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <h5 class="mb-0">CCCD:</h5>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    
+                                                    <input type="text" name="ID" class="form-control" placeholder='Ví dụ:  987654234' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <h5 class="mb-0">Email:</h5>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    
+                                                    <input type="email" name="email" class="form-control" placeholder='Ví dụ:  nguyena@gmail.com' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <h5 class="mb-0">Số điện thoại:</h5>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    
+                                                    <input type="tel" name="phone" class="form-control" placeholder='Ví dụ: 0183338287' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <h5 class="mb-0">Địa chỉ:</h5>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    
+                                                    <input type="text" name="address" class="form-control" placeholder='Ví dụ: 123 Đinh Tiên Hoàng, Quận 3, TP Hồ Chí Minh' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+                                                </div>
+                                                
+                                            </div>
+
+                                            
+                                            {/* <label>Bio:</label>
+                                            <textarea
+                                                name="bio"
+                                                value={userData.bio}
+                                                onChange={handleInputChange}
+                                            /> */}
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <a className="btn btn-info " onClick={handleSaveClick}>Lưu</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </section>
                 </div>
             </div>
