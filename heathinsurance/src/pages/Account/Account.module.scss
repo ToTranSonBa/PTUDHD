@@ -57,15 +57,18 @@
 table,
 th,
 td {
-    border: 1px solid;
+    border: 1px solid #066132;
 }
 
 th,
 td {
     overflow: hidden;
     padding: 1rem 1rem;
+    white-space: nowrap;
 }
-
+th {
+    text-align: center;
+}
 .content {
     width: 100%;
     max-height: max-content;
@@ -108,14 +111,18 @@ td {
 
         .left_list {
             width: 20%;
+            position: sticky;
+            top: 0;
+            height: 100%;
         }
         .right_list {
             width: 80%;
             height: max-content;
 
             .content-table {
-                width: 100%;
+                width: 98%;
                 margin-left: 1rem;
+                overflow-x: scroll;
             }
         }
     }
@@ -152,12 +159,20 @@ td {
         }
 
         &:hover {
-            background-color: rgba(122, 143, 125, 0.699);
-            font-weight: 600;
-
+            background-color: rgba(0, 0, 0, 0.2);
             a {
                 color: #066132;
+                font-weight: 800;
             }
+        }
+    }
+
+    .active_leftlist {
+        background-color: rgba(0, 0, 0, 0.2);
+
+        a {
+            color: #066132;
+            font-weight: 800;
         }
     }
 }

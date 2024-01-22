@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
-
+import Chart from './Chart';
+import PersonalInfomation from './PersonalInfo';
 import styles from './Account.module.scss';
 import Banner from '../../assets/image/banner-top.jpg';
 
@@ -159,328 +160,184 @@ function Account() {
             console.error('>>> Error fetching data: ', error);
         }
     };
-    
+
     const [isEditing, setIsEditing] = useState(true);
     const [userData, setUserData] = useState({});
-    
+
     const handleEditClick = () => {
         setIsEditing(false);
     };
-    
+
     const handleSaveClick = () => {
         // Perform save action (e.g., update data on the server)
         // For simplicity, we'll just toggle back to view mode
         setIsEditing(true);
     };
-    
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserData((prevData) => ({
-        ...prevData,
-        [name]: value,
+            ...prevData,
+            [name]: value,
         }));
     };
-    
+
     return (
         <>
-            <div className={cx('container')}>
-                <div className={cx('header')}>
-                    <img className={cx('banner_top')} src={Banner} alt="Banner" />
-                    <h1 className={cx('title')}>Tài khoản</h1>
-                </div>
+            <div className={cx('header')}>
+                <img style={{ borderRadius: '0' }} className={cx('banner_top')} src={Banner} alt="Banner" />
+                <h1 className={cx('title')}>Tài khoản</h1>
+            </div>
 
-                <nav className={cx('navigation')}>
-                    <li onClick={handelListInsurance}>
-                        <Link to="">Thông tin bảo hiểm</Link>
-                    </li>
-                    <li onClick={handelListRequire}>
-                        <Link to="">Thông tin phiếu yêu cầu</Link>
-                    </li>
-                    <li onClick={handelRevenue}>
-                        <Link to="">Chi tiêu</Link>
-                    </li>
-                    <li onClick={handelProfile}>
-                        <Link to="">Thông tin cá nhân</Link>
-                    </li>
-                </nav>
+            <nav className={cx('navigation')}>
+                <li onClick={handelListInsurance}>
+                    <Link to="">Thông tin bảo hiểm</Link>
+                </li>
+                <li onClick={handelListRequire}>
+                    <Link to="">Thông tin phiếu yêu cầu</Link>
+                </li>
+                <li onClick={handelRevenue}>
+                    <Link to="">Chi tiêu</Link>
+                </li>
+                <li onClick={handelProfile}>
+                    <Link to="">Thông tin cá nhân</Link>
+                </li>
+            </nav>
 
-                <div className={cx('content')}>
-                    <section id={cx('list_insurance')} className={cx({ active: activeSection === 'list_insurance' })}>
-                        <div className={cx('left_list')}>
-                            <nav className={cx('navigation_leftList')}>
-                                <li onClick={handelIsWaiting}>
-                                    <Link to="">Chờ duyệt</Link>
-                                </li>
-                                <li onClick={handelIsCancel}>
-                                    <Link to="">Bị hủy</Link>
-                                </li>
-                                <li onClick={handelIsActive}>
-                                    <Link to="">Đang thụ hưởng</Link>
-                                </li>
-                                <li onClick={handelIsExpired}>
-                                    <Link to="">Hết hạn</Link>
-                                </li>
-                            </nav>
-                        </div>
-                        <div className={cx('right_list')}>
-                            <table className={cx('content-table')}>
-                                <thead>
-                                    <tr>
-                                        <th>STT</th>
-                                        <th>Tên bảo hiểm</th>
-                                        <th>chương trình</th>
-                                        <th>ngày bắt đầu</th>
-                                        <th>ngày kết thúc</th>
-                                        <th>Giá bảo hiểm</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {contractsOfCustomer && contractsOfCustomer.length > 0 ? (
-                                        contractsOfCustomer.map((item, index) => (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{item.productName}</td>
-                                                <td>{item.programName}</td>
-                                                <td>{`${item.startDate.substring(0, 10)}`}</td>
+            <div className={cx('content')}>
+                <section id={cx('list_insurance')} className={cx({ active: activeSection === 'list_insurance' })}>
+                    <div className={cx('left_list')}>
+                        <nav className={cx('navigation_leftList')}>
+                            <li id={cx('isWaiting')} onClick={handelIsWaiting}>
+                                <Link to="">Chờ duyệt</Link>
+                            </li>
+                            <li onClick={handelIsCancel}>
+                                <Link to="">Bị hủy</Link>
+                            </li>
+                            <li onClick={handelIsActive}>
+                                <Link to="">Đang thụ hưởng</Link>
+                            </li>
+                            <li onClick={handelIsExpired}>
+                                <Link to="">Hết hạn</Link>
+                            </li>
+                        </nav>
+                    </div>
+                    <div className={cx('right_list')}>
+                        <table className={cx('content-table')}>
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên bảo hiểm</th>
+                                    <th>Chương trình</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Giá bảo hiểm</th>
+                                    <tthh></tthh>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {contractsOfCustomer && contractsOfCustomer.length > 0 ? (
+                                    contractsOfCustomer.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.productName}</td>
+                                            <td>{item.programName}</td>
+                                            <td>{`${item.startDate.substring(0, 10)}`}</td>
+                                            <td>{`${item.endDate.substring(0, 10)}`}</td>
+                                            <td>{item.totalPrice}</td>
+                                            <td>
+                                                <button>Chi tiết</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <p>không có dữ liệu</p>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
 
-                                                <td>{`${item.endDate.substring(0, 10)}`}</td>
-                                                <td>{item.totalPrice}</td>
-                                                <td>
-                                                    <button>Chi tiết</button>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <p>không có dữ liệu</p>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
+                <section
+                    id={cx('list_require')}
+                    className={cx({ active: activeSection === 'list_require' })}
+                    style={{ display: 'none' }}
+                >
+                    <div className={cx('left_list')}>
+                        <nav className={cx('navigation_leftList')}>
+                            <li onClick={handelIsUnpaid}>
+                                <Link to="">Chưa thanh toán</Link>
+                            </li>
+                            <li onClick={handelIsPaid}>
+                                <Link to="">Đã được thanh toán</Link>
+                            </li>
+                            <li onClick={handelIsPending}>
+                                <Link to="">Chờ duyệt</Link>
+                            </li>
 
-                    <section
-                        id={cx('list_require')}
-                        className={cx({ active: activeSection === 'list_require' })}
-                        style={{ display: 'none' }}
-                    >
-                        <div className={cx('left_list')}>
-                            <nav className={cx('navigation_leftList')}>
-                                <li onClick={handelIsUnpaid}>
-                                    <Link to="">Chưa thanh toán</Link>
-                                </li>
-                                <li onClick={handelIsPaid}>
-                                    <Link to="">Đã được thanh toán</Link>
-                                </li>
-                                <li onClick={handelIsPending}>
-                                    <Link to="">Chờ duyệt</Link>
-                                </li>
+                            <li onClick={handelIsDenied}>
+                                <Link to="">Bị hủy</Link>
+                            </li>
+                        </nav>
+                    </div>
+                    <div className={cx('right_list')}>
+                        <table className={cx('content-table')}>
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên bảo hiểm</th>
+                                    <th>Chương trình</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Giá bảo hiểm</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style={{ textAlign: 'center' }}>1</td>
+                                    <td>Domenic</td>
+                                    <td>88,110</td>
+                                    <td>dcode</td>
+                                    <td>52,300</td>
+                                    <td>dcode</td>
+                                    <td style={{ textAlign: 'center' }}>
+                                        <button>Chi tiết</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style={{ textAlign: 'center' }}>2</td>
+                                    <td>Sally</td>
+                                    <td>72,400</td>
+                                    <td>Students</td>
+                                    <td>52,300</td>
+                                    <td>dcode</td>
+                                    <td style={{ textAlign: 'center' }}>
+                                        <button>Chi tiết</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style={{ textAlign: 'center' }}>3</td>
+                                    <td>Nick</td>
+                                    <td>52,300</td>
+                                    <td>dcode</td>
+                                    <td>52,300</td>
+                                    <td>dcode</td>
+                                    <td style={{ textAlign: 'center' }}>
+                                        <button>Chi tiết</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
 
-                                <li onClick={handelIsDenied}>
-                                    <Link to="">Bị hủy</Link>
-                                </li>
-                            </nav>
-                        </div>
-                        <div className={cx('right_list')}>
-                            <table className={cx('content-table')}>
-                                <thead>
-                                    <tr>
-                                        <th>Rank</th>
-                                        <th>Name</th>
-                                        <th>Points</th>
-                                        <th>Team</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Domenic</td>
-                                        <td>88,110</td>
-                                        <td>dcode</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Sally</td>
-                                        <td>72,400</td>
-                                        <td>Students</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Nick</td>
-                                        <td>52,300</td>
-                                        <td>dcode</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-
-                    <section id={cx('revenue')} className={cx({ active: activeSection === 'revenue' })}>
-                        <h1>Revenue</h1>
-                    </section>
-                    <section id={cx('profile')} className={cx({ active: activeSection === 'profile' })}>
-                    {isEditing ? (
-                        <div class="col-md-8">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h5 class="mb-0">Full Name:</h5>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                        Kenneth Valdez
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h5 class="mb-0">Birthday:</h5>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                        01 - 01 - 0001
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h5 class="mb-0">Identity Card Number:</h5>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                        1234567890
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h5 class="mb-0">Email:</h5>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            fip@jukmuh.al
-                                        </div>
-                                    </div>
-                               
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <h5 class="mb-0">Phone:</h5>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        (239) 816-9029
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <h5 class="mb-0">Mobile:</h5>
-                                    </div>
-                                        <div class="col-sm-9 text-secondary">
-                                        (320) 380-4539
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <h5 class="mb-0">Address:</h5>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        Bay Area, San Francisco, CA
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <a className="btn btn-info " onClick={handleEditClick}>Chỉnh sửa</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        ) : (
-                            <div class="col-md-8">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-2">
-                                                <h5 class="mb-0">Họ và tên:</h5>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                <div class="input-group mb-3">
-                                                    
-                                                    <input type="text" name="Name" class="form-control" placeholder='Ví dụ:  Nguyen Văn A' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
-                                                </div>
-                                                
-                                            </div>
-
-                                            <div class="col-sm-2">
-                                                <h5 class="mb-0">Ngày sinh:</h5>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                <div class="input-group mb-3">
-                                                    
-                                                    <input type="date" name="Birthday" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
-                                                </div>
-                                                
-                                            </div>
-
-                                            <div class="col-sm-2">
-                                                <h5 class="mb-0">CCCD:</h5>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                <div class="input-group mb-3">
-                                                    
-                                                    <input type="text" name="ID" class="form-control" placeholder='Ví dụ:  987654234' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
-                                                </div>
-                                                
-                                            </div>
-
-                                            <div class="col-sm-2">
-                                                <h5 class="mb-0">Email:</h5>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                <div class="input-group mb-3">
-                                                    
-                                                    <input type="email" name="email" class="form-control" placeholder='Ví dụ:  nguyena@gmail.com' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
-                                                </div>
-                                                
-                                            </div>
-
-                                            <div class="col-sm-2">
-                                                <h5 class="mb-0">Số điện thoại:</h5>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                <div class="input-group mb-3">
-                                                    
-                                                    <input type="tel" name="phone" class="form-control" placeholder='Ví dụ: 0183338287' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
-                                                </div>
-                                                
-                                            </div>
-
-                                            <div class="col-sm-2">
-                                                <h5 class="mb-0">Địa chỉ:</h5>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                <div class="input-group mb-3">
-                                                    
-                                                    <input type="text" name="address" class="form-control" placeholder='Ví dụ: 123 Đinh Tiên Hoàng, Quận 3, TP Hồ Chí Minh' aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
-                                                </div>
-                                                
-                                            </div>
-
-                                            
-                                            {/* <label>Bio:</label>
-                                            <textarea
-                                                name="bio"
-                                                value={userData.bio}
-                                                onChange={handleInputChange}
-                                            /> */}
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <a className="btn btn-info " onClick={handleSaveClick}>Lưu</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </section>
-                </div>
+                <section id={cx('revenue')} className={cx({ active: activeSection === 'revenue' })}>
+                    <Chart></Chart>
+                </section>
+                <section id={cx('profile')} className={cx({ active: activeSection === 'profile' })}>
+                    <PersonalInfomation></PersonalInfomation>
+                </section>
             </div>
         </>
     );

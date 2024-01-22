@@ -38,7 +38,7 @@ function Services() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                <img className={cx('banner_top')} src={Banner} alt="Banner" />
+                <img style={{ borderRadius: '0' }} className={cx('banner_top')} src={Banner} alt="Banner" />
                 <h1 className={cx('title')}>Dịch vụ</h1>
             </div>
             <Slide />

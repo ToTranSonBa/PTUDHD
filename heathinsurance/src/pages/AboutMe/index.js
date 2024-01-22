@@ -23,16 +23,16 @@ function AboutMe() {
     return (
         <>
             <div className={cx('header')}>
-                <img className={cx('banner_top')} src={Banner} alt="Banner" />
+                <img style={{ borderRadius: '0' }} className={cx('banner_top')} src={Banner} alt="Banner" />
                 <h1 className={cx('title')}>Giới thiệu</h1>
             </div>
 
             <nav className={cx('navigation')}>
-                <li onClick={handelInformation}>
+                <li id={cx('info')} onClick={handelInformation} className={cx('active_navbar')}>
                     <IoIosInformationCircle />
                     <Link to="">Giới thiệu </Link>
                 </li>
-                <li onClick={handelContract}>
+                <li id={cx('contract')} onClick={handelContract}>
                     <IoMdContacts />
                     <Link to="">Liên hệ</Link>
                 </li>
