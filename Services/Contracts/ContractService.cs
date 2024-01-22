@@ -138,14 +138,14 @@ namespace Services.Contracts
             return contractDto;
         }
 
-        public async Task UpdateStatusFromUnpaidToPaid(Guid ContractId)
+        public async Task UpdateStatus(Guid ContractId, ContractStatus status)
         {
             var contract = await _repositoryManager.Contracts.GetContractsById(ContractId, true);
             if (contract == null)
             {
                 throw new ReturnNotFoundException($"Contract with id: {ContractId} dose not exist!");
             }
-            contract.Status = ContractStatus.Using.ToString();
+            contract.Status = status.ToString();
             await _repositoryManager.SaveAsync();
         }
         public async Task<List<ContractDto>> GetContractByCustomerIdAndStatus(int customerId, ContractStatus status)

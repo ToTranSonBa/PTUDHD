@@ -62,24 +62,11 @@ namespace WebAPI.Controllers.Contracts
         {
             return Ok( await _service.Contracts.GetContractByCustomerIdAndStatus(customerId, status));
         }
-        [HttpPost("uploadImange")]
-        public IActionResult updateImage([FromForm] IFormFile formFile)
+        [HttpPost("updateStatus")] 
+        public async Task<IActionResult> UpdateStatus(Guid contractId, [FromBody] ContractStatus status)
         {
-            return Ok(ImageHelper.Upload(formFile));
-        }
-        [HttpGet("GetImage")]
-        public IActionResult GetIamge(string path)
-        {
-            string filePath = Directory.GetCurrentDirectory() + "\\wwwroot\\" + path;
-            try
-            {
-                var stream = System.IO.File.ReadAllBytes(filePath);
-                return File(stream, "image/jpeg");
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status404NotFound, "Image not found");
-            }
+            await _service.Contracts.UpdateStatus(contractId, status);
+            return Ok();
         }
     
     }

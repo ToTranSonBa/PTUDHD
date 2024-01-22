@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Entity.Models.InsuranceContractModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -33,7 +34,7 @@ namespace WebAPI.Controllers.Payments
         {
             if(errorCode == "0")
             {
-                await _service.Contracts.UpdateStatusFromUnpaidToPaid(Guid.Parse(orderId));
+                await _service.Contracts.UpdateStatus(Guid.Parse(orderId), ContractStatus.Using);
                 var invoiceDto = new CreateContractInvoiceDto
                 {
                     ContractId = Guid.Parse(orderId),
