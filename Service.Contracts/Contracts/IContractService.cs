@@ -1,6 +1,7 @@
 ﻿using Entity.Models.InsuranceContractModels;
 using Shared.EntityDtos.Contract;
 using Shared.EntityDtos.Insurances.InsuranceProduct;
+using Shared.EntityDtos.Staff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,7 @@ namespace Service.Contracts.Contracts
         Task<List<ContractDto>> GetContracts();
         Task<List<ContractDto>> GetContractByStatus(ContractStatus status);
         Task<ContractDto> GetContractById(Guid Id);
-        Task UpdateStatus(Guid ContractId, ContractStatus status);
-
-
+        Task UpdateStatus(Guid ContractId, ContractStatus status, EmployeeDto employeeDto);
         Task<List<ContractDto>> GetContractByCustomerIdAndStatus(int customerId, ContractStatus status);
     }
 }

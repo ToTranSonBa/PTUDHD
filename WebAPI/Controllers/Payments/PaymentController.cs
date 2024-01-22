@@ -25,29 +25,29 @@ namespace WebAPI.Controllers.Payments
             var paymentUrl = _service.Momo.PaymentRequest(paymentRequest);
             return Ok(paymentUrl.ToString());
         }
-        [HttpGet("momo-return")]
-        public async Task<IActionResult> ConfirmPaymentClient(string partnerCode, string accessKey, 
-            string requestId, string orderId, string orderInfo, 
-            string orderType, string transId, string message, string localMessage, 
-            string responseTime, string errorCode, string payType, string? extraData, 
-            string signature)
-        {
-            if(errorCode == "0")
-            {
-                await _service.Contracts.UpdateStatus(Guid.Parse(orderId), ContractStatus.Using);
-                var invoiceDto = new CreateContractInvoiceDto
-                {
-                    ContractId = Guid.Parse(orderId),
-                    InvoiceInfo = orderInfo,
-                    PaymentMethod = PaymentMehtod.MOMO.ToString()
-                };
-                await _service.ContractsInvoices.addContractInvoice(invoiceDto);
-                return Ok("Thanh toán thành công");
-            }
-            else
-            {
-                return BadRequest(new {errorCode, message});
-            }
-        }
+        //[HttpGet("momo-return")]
+        //public async Task<IActionResult> ConfirmPaymentClient(string partnerCode, string accessKey, 
+        //    string requestId, string orderId, string orderInfo, 
+        //    string orderType, string transId, string message, string localMessage, 
+        //    string responseTime, string errorCode, string payType, string? extraData, 
+        //    string signature)
+        //{
+        //    if(errorCode == "0")
+        //    {
+        //        await _service.Contracts.UpdateStatus(Guid.Parse(orderId), ContractStatus.Using);
+        //        var invoiceDto = new CreateContractInvoiceDto
+        //        {
+        //            ContractId = Guid.Parse(orderId),
+        //            InvoiceInfo = orderInfo,
+        //            PaymentMethod = PaymentMehtod.MOMO.ToString()
+        //        };
+        //        await _service.ContractsInvoices.addContractInvoice(invoiceDto);
+        //        return Ok("Thanh toán thành công");
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(new {errorCode, message});
+        //    }
+        //}
     }
 }

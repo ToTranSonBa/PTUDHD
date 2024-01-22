@@ -1,4 +1,5 @@
 ﻿using Entity.Models.InsuranceContractModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -62,10 +63,13 @@ namespace WebAPI.Controllers.Contracts
         {
             return Ok( await _service.Contracts.GetContractByCustomerIdAndStatus(customerId, status));
         }
+        [Authorize(Roles = "Employee")]
         [HttpPost("updateStatus")] 
         public async Task<IActionResult> UpdateStatus(Guid contractId, ContractStatus status)
         {
-            await _service.Contracts.UpdateStatus(contractId, status);
+            var employeeEmail = HttpContext.User.Claims.ElementAt(0).Value;
+            var employee = await _service.Employees.GetEmployeeByEmail(employeeEmail);
+            await _service.Contracts.UpdateStatus(contractId, status, employee);
             return Ok();
         }
 

@@ -12,5 +12,6 @@ namespace Service.Contracts.Staff
         Task<List<EmployeeDto>> GetEmployees(bool trackChanges);
         Task<EmployeeDto> GetEmployee(int EmployeeId);
         Task<EmployeeDto?> CreateEmployeeAsync(EmployeeCreateDto employeedto);
+        Task<EmployeeDto> GetEmployeeByEmail(string Email);
     }
 }

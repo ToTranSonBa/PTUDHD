@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entity.Exceptions;
 using Entity.Exceptions.Staff;
 using Entity.Models;
 using Entity.Models.Staff;
@@ -43,13 +44,22 @@ namespace Services.Staff
             var result = _mapper.Map<EmployeeDto>(employee);
             return result;
         }
+        public async Task<EmployeeDto> GetEmployeeByEmail(string Email)
+        {
+            var employee = await _repositoryManager.Employees.GetEmployeeByEmail(Email, false);
+            if (employee == null)
+            {
+                throw new ReturnNotFoundException("Khong tim thấy nhân viên");
+            }
+            var result = _mapper.Map<EmployeeDto>(employee);
+            return result;
+        }
         public async Task<EmployeeDto?> CreateEmployeeAsync(EmployeeCreateDto employeedto)
         {
             var user = await _userManager.FindByEmailAsync(employeedto.Email);
             var employee = _mapper.Map<Employee>(employeedto);
             var result = _repositoryManager.Employees.CreateEmployee(employee);
             employee.UserID = user.Id;
-            employee.User = user;
             await _repositoryManager.SaveAsync();
             if (result)
             {

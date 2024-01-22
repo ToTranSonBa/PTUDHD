@@ -15,7 +15,6 @@ namespace Shared.EntityDtos.Staff
         [Required, EmailAddress(ErrorMessage = "Email is required")]
         public string? Email { get; init; }
         public ICollection<string>? Roles { get; init; }
-        public int EmployeeId { get; set; }
         public string? Name { get; set; }
         public string? IdentifycationNumber { get; set; }
         public DateTime? Birthday { get; set; }

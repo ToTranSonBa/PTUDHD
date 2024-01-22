@@ -20,6 +20,7 @@ namespace Entity.Models.Staff
         public DateTime? Birthday { get; set; }
         public DateTime? CreateDay { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
         public string? Address { get; set; }
         public string? UserID {  get; set; }
         public User? User { get; set; }

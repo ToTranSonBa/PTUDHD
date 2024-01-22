@@ -6,6 +6,7 @@ using Entity.Models.InsuranceContractModels;
 using Entity.Models.InsuranceModels;
 using Service.Contracts.Contracts;
 using Shared.EntityDtos.Contract;
+using Shared.EntityDtos.Staff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,13 +139,15 @@ namespace Services.Contracts
             return contractDto;
         }
 
-        public async Task UpdateStatus(Guid ContractId, ContractStatus status)
+        public async Task UpdateStatus(Guid ContractId, ContractStatus status, EmployeeDto employeeDto)
         {
+            var employee = await _repositoryManager.Employees.GetEmployee(employeeDto.EmployeeId, false);
             var contract = await _repositoryManager.Contracts.GetContractsById(ContractId, true);
             if (contract == null)
             {
                 throw new ReturnNotFoundException($"Contract with id: {ContractId} dose not exist!");
             }
+            contract.EmployeeID = employee.Id;
             contract.Status = status.ToString();
             await _repositoryManager.SaveAsync();
         }

@@ -12,5 +12,6 @@ namespace Contracts.StaffContracts
         Task<List<Employee>> GetEmployees(bool trackchanges);
         Task<Employee> GetEmployee(int employeeId, bool trackChanges);
         public bool CreateEmployee(Employee employee);
+        Task<Employee> GetEmployeeByEmail(string Email, bool trackChanges);
     }
 }
