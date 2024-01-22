@@ -63,7 +63,7 @@ namespace WebAPI.Controllers.Contracts
             return Ok( await _service.Contracts.GetContractByCustomerIdAndStatus(customerId, status));
         }
         [HttpPost("updateStatus")] 
-        public async Task<IActionResult> UpdateStatus(Guid contractId, [FromBody] ContractStatus status)
+        public async Task<IActionResult> UpdateStatus(Guid contractId, ContractStatus status)
         {
             await _service.Contracts.UpdateStatus(contractId, status);
             return Ok();
