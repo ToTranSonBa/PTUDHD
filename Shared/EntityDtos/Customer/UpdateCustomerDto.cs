@@ -14,7 +14,6 @@ namespace Shared.EntityDtos.Customer
         public DateTime? Birthday { get; set; }
         [Phone]
         public string? PhoneNumber { get; set; }
-        [EmailAddress]
         public string? Address { get; set; }
     }
 }
