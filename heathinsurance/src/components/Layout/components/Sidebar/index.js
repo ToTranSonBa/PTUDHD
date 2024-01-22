@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import companyLogo from '../../../../assets/image/Logo2.png';
 import './css/custom.css';
@@ -8,10 +9,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Sidebar = ({ children }) => {
     const navigate = useNavigate();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login');
         toast.success('Logout Success!');
+    };
+    const handleMouseEnter = () => {
+        setIsDropdownOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsDropdownOpen(false);
     };
     return (
         <div>
@@ -53,19 +62,21 @@ const Sidebar = ({ children }) => {
                             <i class="material-icons">monetization_on</i>Tài chính{' '}
                         </NavLink>
                     </li>
-                    <li class="dropdown">
-                        <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="material-icons">aspect_ratio</i>Layouts
+                    <li
+                        className={`dropdown ${isDropdownOpen ? 'show' : ''}`}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        <a href="" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
+                            <i className="material-icons">aspect_ratio</i>Layouts
                         </a>
-                        <ul class="collapse list-unstyled menu" id="homeSubmenu1">
+
+                        <ul className={`collapse list-unstyled menu ${isDropdownOpen ? 'show' : ''}`} id="homeSubmenu1">
                             <li>
-                                <a href="#">layout 1</a>
+                                <NavLink to="/admin/insurances/">Insurance</NavLink>
                             </li>
                             <li>
-                                <a href="#">layout 2</a>
-                            </li>
-                            <li>
-                                <a href="#">layout 3</a>
+                                <NavLink to="/admin/benefits/">Benefit</NavLink>
                             </li>
                         </ul>
                     </li>

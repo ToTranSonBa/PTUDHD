@@ -16,6 +16,7 @@ import PaymentPage from '../pages/Payment/Payment';
 import ListUser from '../pages/ListUser';
 import ListRegister from '../pages/ListRegister';
 import ListInsurance from '../pages/ListInsurance';
+import ListBenefits from '../pages/ListBenefit';
 import DashBoard from '../pages/DashBoard';
 import ListRequest from '../pages/ListRequest';
 import AddInsurance from '../pages/AddInsurance';
@@ -41,6 +42,7 @@ const publicRoutes = [
     { path: '/admin/detail-contract/:id', component: DetailContract, layout: SidebarOnly },
     { path: '/admin/users', component: ListUser, layout: SidebarOnly },
     { path: '/admin/insurances', component: ListInsurance, layout: SidebarOnly },
+    { path: '/admin/benefits', component: ListBenefits, layout: SidebarOnly },
     { path: '/admin/add-insurances', component: AddInsurance, layout: SidebarOnly },
     { path: '/admin/update-insurances', component: UpdateInsurance, layout: SidebarOnly },
     { path: '/admin/detail-insurance/:id', component: DetailInsurance, layout: SidebarOnly },

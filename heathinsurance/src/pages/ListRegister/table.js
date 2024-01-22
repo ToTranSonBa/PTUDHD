@@ -2,10 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { RegistersApi } from '../../services/Admin/ApiRegister/register';
+import './styles.css';
 
 function Table() {
     const navigate = useNavigate();
-    const [register, setRegister] = useState([]); // Correct usage of useState
+    const [register, setRegister] = useState([]);
+    const [registerDetail, setRegisterDetail] = useState({});
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,6 +31,16 @@ function Table() {
         navigate(`/admin/registers`);
     };
 
+    const handleView = (id) => {
+        for (let i = 0; i < register.length; i++) {
+            if (register[i].contractId === id) {
+                setRegisterDetail(register[i]);
+                console.log(register[i]);
+                break;
+            }
+        }
+        setShowForm(!showForm);
+    };
     return (
         <div class="container">
             <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -53,6 +66,220 @@ function Table() {
                 </div>
                 <div class="row">
                     <div class="table-responsive ">
+                        <div>
+                            {showForm && (
+                                <div className="overlay-register" style={{ paddingLeft: '260px' }}>
+                                    <div
+                                        className="form-container-register"
+                                        style={{
+                                            textAlign: 'center',
+                                            height: '800px',
+                                            width: '1000px',
+                                            overflowY: 'auto',
+                                        }}
+                                    >
+                                        <span
+                                            onClick={() => setShowForm(false)}
+                                            className="cancel"
+                                            title="cancel"
+                                            data-toggle="tooltip"
+                                            style={{
+                                                cursor: 'pointer',
+                                                float: 'right',
+                                                position: 'fixed',
+                                                zIndex: '99',
+                                                right: '20%',
+                                            }}
+                                        >
+                                            <i class="material-icons close">&#xe5cd;</i>
+                                        </span>
+                                        <br></br>
+                                        <span
+                                            style={{
+                                                fontSize: '20px',
+                                                fontWeight: 'bold',
+                                                color: '#16a317',
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            Thông tin Đăng ký
+                                        </span>
+                                        {registerDetail.customer ? (
+                                            <div style={{ textAlign: 'center' }}>
+                                                <table
+                                                    style={{
+                                                        textAlign: 'left',
+                                                        marginBottom: '16px',
+                                                        width: '-webkit-fill-available',
+                                                    }}
+                                                >
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Nhân viên duyệt</strong>
+                                                            </td>
+                                                            <td>{registerDetail.employee}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Ngày bắt đầu</strong>
+                                                            </td>
+                                                            <td>{registerDetail.startDate}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Ngày kết thúc</strong>
+                                                            </td>
+                                                            <td>{registerDetail.endDate}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Giá bảo hiểm</strong>
+                                                            </td>
+                                                            <td>{registerDetail.totalPrice}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Trạng thái</strong>
+                                                            </td>
+                                                            <td>
+                                                                <span style={{ border: '0px' }}>
+                                                                    {registerDetail.status === 'Unpaid'
+                                                                        ? 'Chưa thanh toán'
+                                                                        : 'Đã thanh toán'}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Tên khách hàng</strong>
+                                                            </td>
+                                                            <td>{registerDetail.customer.name}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>CMND/CCCD</strong>
+                                                            </td>
+                                                            <td>{registerDetail.customer.identifycationNumber}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Ngày sinh</strong>
+                                                            </td>
+                                                            <td>{registerDetail.customer.birthday}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Số điện thoại</strong>
+                                                            </td>
+                                                            <td>{registerDetail.customer.phoneNumber}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Email</strong>
+                                                            </td>
+                                                            <td>{registerDetail.customer.email}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Địa chỉ</strong>
+                                                            </td>
+                                                            <td>{registerDetail.customer.address}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Tên bảo hiểm</strong>
+                                                            </td>
+                                                            <td>{registerDetail.productName}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Ngày tạo</strong>
+                                                            </td>
+                                                            <td>{registerDetail.createDate}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Chương trình</strong>
+                                                            </td>
+                                                            <td>{registerDetail.programName}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        ) : (
+                                            <p>Không có dữ liệu</p>
+                                        )}
+
+                                        <div
+                                            style={{
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            <span
+                                                style={{
+                                                    fontSize: '20px',
+                                                    fontWeight: 'bold',
+                                                    color: '#16a317',
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                Thông tin tình trạng sức khỏe của khách hàng
+                                            </span>
+                                            <table
+                                                style={{
+                                                    marginBottom: '16px',
+                                                    width: '950px',
+                                                }}
+                                            >
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Điều kiện sức khỏe</th>
+                                                        <th>Tình trạng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {registerDetail.contractHealthConditions.length > 0 ? (
+                                                        registerDetail.contractHealthConditions.map((curElem, i) => (
+                                                            <tr key={curElem.benefitTypeId}>
+                                                                <td>{i + 1}</td>
+                                                                <td>
+                                                                    <span
+                                                                        style={{
+                                                                            width: '100%',
+                                                                            whiteSpace: 'wrap',
+                                                                            overflowX: 'wrap',
+                                                                        }}
+                                                                    >
+                                                                        {curElem.conditionName}
+                                                                    </span>
+                                                                </td>
+                                                                <td
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        maxWidth: '98px',
+                                                                        margin: 'auto',
+                                                                    }}
+                                                                >
+                                                                    <span>{curElem.status ? 'Có' : 'Không'}</span>
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td colSpan="3">
+                                                                <span>Không có dữ liệu</span>
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
@@ -93,15 +320,15 @@ function Table() {
                                                 </span>
                                             </td>
                                             <td>
-                                                <Link
-                                                    to={`/admin/detail-contract/${curElem.contractId}`}
+                                                <span
+                                                    onClick={() => handleView(curElem.contractId)}
                                                     className="view  mx-auto"
                                                     title="View"
                                                     data-toggle="tooltip"
-                                                    style={{ color: 'orange' }}
+                                                    style={{ color: 'orange', cursor: 'pointer' }}
                                                 >
                                                     <i className="material-icons">&#xE417;</i>
-                                                </Link>
+                                                </span>
                                             </td>
                                             <td>
                                                 <span

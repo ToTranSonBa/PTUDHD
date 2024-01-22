@@ -3,8 +3,11 @@ import axios from '../../axios-customize';
 export const benefitsApi = () => {
     return axios.get('/InsuranceBenefitType');
 };
-export const addIBenefitApi = () => {
-    return axios.post('/InsuranceBenefitType');
+export const addIBenefitApi = (idBenefitType, benefitName, description) => {
+    return axios.post(`/benefitType/${idBenefitType}/benefit`, { benefitName, description });
+};
+export const addIBenefitTypeApi = (name, benefits) => {
+    return axios.post(`/InsuranceBenefitType`, { name, benefits });
 };
 export const updateBenefitApi = () => {
     return axios.post('/InsuranceBenefitType');

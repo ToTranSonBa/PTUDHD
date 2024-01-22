@@ -3,7 +3,7 @@
     fontsize: '15px';
     background-color: 'white';
 }
-.overlay-register {
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -15,7 +15,8 @@
     align-items: center;
     z-index: 2; /* Ensure the overlay is above other elements */
 }
-.form-container-register {
+
+.form-container {
     background: white;
     padding: 20px;
     border-radius: 8px;
@@ -23,7 +24,8 @@
     z-index: 3;
     width: 500px;
 }
-.button-container-register {
+
+.button-container {
     margin-top: 20px; /* Adjust the margin based on your design */
     display: flex;
     justify-content: space-evenly;
