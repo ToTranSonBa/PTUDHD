@@ -36,5 +36,11 @@ namespace WebAPI.Controllers.Insurances
             await _serviceManager.InsuranceProducts.AddInsuranceProduct(insuranceProductDto);
             return Ok();
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto updateProductDto)
+        {
+            await _serviceManager.InsuranceProducts.UpdateProduct(updateProductDto);
+            return StatusCode(StatusCodes.Status200OK);
+        }
     }
 }

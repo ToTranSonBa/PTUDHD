@@ -68,7 +68,7 @@ namespace WebAPI.Controllers.Contracts
             await _service.Contracts.UpdateStatus(contractId, status);
             return Ok();
         }
-    
+
     }
     
 }

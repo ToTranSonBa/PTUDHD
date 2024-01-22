@@ -201,5 +201,26 @@ namespace Services.Insurances
             }
             await _repositoryManager.SaveAsync();
         }
+        public async Task UpdateProduct(UpdateProductDto updateProductdto)
+        {
+             if(updateProductdto == null)
+            {
+                throw new ReturnBadRequestException("Product khong họp le");
+            }
+            var updateProduct = await _repositoryManager.InsuranceProducts.GetById(updateProductdto.ProductId, true);
+            if(updateProduct == null)
+            {
+                throw new ReturnNotFoundException("Khong tim thấy product");
+            }
+            updateProduct.ShortDescription = updateProductdto.ShortDescription;
+            updateProduct.ParticipationProcedure = updateProductdto.ParticipationProcedure;
+            updateProduct.InsuredParty = updateProductdto.InsuredParty;
+            updateProduct.TerritorialScope = updateProductdto.TerritorialScope;
+            updateProduct.FeeGuarantee = updateProductdto.FeeGuarantee;
+            updateProduct.Commitment = updateProductdto.Commitment;
+            updateProduct.ImageUrl = updateProductdto.ImageUrl;
+            updateProduct.PolicyName = updateProductdto.PolicyName;
+            await _repositoryManager.SaveAsync();
+        }
     }
 }
