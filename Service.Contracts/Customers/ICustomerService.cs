@@ -12,5 +12,6 @@ namespace Service.Contracts.Customers
         Task<CustomerDto> CreateCustomerAsync(CustomerCreateDto CustomerDto);
         Task<CustomerDto> GetCustomerByEmail(string email);
         Task<List<CustomerDto>> GetCustomers();
+        Task UpdateCustomer(int customerId, UpdateCustomerDto CustomerDto);
     }
 }

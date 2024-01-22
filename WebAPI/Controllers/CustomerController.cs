@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.EntityDtos.Customer;
+using Shared.ResponseApi;
 
 namespace WebAPI.Controllers
 {
@@ -43,6 +45,17 @@ namespace WebAPI.Controllers
                 return NoContent();
             }
             return Ok(result);
+        }
+        [HttpPut] 
+        public async Task<IActionResult> UpdateCustomer(int customerId, UpdateCustomerDto updateCustomerDto)
+        {
+            await _services.Customers.UpdateCustomer(customerId, updateCustomerDto);
+            var response = new Shared.ResponseApi.Response
+            {
+                Status = "200",
+                Message = "Câp nhật thành công"
+            };
+            return Ok(response);
         }
     }
 }

@@ -85,5 +85,23 @@ namespace Services.Customers
                 return null;
             }
         }
+        public async Task UpdateCustomer(int customerId,UpdateCustomerDto CustomerDto)
+        {
+            if(CustomerDto == null)
+            {
+                throw new ReturnBadRequestException("Thông tin cập nhật không hợp lệ");
+            }
+            var customer = await _repositoryManager.Customers.GetCustomerAsnyc(customerId, true);
+            if(customer == null)
+            {
+                throw new ReturnNotFoundException("Không tìm thấy customer");
+            }
+            customer.Address = CustomerDto.Address;
+            customer.PhoneNumber = CustomerDto.PhoneNumber;
+            customer.IdentifycationNumber = CustomerDto.IdentifycationNumber;
+            customer.Birthday = CustomerDto.Birthday;
+            customer.Name = CustomerDto.Name;
+            await _repositoryManager.SaveAsync();
+        }
     }
 }
