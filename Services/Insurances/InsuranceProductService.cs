@@ -153,7 +153,7 @@ namespace Services.Insurances
                 var  programs = await _repositoryManager.InsurancePrograms.GetAllAsync(false);
                 foreach(var program in programs)
                 {
-                    if(priceDto.ProgramName == program.Name)
+                    if(priceDto.ProgramId == program.ProgramId)
                     {
                         var price = new InsurancePrice
                         {

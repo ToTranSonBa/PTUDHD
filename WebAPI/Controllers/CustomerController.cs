@@ -31,5 +31,18 @@ namespace WebAPI.Controllers
             var customer = await _services.Customers.GetCustomerByEmail(customerEmail);
             return Ok(customer);
         }
+        [Authorize(Roles = "Customer")]
+        [HttpGet("claim")]
+        public async Task<IActionResult> GetRequestOfCustomer()
+        {
+            var customerEmail = HttpContext.User.Claims.ElementAt(0).Value;
+            var customer = await _services.Customers.GetCustomerByEmail(customerEmail);
+            var result = await _services.ClaimRequests.GetClaimRequestOfCustomer((int)customer.CustomerId);
+            if (result == null)
+            {
+                return NoContent();
+            }
+            return Ok(result);
+        }
     }
 }

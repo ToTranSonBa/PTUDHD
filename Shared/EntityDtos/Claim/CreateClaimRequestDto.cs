@@ -16,6 +16,6 @@ namespace Shared.EntityDtos.Claim
         [Required]
         public int CustomerId { get; set; }
         [Required]
-        public IFormFile HospitalBillAmount { get; set; } // Số tiền hóa đơn viện phí
+        public string HospitalBillAmount { get; set; } // Số tiền hóa đơn viện phí
     }
 }

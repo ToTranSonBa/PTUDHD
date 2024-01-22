@@ -50,6 +50,14 @@ namespace Repository.EntitiesRepository.Contracts
             .Include(e => e.Customer)
             .Include(e => e.Employee)
             .SingleOrDefaultAsync();
+        public async Task<Contract> GetContractsByPrimaryId(Guid Id, bool trackChanges) =>
+            await FindByCondition(e => e.Id == Id, trackChanges)
+            .Include(e => e.InsuranceProduct)
+            .Include(e => e.InsuranceProgram)
+            .Include(e => e.ContractHealthConditions)
+            .Include(e => e.Customer)
+            .Include(e => e.Employee)
+            .SingleOrDefaultAsync();
         public async Task<List<Contract>> GetContractsByCustomerIdAndStatus(Guid customerId, string status, bool trackChanges) =>
             await FindByCondition(e => e.CustomerID == customerId && e.Status == status, trackChanges)
             .Include(e => e.InsuranceProduct)

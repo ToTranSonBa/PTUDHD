@@ -25,10 +25,13 @@ namespace Services.Claims
                 //MedicalHistory = request.MedicalHistory,
                 Status = request.Status,
                 CustomerId = request.Customer.CustomerId,
-                CustomerName = request.Customer.Name
+                CustomerName = request.Customer.Name,
+                HospitalBillAmount = request.HospitalBillAmount
+                
             };
-            var contract = await _repository.Contracts.GetContractsById(request.ContractId.GetValueOrDefault(), false);
+            var contract = await _repository.Contracts.GetContractsByPrimaryId(request.ContractId.GetValueOrDefault(), false);
             dto.ProductName = contract.InsuranceProduct.PolicyName;
+            dto.ProgramName = contract.InsuranceProgram.Name;
             return dto;
         }
         public async Task CreateRequest(CreateClaimRequestDto requestDto)
@@ -50,7 +53,7 @@ namespace Services.Claims
                 CustomerId = customer.Id,
                 //MedicalCondition = requestDto.MedicalCondition,
                 //MedicalHistory = requestDto.MedicalHistory,
-                HospitalBillAmount = ImageHelper.Upload(requestDto.HospitalBillAmount),
+                HospitalBillAmount = requestDto.HospitalBillAmount,
                 Status = RequestStatus.Waiting.ToString()
             };
             if(!_repository.ClaimRequests.AddRequest(newRequest))

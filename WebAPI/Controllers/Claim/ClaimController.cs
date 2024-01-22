@@ -1,4 +1,5 @@
 ﻿using Entity.Models.Claim;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -16,7 +17,7 @@ namespace WebAPI.Controllers.Claim
             _service = serviceManager;
         }
         [HttpPost]
-        public async Task<IActionResult> AddRequest([FromForm] CreateClaimRequestDto claimRequestDto)
+        public async Task<IActionResult> AddRequest([FromBody] CreateClaimRequestDto claimRequestDto)
         {
             await _service.ClaimRequests.CreateRequest(claimRequestDto);
             return StatusCode(StatusCodes.Status201Created);
