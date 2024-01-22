@@ -5,6 +5,7 @@ import Chart from './Chart';
 import PersonalInfomation from './PersonalInfo';
 import styles from './Account.module.scss';
 import Banner from '../../assets/image/banner-top.jpg';
+import CustomerRequest from './../CustomerRequest/CustomerRequest'
 
 import { AccountCustomerApi, ContractsCustomerApi } from '../../services/ApiAccount/Account';
 
@@ -275,62 +276,46 @@ function Account() {
                                 <Link to="">Chờ duyệt</Link>
                             </li>
 
-                            <li onClick={handelIsDenied}>
-                                <Link to="">Bị hủy</Link>
-                            </li>
-                        </nav>
-                    </div>
-                    <div className={cx('right_list')}>
-                        <table className={cx('content-table')}>
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên bảo hiểm</th>
-                                    <th>Chương trình</th>
-                                    <th>Ngày bắt đầu</th>
-                                    <th>Ngày kết thúc</th>
-                                    <th>Giá bảo hiểm</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style={{ textAlign: 'center' }}>1</td>
-                                    <td>Domenic</td>
-                                    <td>88,110</td>
-                                    <td>dcode</td>
-                                    <td>52,300</td>
-                                    <td>dcode</td>
-                                    <td style={{ textAlign: 'center' }}>
-                                        <button>Chi tiết</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style={{ textAlign: 'center' }}>2</td>
-                                    <td>Sally</td>
-                                    <td>72,400</td>
-                                    <td>Students</td>
-                                    <td>52,300</td>
-                                    <td>dcode</td>
-                                    <td style={{ textAlign: 'center' }}>
-                                        <button>Chi tiết</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style={{ textAlign: 'center' }}>3</td>
-                                    <td>Nick</td>
-                                    <td>52,300</td>
-                                    <td>dcode</td>
-                                    <td>52,300</td>
-                                    <td>dcode</td>
-                                    <td style={{ textAlign: 'center' }}>
-                                        <button>Chi tiết</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                                <li onClick={handelIsDenied}>
+                                    <Link to="">Bị hủy</Link>
+                                </li>
+                            </nav>
+                        </div>
+                        
+                        {/* <div className={cx('right_list')}>
+                            <table className={cx('content-table')}>
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Name</th>
+                                        <th>Points</th>
+                                        <th>Team</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Domenic</td>
+                                        <td>88,110</td>
+                                        <td>dcode</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Sally</td>
+                                        <td>72,400</td>
+                                        <td>Students</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Nick</td>
+                                        <td>52,300</td>
+                                        <td>dcode</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> */}
+                        <CustomerRequest></CustomerRequest>
+                    </section>
 
                 <section id={cx('revenue')} className={cx({ active: activeSection === 'revenue' })}>
                     <Chart></Chart>
