@@ -11,5 +11,6 @@ namespace Contracts.InsuranceContractContracts
     {
         bool AddInvoice(ContractInvoice contractInvoice);
         Task<List<ContractInvoice>> GetInvoiceByContractId(Guid contractI, bool trackChanges);
+        Task<List<ContractInvoice>> GetInvoiceByYear(int year, bool trackChanges);
     }
 }

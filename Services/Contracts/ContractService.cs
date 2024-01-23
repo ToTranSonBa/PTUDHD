@@ -151,8 +151,14 @@ namespace Services.Contracts
             contract.EmployeeID = employee.Id;
             if(status == ContractStatus.Using)
             {
+                _repositoryManager.ContractsInvoices.AddInvoice(new ContractInvoice
+                {
+                    ContractID = contract.Id,
+                    CreatedDate = DateTime.UtcNow,
+                    LastPrice = contract.TotalPrice,
+                    Id = Guid.NewGuid()
+                });
                 contract.ConfirmDate = DateTime.Now;
-                     
             }
             contract.Status = status.ToString();
             await _repositoryManager.SaveAsync();

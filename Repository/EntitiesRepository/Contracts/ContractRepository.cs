@@ -66,5 +66,8 @@ namespace Repository.EntitiesRepository.Contracts
             .Include(e => e.Customer)
             .Include(e => e.Employee)
             .ToListAsync();
+        public async Task<List<Contract>> GetContractsByCustomerIdAndStatuses(List<string> statuses, bool trackchange)
+            => await FindByCondition(e => statuses.Contains(e.Status), trackchange)
+            .ToListAsync();
     }
 }

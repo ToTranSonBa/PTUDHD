@@ -23,5 +23,9 @@ namespace Repository.EntitiesRepository.Contracts
         {
             return await FindByCondition(e => e.ContractID == contractId, trackChanges).ToListAsync();
         }
+        public async Task<List<ContractInvoice>> GetInvoiceByYear(int year, bool trackChanges)
+        {
+            return await FindByCondition(e => e.CreatedDate.Value.Year == year, trackChanges).ToListAsync();
+        }
     }
 }

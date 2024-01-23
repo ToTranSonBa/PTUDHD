@@ -16,5 +16,6 @@ namespace Contracts.InsuranceContractContracts
         Task<Contract> GetContractsById(Guid Id, bool trackChanges);
         Task<List<Contract>> GetContractsByCustomerIdAndStatus(Guid customerId, string status, bool trackChanges);
         Task<Contract> GetContractsByPrimaryId(Guid Id, bool trackChanges);
+        Task<List<Contract>> GetContractsByCustomerIdAndStatuses(List<string> statuses, bool trackchange);
     }
 }
