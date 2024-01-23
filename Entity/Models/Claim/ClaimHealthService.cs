@@ -12,19 +12,12 @@ namespace Entity.Models.Claim
         [Key]
         public Guid Id { get; set; }
         [Key]
-        public Guid RequestId { get; set; }
+        public Guid ClaimPaymentId { get; set; }
         public string? ServiceName { get; set; }
         public int? CostOfATreatment { get; set; }
         public string? HospitalName { get; set; }
-        public int? QuantityTreatment { get; set; }
-        public ClaimHealthServiceStatus Status { get; set; }
-        public ClaimRequest? Request { get; set; }
+        public DateTime? UsedDate { get; set; }
+        public ClaimPayment? ClaimPayment { get; set; }
     }
-    public enum ClaimHealthServiceStatus
-    {
-        WAITING,
-        PROCESSING,
-        DENIED,
-        ACCEPTED
-    }
+
 }

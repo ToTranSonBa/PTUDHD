@@ -55,7 +55,7 @@ namespace Repository
             });
             // claim
             modelBuilder.Entity<ClaimHealthService>().HasKey(e
-                => new { e.RequestId, e.Id });
+                => new { e.ClaimPaymentId, e.Id });
 
             // contract
             modelBuilder.Entity<ContractInvoice>().HasKey(e

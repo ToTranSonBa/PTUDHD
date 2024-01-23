@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity.Models.Claim;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Contracts.ClaimContracts
 {
     public interface IClaimPaymentRepository
     {
+        bool CreatePayment(ClaimPayment claimPayment);
+        Task<List<ClaimPayment>> GetAll(bool trackChange);
     }
 }

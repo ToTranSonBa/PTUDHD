@@ -26,8 +26,8 @@ namespace Services.Claims
                 Status = request.Status,
                 CustomerId = request.Customer.CustomerId,
                 CustomerName = request.Customer.Name,
-                HospitalBillAmount = request.HospitalBillAmount
-                
+                HospitalBillAmount = request.HospitalBillAmount,
+                ClaimRequestId = request.Id
             };
             var contract = await _repository.Contracts.GetContractsByPrimaryId(request.ContractId.GetValueOrDefault(), false);
             dto.ProductName = contract.InsuranceProduct.PolicyName;
@@ -44,7 +44,7 @@ namespace Services.Claims
             var customer = (await _repository.Customers.GetCustomerAsnyc(requestDto.CustomerId, false));
             if (customer == null)
             {
-                throw new ReturnBadRequestException($"Customer with id: {requestDto.CustomerId} dose not exist ");
+                throw new ReturnNotFoundException($"Customer with id: {requestDto.CustomerId} dose not exist ");
             }
             var newRequest = new ClaimRequest
             {

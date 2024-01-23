@@ -11,10 +11,11 @@ namespace Shared.EntityDtos.Contract
     public class ContractDto
     {
         public Guid ContractId { get; set; }
-        public DateTime? StartDate { get; init; }
-        public DateTime? EndDate { get; init; }
-        public float? TotalPrice { get; init; }
-        public string? Status { get; init; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public DateTime? ConfirmDate { get; set; }
+        public float? TotalPrice { get; set; }
+        public string? Status { get; set; }
         public CustomerDto? Customer { get; set; }
         public EmployeeDto? Employee { get; set; }
         public string? HealthDeclaration { get; set; }

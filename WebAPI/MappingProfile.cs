@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Entity.Models;
+using Entity.Models.Claim;
 using Entity.Models.Customers;
 using Entity.Models.InsuranceContractModels;
 using Entity.Models.InsuranceModels;
 using Entity.Models.Staff;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared.EntityDtos.Claim;
 using Shared.EntityDtos.Contract;
 using Shared.EntityDtos.Customer;
 using Shared.EntityDtos.Insurances;
@@ -56,6 +58,9 @@ namespace WebAPI
             CreateMap<InsuranceProgramDto, InsuranceProgram>().ReverseMap();
             CreateMap<AddInsuranceProgramDto, InsuranceProgram>().ReverseMap();
 
+            //Claim
+            CreateMap<ClaimPayment, ClaimPaymentDto>().ReverseMap();
+            CreateMap<ClaimHealthDto, ClaimHealthService>().ReverseMap();
 
         }
     }

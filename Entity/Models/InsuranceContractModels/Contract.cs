@@ -19,6 +19,7 @@ namespace Entity.Models.InsuranceContractModels
         public DateTime CreatedDate { get; init; } = DateTime.Now;
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public DateTime? ConfirmDate { get; set; }
         public float? TotalPrice { get; set; }
         public string? Status { get; set; }
         public string? HealthDeclaration { get; set; }

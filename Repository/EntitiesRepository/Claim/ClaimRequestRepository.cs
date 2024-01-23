@@ -31,5 +31,11 @@ namespace Repository.EntitiesRepository.Claim
             => await FindByCondition(e => e.Status == status, trackChanges)
             .Include(e => e.Contract)
             .Include(e => e.Customer)
-            .ToListAsync();    }
+            .ToListAsync();    
+        public async Task<ClaimRequest> GetRequestById(Guid id, bool trackChanges)
+            => await FindByCondition(e => e.Id == id, trackChanges)
+            .Include(e => e.Contract)
+            .Include(e => e.Customer)
+            .SingleOrDefaultAsync();
+    }
 }

@@ -13,5 +13,6 @@ namespace Contracts.ClaimContracts
         Task<List<ClaimRequest>> GetCustomerRequestByStatus(Guid CustomerId, string Status, bool trackChanges);
         bool AddRequest(ClaimRequest claimRequest);
         Task<List<ClaimRequest>> GetCustomerRequest(Guid CustomerId, bool trackChanges);
+        Task<ClaimRequest> GetRequestById(Guid id, bool trackChanges);
     }
 }

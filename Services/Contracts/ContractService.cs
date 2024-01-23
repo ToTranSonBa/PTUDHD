@@ -125,6 +125,7 @@ namespace Services.Contracts
             contractDto.ProductName = contract.InsuranceProduct.PolicyName;
             contractDto.ProductId = contract.InsuranceProduct.ProductId;
             contractDto.ProgramId = contract.InsuranceProgram.ProgramId;
+            contractDto.ConfirmDate = contract.ConfirmDate;
             contractDto.ContractHealthConditions = new List<ContractHealthConditionDto>();
             foreach (var Item in contract.ContractHealthConditions)
             {
@@ -148,6 +149,11 @@ namespace Services.Contracts
                 throw new ReturnNotFoundException($"Contract with id: {ContractId} dose not exist!");
             }
             contract.EmployeeID = employee.Id;
+            if(status == ContractStatus.Using)
+            {
+                contract.ConfirmDate = DateTime.Now;
+                     
+            }
             contract.Status = status.ToString();
             await _repositoryManager.SaveAsync();
         }

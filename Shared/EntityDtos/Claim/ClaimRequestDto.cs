@@ -8,6 +8,7 @@ namespace Shared.EntityDtos.Claim
 {
     public class ClaimRequestDto
     {
+        public Guid ClaimRequestId { get; set; }
         public DateTime? CreatedDate { get; set; }
         //public string? MedicalCondition { get; set; }
         //public string? MedicalHistory { get; set; }
