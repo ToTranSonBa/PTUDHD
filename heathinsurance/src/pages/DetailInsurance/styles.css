@@ -190,31 +190,32 @@ img{
 
 /* CSS */
 .button-28 {
-  appearance: none;
-  background-color: white;
-  border: 1px solid #909ec2 ;
-  border-radius: 10px;
-  box-sizing: border-box;
-  color: #3B3B3B;
-  cursor: pointer;
-  display: inline-block;
-  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  font-size: 16px;
-  font-weight: 600;
-  line-height: normal;
-  margin: 0;
-  min-height:40px;
-  min-width: 0;
-  outline: none;
-  
-  text-align: center;
-  text-decoration: none;
-  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 80%;
-  will-change: transform;
+    appearance: none;
+    background: #b5def5;
+    background-color: #b5def5;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #006098;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 30px;
+    max-width: 150px;
+    min-width: 0;
+    outline: none;
+    padding: 16px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    touch-action: manipulation;
+    width: 50%;
+    will-change: transform;
+    margin-bottom: 10px;
+    margin-left: 10px;
 }
 
 .button-28:disabled {
@@ -222,23 +223,33 @@ img{
 }
 
 .button-28:hover {
-  color: #ffffff;
-  background-color: #d5e0fb;
-  box-shadow: rgba(118, 118, 172, 0.25) 0 4px 8px;
-  transform: translateY(-2px);
+    color: #fff;
+    background-color: #40A2D8;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+    font-weight: 700;
 }
 
 .button-28:active {
   box-shadow: none;
   transform: translateY(0);
 }
-
+.material-icons:hover{
+    
+    opacity: 0.5;
+    color:#006098;
+}
 
 @media screen and (min-width: 992px){
     .mycard{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 1.5rem;
+    }
+    .mycard2{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1rem;
     }
     .card-wrapper{
         height: 90vh;
@@ -253,5 +264,15 @@ img{
     }
     .product-content{
         padding-top: 0;
+    }
+    .col-left{
+        display: flex;
+        justify-content: left;
+        vertical-align: middle;
+    }
+    .col-mid{
+        display: flex;
+        justify-content: center;
+        vertical-align: middle;
     }
 }

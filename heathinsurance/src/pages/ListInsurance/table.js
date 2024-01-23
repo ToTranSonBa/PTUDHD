@@ -85,16 +85,16 @@ function Table() {
                                             <td>{curElem.policyName}</td>
                                             <td>{curElem.totalQuantitySold}</td>
                                             <td>{curElem.territorialScope}</td>
-                                            <td>
-                                                <span
-                                                    onClick={() => handleUpdate(curElem.productId)}
-                                                    className="delete "
-                                                    title="Delete"
+                                            <td>                                                
+                                                <Link
+                                                    to={`/admin/update-insurances/${curElem.productId}`}
+                                                    className="view  mx-auto"
+                                                    title="update"
                                                     data-toggle="tooltip"
-                                                    style={{ color: 'green', cursor: 'pointer' }}
+                                                    style={{ color: 'green' }}
                                                 >
-                                                    <i class="material-icons check_circle_outline">&#xe92d;</i>
-                                                </span>
+                                                    <i className="material-icons">&#xe3c9;</i>
+                                                </Link>
                                             </td>
                                             <td>
                                                 <Link

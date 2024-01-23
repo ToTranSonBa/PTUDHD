@@ -1,11 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState,useEffect, useRef } from 'react';
 import './ImageUpload.css';
 import { AiFillFile, AiFillFileImage } from 'react-icons/ai';
 import { MdCloudUpload, MdDelete } from 'react-icons/md';
 
-const ImageUpload = () => {
-    const [image, setImage] = useState(null);
-    const [fileName, setFileName] = useState('No selected file');
+const ImageUpload = ({myUrl}) => {
+    const [image, setImage] = useState(myUrl|| '');
+    useEffect(() => {
+        // Kiểm tra nếu propValue là null hoặc undefined, không thực hiện cập nhật state
+        if (image !== myUrl && myUrl !== null) {
+          setImage(myUrl);
+        }
+      }, [myUrl]);
+    const [fileName, setFileName] = useState('Choose image!');
     const handleFileChange = ({ target: { files } }) => {
         if (files[0]) {
             const file = files[0];

@@ -44,7 +44,7 @@ const publicRoutes = [
     { path: '/admin/insurances', component: ListInsurance, layout: SidebarOnly },
     { path: '/admin/benefits', component: ListBenefits, layout: SidebarOnly },
     { path: '/admin/add-insurances', component: AddInsurance, layout: SidebarOnly },
-    { path: '/admin/update-insurances', component: UpdateInsurance, layout: SidebarOnly },
+    { path: '/admin/update-insurances/:id', component: UpdateInsurance, layout: SidebarOnly },
     { path: '/admin/detail-insurance/:id', component: DetailInsurance, layout: SidebarOnly },
     { path: '/admin/request', component: ListRequest, layout: SidebarOnly },
 ];

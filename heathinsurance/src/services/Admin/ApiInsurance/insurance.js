@@ -30,8 +30,28 @@ export const addInsurancesApi = (
         benefitTypes,
     });
 };
-export const updateInsurancesApi = () => {
-    return axios.post('/InsuranceProduct');
+export const updateInsurancesApi = (
+    productId,
+    policyName,
+    insuredParty,
+    territorialScope,
+    participationProcedure,
+    feeGuarantee,
+    commitment,
+    shortDescription,
+    imageUrl,
+) => {
+    return axios.put('/InsuranceProduct',{
+        productId,
+        policyName,
+        insuredParty,
+        territorialScope,
+        participationProcedure,
+        feeGuarantee,
+        commitment,
+        shortDescription,
+        imageUrl,
+    });
 };
 export const offInsurancesApi = () => {
     return axios.post('/InsuranceProduct');
