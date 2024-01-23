@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 //
 import classNames from 'classnames/bind';
 import styles from './Account.module.scss';
+import { AccountCustomerApi, UpdateCustomerApi } from '../../services/ApiAccount/Account';
+import { toast } from 'react-toastify';
 const cx = classNames.bind(styles);
 
 //
@@ -9,23 +11,74 @@ const cx = classNames.bind(styles);
 const PersonalInfomation = () => {
     const [isEditing, setIsEditing] = useState(true);
     const [userData, setUserData] = useState({});
+    const [userName, setUserName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [birthdayUpdate, setBirthdayUpdate] = useState('');
+    const [address, setAddress] = useState('');
+    const [identifycationNumber, setIdentifycationNumber] = useState('');
+    const [birthdayView, setBirthdayView] = useState('');
+
+
 
     const handleEditClick = () => {
         setIsEditing(false);
     };
+    useEffect(() => {
+        fetchData();
+    }, [isEditing]);
 
-    const handleSaveClick = () => {
-        // Perform save action (e.g., update data on the server)
-        // For simplicity, we'll just toggle back to view mode
-        setIsEditing(true);
-    };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setUserData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+    const fetchData = async () => {
+        const user = localStorage.getItem('token');
+        // Phân tách token thành ba phần: Header, Payload, Signature
+        let parts = user.split('.');
+
+        // Giải mã Payload
+        let decodedPayload = JSON.parse(atob(parts[1]));
+
+        // Lấy giá trị của thuộc tính "emailaddress"
+        let emailAddress = decodedPayload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+        const customer = await AccountCustomerApi(emailAddress);
+        setUserData(customer);
+        setBirthdayView(customer.birthday.substring(0, 10));
+        setCustomerInforDefault();
+    }
+
+    const validCustomerInfor = () => {
+        if (userName && phoneNumber && birthdayUpdate && address && identifycationNumber) return true;
+        else return false;
+    }
+
+
+    const setCustomerInforDefault = () => {
+        setUserName(userData.name);
+        setPhoneNumber(userData.phoneNumber);
+        setBirthdayUpdate(birthdayView);
+        setAddress(userData.address);
+        setIdentifycationNumber(userData.identifycationNumber);
+    }
+    const handleSaveClick = async () => {
+        const validCheck = validCustomerInfor();
+        if (validCheck) {
+            const customer = {
+                "name": userName,
+                "identifycationNumber": identifycationNumber,
+                "birthday": birthdayUpdate,
+                "phoneNumber": phoneNumber,
+                "address": address
+            }
+            try {
+                console.log(">>>check update customer: ", customer);
+                await UpdateCustomerApi(userData.customerId, customer);
+                setIsEditing(true);
+                toast.success("cập nhật thông tin cá nhân thành công");
+            } catch (error) {
+                console.error("Lỗi khi cập nhật thông tin khách hàng:", error);
+            }
+        } else {
+            toast.error("Hãy nhập đủ các trường!");
+        }
+
     };
 
     return (
@@ -35,47 +88,41 @@ const PersonalInfomation = () => {
                     <div class="card-body text-center">
                         <div class="row mx-auto">
                             <div class="p-3 text-start col-sm-3">
-                                <h3 class="mb-0">Full Name:</h3>
+                                <h3 class="mb-0">Họ và tên:</h3>
                             </div>
-                            <div class="p-3 border text-start col-sm-8 text-secondary">Kenneth Valdez</div>
+                            <div class="p-3 border text-start col-sm-8 text-secondary">{userData ? userData.name : ""}</div>
                         </div>
 
                         <div class="row mx-auto">
                             <div class="p-3 col-sm-3  text-start">
-                                <h3 class="mb-0">Birthday:</h3>
+                                <h3 class="mb-0">ngày sinh:</h3>
                             </div>
-                            <div class="col-sm-8 p-3 border text-start text-secondary">01 - 01 - 0001</div>
+                            <div class="col-sm-8 p-3 border text-start text-secondary">{userData ? birthdayView : ""}</div>
                         </div>
                         <div class="row mx-auto">
                             <div class="p-3 col-sm-3 text-start">
-                                <h3 class="mb-0">Identity Card Number:</h3>
+                                <h3 class="mb-0">CMND/CCCD:</h3>
                             </div>
-                            <div class="col-sm-8 p-3 border text-start text-secondary">1234567890</div>
+                            <div class="col-sm-8 p-3 border text-start text-secondary">{userData ? userData.identifycationNumber : ""}</div>
                         </div>
                         <div class="row mx-auto">
                             <div class="col-sm-3 text-start p-3">
                                 <h3 class="mb-0">Email:</h3>
                             </div>
-                            <div class="col-sm-8 p-3 border text-start text-secondary">fip@jukmuh.al</div>
+                            <div class="col-sm-8 p-3 border text-start text-secondary">{userData ? userData.email : ""}</div>
                         </div>
                         <div class="row mx-auto">
                             <div class="col-sm-3 text-start p-3">
-                                <h3 class="mb-0">Phone:</h3>
+                                <h3 class="mb-0">Số diện thoại:</h3>
                             </div>
-                            <div class="col-sm-8 p-3 border text-start text-secondary">(239) 816-9029</div>
+                            <div class="col-sm-8 p-3 border text-start text-secondary">{userData ? userData.phoneNumber : ""}</div>
                         </div>
 
                         <div class="row mx-auto">
                             <div class="col-sm-3 text-start p-3">
-                                <h3 class="mb-0">Mobile:</h3>
+                                <h3 class="mb-0">Địa chỉ:</h3>
                             </div>
-                            <div class="col-sm-8 p-3 border text-start text-secondary">(320) 380-4539</div>
-                        </div>
-                        <div class="row mx-auto">
-                            <div class="col-sm-3 text-start p-3">
-                                <h3 class="mb-0">Address:</h3>
-                            </div>
-                            <div class="col-sm-8 p-3 border text-start text-secondary">Bay Area, San Francisco, CA</div>
+                            <div class="col-sm-8 p-3 border text-start text-secondary">{userData ? userData.address : ""}</div>
                         </div>
 
                         <div class="row p-3">
@@ -103,6 +150,8 @@ const PersonalInfomation = () => {
                                     <input
                                         type="text"
                                         name="Name"
+                                        value={userName}
+                                        onChange={(e) => setUserName(e.target.value)}
                                         class="p-3 fs-4 form-control"
                                         placeholder="Ví dụ:  Nguyen Văn A"
                                         aria-label="Sizing example input"
@@ -120,6 +169,8 @@ const PersonalInfomation = () => {
                                     <input
                                         type="date"
                                         name="Birthday"
+                                        value={birthdayUpdate}
+                                        onChange={(e) => setBirthdayUpdate(e.target.value)}
                                         class="p-3 fs-4 form-control"
                                         aria-label="Sizing example input"
                                         aria-describedby="inputGroup-sizing-default"
@@ -129,13 +180,15 @@ const PersonalInfomation = () => {
                         </div>
                         <div class="row mt-4 mb-4">
                             <div class="col-sm-2 p-3">
-                                <h3 class="mb-0">CCCD:</h3>
+                                <h3 class="mb-0">CMND?CCCD:</h3>
                             </div>
                             <div class="col-sm-9">
                                 <div class=" input-group mb-3">
                                     <input
                                         type="text"
                                         name="ID"
+                                        value={identifycationNumber}
+                                        onChange={(e) => setIdentifycationNumber(e.target.value)}
                                         class="p-3 fs-4 form-control"
                                         placeholder="Ví dụ:  987654234"
                                         aria-label="Sizing example input"
@@ -144,23 +197,7 @@ const PersonalInfomation = () => {
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4 mb-4">
-                            <div class="col-sm-2 p-3">
-                                <h3 class="mb-0">Email:</h3>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class=" input-group mb-3">
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        class="p-3 fs-4 form-control"
-                                        placeholder="Ví dụ:  nguyena@gmail.com"
-                                        aria-label="Sizing example input"
-                                        aria-describedby="inputGroup-sizing-default"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="row mt-4 mb-4">
                             <div class="col-sm-2 p-3">
                                 <h3 class="mb-0">Số điện thoại:</h3>
@@ -170,6 +207,8 @@ const PersonalInfomation = () => {
                                     <input
                                         type="tel"
                                         name="phone"
+                                        value={phoneNumber}
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
                                         class="p-3 fs-4 form-control"
                                         placeholder="Ví dụ: 0183338287"
                                         aria-label="Sizing example input"
@@ -187,6 +226,8 @@ const PersonalInfomation = () => {
                                     <input
                                         type="text"
                                         name="address"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
                                         class="p-3 fs-4 form-control"
                                         placeholder="Ví dụ: 123 Đinh Tiên Hoàng, Quận 3, TP Hồ Chí Minh"
                                         aria-label="Sizing example input"

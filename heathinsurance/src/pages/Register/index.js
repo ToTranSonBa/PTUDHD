@@ -531,8 +531,8 @@ function Register() {
                                                         checked={
                                                             answers && answers.length > 0
                                                                 ? answers.find(
-                                                                      (ans) => ans.id === condition.healthConditionId,
-                                                                  )?.status === true
+                                                                    (ans) => ans.id === condition.healthConditionId,
+                                                                )?.status === true
                                                                     ? true
                                                                     : false
                                                                 : false
@@ -555,8 +555,8 @@ function Register() {
                                                         checked={
                                                             answers && answers.length > 0
                                                                 ? answers.find(
-                                                                      (ans) => ans.id === condition.healthConditionId,
-                                                                  )?.status === false
+                                                                    (ans) => ans.id === condition.healthConditionId,
+                                                                )?.status === false
                                                                     ? true
                                                                     : false
                                                                 : true
@@ -586,7 +586,7 @@ function Register() {
                                 id={cx('UPa_ks')}
                                 role="tabpanel"
                                 aria-labelledby="sk-tab"
-                                // onmouseup="bhhd_ngskKM_KTRA()"
+                            // onmouseup="bhhd_ngskKM_KTRA()"
                             >
                                 <div className={cx('title-form')}>
                                     <span>THÔNG TIN VỀ TÌNH TRẠNG SỨC KHỎE</span>

@@ -44,9 +44,9 @@ const ListCard = () => {
                             <div className="name">{curElem.name}</div>
                             <div className="detail-box">
                                 <p className="description">
-                                    {curElem.description.length > 20
-                                        ? `${curElem.description.substring(0, 70)}...`
-                                        : curElem.description}
+                                    {curElem.shortDescription.length > 20
+                                        ? `${curElem.shortDescription.substring(0, 70)}...`
+                                        : curElem.shortDescription}
                                 </p>
                             </div>
                             <div className="button">

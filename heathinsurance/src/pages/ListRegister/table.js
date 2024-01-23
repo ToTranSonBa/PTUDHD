@@ -1,34 +1,47 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { RegistersApi } from '../../services/Admin/ApiRegister/register';
-import './styles.css';
+
+import { RegistersWithStatusApi, RegistersUpdateStatusApi } from '../../services/Admin/ApiRegister/register';
+import { toast } from 'react-toastify';
 
 function Table() {
     const navigate = useNavigate();
     const [register, setRegister] = useState([]);
     const [registerDetail, setRegisterDetail] = useState({});
     const [showForm, setShowForm] = useState(false);
+    const [checkUpdate, setcheckUpdate] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await RegistersApi();
+                const response = await RegistersWithStatusApi(0);
                 setRegister(response);
+                setcheckUpdate(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchData();
-    }, []); // Include register in the dependency array if you want to log changes
+    }, [checkUpdate]); // Include register in the dependency array if you want to log changes
 
     const handleDelete = (id) => {
         navigate(`/admin/registers`);
     };
 
-    const handleAccept = (id) => {
+    const handleAccept = async (id) => {
         //call API
-        navigate(`/admin/registers`);
+        try {
+
+            const response = await RegistersUpdateStatusApi(id, 2);
+            toast.success("Duyệt thành công");
+            setcheckUpdate(true);
+            navigate(`/admin/registers`);
+        } catch (error) {
+            console.error("Lỗi khi gọi API:", error);
+            toast.error("Đã xảy ra lỗi khi gọi API");
+        }
+
     };
 
     const handleView = (id) => {

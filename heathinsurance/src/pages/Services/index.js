@@ -11,7 +11,6 @@ import Slide from './Slide';
 const cx = classNames.bind(styles);
 
 function Services() {
-    const navigate = useNavigate();
 
     const [product, setProduct] = useState([]);
     useEffect(() => {
@@ -25,13 +24,7 @@ function Services() {
         };
         fetchData();
     }, []);
-    const handleSeeMore = (id) => {
-        navigate(`/service/${id}`);
-    };
 
-    const handleRegister = (id) => {
-        navigate(`/register/${id}`);
-    };
 
     const swiperRef = useRef(null);
 

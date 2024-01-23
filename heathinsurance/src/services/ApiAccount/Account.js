@@ -4,10 +4,14 @@ const AccountCustomerApi = async (email) => {
     return axios.get(`/customer/${email}`);
 };
 
-const ContractsCustomerApi = async (CustomerDd, status) => {
-    return axios.get(`Contract/${CustomerDd}/status/${status}`);
+const ContractsCustomerApi = async (CustomerId, status) => {
+    return axios.get(`Contract/${CustomerId}/status/${status}`);
+};
+
+const UpdateCustomerApi = async (CustomerId, customer) => {
+    return axios.put(`/customer?customerId=${CustomerId}`, customer);
 };
 
 export {
-    AccountCustomerApi, ContractsCustomerApi
+    AccountCustomerApi, ContractsCustomerApi, UpdateCustomerApi
 };

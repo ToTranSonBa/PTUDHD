@@ -33,10 +33,13 @@ const Login = () => {
 
             const response = await LoginApi(email, password);
 
+
             if (response && response.accessToken) {
                 const token = response.accessToken;
+                const role = response.role;
                 await toast.success('Login Successfully!');
                 localStorage.setItem('token', token);
+                localStorage.setItem('role', role);
                 navigate('/');
             } else if (response.data && response.data.status === 400) {
                 toast.error(response.data.title);
