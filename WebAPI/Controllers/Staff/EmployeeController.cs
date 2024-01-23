@@ -27,5 +27,11 @@ namespace WebAPI.Controllers.Staff
             var employees = await _serviceManager.Employees.GetEmployees(false);
             return Ok(employees);
         }
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetEmployeeByEmail(string email)
+        {
+            var employees = await _serviceManager.Employees.GetEmployeeByEmail(email);
+            return Ok(employees);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Entity.Models.Claim;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -35,11 +36,11 @@ namespace WebAPI.Controllers
         }
         [Authorize(Roles = "Customer")]
         [HttpGet("claim")]
-        public async Task<IActionResult> GetRequestOfCustomer()
+        public async Task<IActionResult> GetRequestOfCustomer(RequestStatus status)
         {
             var customerEmail = HttpContext.User.Claims.ElementAt(0).Value;
             var customer = await _services.Customers.GetCustomerByEmail(customerEmail);
-            var result = await _services.ClaimRequests.GetClaimRequestOfCustomer((int)customer.CustomerId);
+            var result = await _services.ClaimRequests.GetClaimRequestOfCustomer((int)customer.CustomerId, status);
             if (result == null)
             {
                 return NoContent();

@@ -23,9 +23,9 @@ namespace WebAPI.Controllers.Claim
             return StatusCode(StatusCodes.Status201Created);
         }
         [HttpGet("CustomerId")] 
-        public async Task<IActionResult> GetRequestOfCustomer(int customerId)
+        public async Task<IActionResult> GetRequestOfCustomer(int customerId, RequestStatus status)
         {
-            var result = await _service.ClaimRequests.GetClaimRequestOfCustomer(customerId);
+            var result = await _service.ClaimRequests.GetClaimRequestOfCustomer(customerId, status);
             if (result == null)
             {
                 return NoContent();

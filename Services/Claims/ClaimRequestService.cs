@@ -62,14 +62,14 @@ namespace Services.Claims
             }
             await _repository.SaveAsync();
         }
-        public async Task<List<ClaimRequestDto>> GetClaimRequestOfCustomer(int cusotmerId)
+        public async Task<List<ClaimRequestDto>> GetClaimRequestOfCustomer(int cusotmerId, RequestStatus status)
         {
             var customer = await _repository.Customers.GetCustomerAsnyc(cusotmerId, false);
             if (cusotmerId == null)
             {
                 throw new Exception("Customer with id: {customerId} dose not exist");
             }
-            var requests = await _repository.ClaimRequests.GetCustomerRequest(customer.Id, false);
+            var requests = (await _repository.ClaimRequests.GetCustomerRequest(customer.Id, false)).Where(e=> e.Status == status.ToString()).ToList();
             var returnRequest = new List<ClaimRequestDto>();
             foreach(var request in requests)
             {

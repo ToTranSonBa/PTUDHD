@@ -11,7 +11,7 @@ namespace Service.Contracts.Claims
     public interface IClaimRequestService
     {
         Task CreateRequest(CreateClaimRequestDto requestDto);
-        Task<List<ClaimRequestDto>> GetClaimRequestOfCustomer(int cusotmerId);
+        Task<List<ClaimRequestDto>> GetClaimRequestOfCustomer(int cusotmerId, RequestStatus status);
         Task<List<ClaimRequestDto>> GetClaimRequestByStatus(RequestStatus Status);
     }
 }
