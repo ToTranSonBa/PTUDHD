@@ -5,7 +5,7 @@ import Chart from './Chart';
 import PersonalInfomation from './PersonalInfo';
 import styles from './Account.module.scss';
 import Banner from '../../assets/image/banner-top.jpg';
-import CustomerRequest from './../CustomerRequest/CustomerRequest'
+import CustomerRequest from './../CustomerRequest/CustomerRequest';
 
 import { AccountCustomerApi, ContractsCustomerApi } from '../../services/ApiAccount/Account';
 
@@ -19,7 +19,6 @@ function Account() {
     const [contractsOfCustomer, setContractsOfCustomer] = useState([]);
     const [registerDetail, setRegisterDetail] = useState({});
     const [showForm, setShowForm] = useState(false);
-
 
     //
     const handelListInsurance = (state) => {
@@ -433,25 +432,31 @@ function Account() {
                         <table className={cx('content-table')}>
                             <thead>
                                 <tr>
-                                    <th>STT</th>
-                                    <th>Tên bảo hiểm</th>
-                                    <th>Chương trình</th>
-                                    <th>Ngày bắt đầu</th>
-                                    <th>Ngày kết thúc</th>
-                                    <th>Giá bảo hiểm</th>
-                                    <tthh></tthh>
+                                    <th style={{ textAlign: 'center' }}>STT</th>
+                                    <th style={{ textAlign: 'center' }}>Tên bảo hiểm</th>
+                                    <th style={{ textAlign: 'center' }}>Chương trình</th>
+                                    <th style={{ textAlign: 'center' }}>Ngày bắt đầu</th>
+                                    <th style={{ textAlign: 'center' }}>Ngày kết thúc</th>
+                                    <th style={{ textAlign: 'center' }}>Giá bảo hiểm</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {contractsOfCustomer && contractsOfCustomer.length > 0 ? (
                                     contractsOfCustomer.map((item, index) => (
                                         <tr key={index}>
-                                            <td>{index + 1}</td>
+                                            <td style={{ textAlign: 'center' }}>{index + 1}</td>
                                             <td>{item.productName}</td>
                                             <td>{item.programName}</td>
-                                            <td>{`${item.startDate.substring(0, 10)}`}</td>
-                                            <td>{`${item.endDate.substring(0, 10)}`}</td>
-                                            <td>{item.totalPrice}</td>
+                                            <td style={{ textAlign: 'center' }}>
+                                                {' '}
+                                                {`${item.startDate.substring(0, 10)}`}
+                                            </td>
+                                            <td style={{ textAlign: 'center' }}>
+                                                {' '}
+                                                {`${item.endDate.substring(0, 10)}`}
+                                            </td>
+                                            <td style={{ textAlign: 'center' }}> {item.totalPrice}</td>
                                             <td>
                                                 <button onClick={() => handleView(item.contractId)}>Chi tiết</button>
                                             </td>

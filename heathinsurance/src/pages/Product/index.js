@@ -109,7 +109,7 @@ const Product = () => {
                 <Link to={`/register/${id}`}>Mua ngay</Link>
             </div>
             <div className={cx('header')}>
-                <img className={cx('banner_top')} src={Banner} alt="Banner" />
+                <img style={{ borderRadius: '0px' }} className={cx('banner_top')} src={Banner} alt="Banner" />
                 <h1 className={cx('title')}>Sức khỏe</h1>
             </div>
 

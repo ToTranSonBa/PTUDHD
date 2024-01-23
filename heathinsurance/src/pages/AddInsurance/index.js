@@ -21,6 +21,10 @@ const conditions = [
         name: 'Bị ung thư và/ hoặc đang trong quá trình điều trị bệnh/thương tật',
         quesion: '',
     },
+    {
+        name: ' Trong vòng 3 năm qua, Người được bảo hiểm đã từng được chẩn đoán, xuất hiện triệu chứng phải đi khám, điều trị hay đã được chuyên gia y tế khuyên Người được bảo hiểm phải điều trị hay không?',
+        quesion: '',
+    },
 ];
 const AddInsurance = () => {
     const [selectedBenefitType, setSelectedBenefitType] = useState(null);

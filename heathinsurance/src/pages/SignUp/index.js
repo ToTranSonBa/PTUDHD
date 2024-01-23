@@ -192,7 +192,12 @@ const Register = () => {
                     </form>
                 </div>
                 <div className={cx('col-2')}>
-                    <img src={bgImg} alt="" className={cx('form-image')} style={{ height: '1068.03px' }} />
+                    <img
+                        src={bgImg}
+                        alt=""
+                        className={cx('form-image')}
+                        style={{ height: '1068.03px', borderRadius: '0px' }}
+                    />
                 </div>
             </div>
         </section>

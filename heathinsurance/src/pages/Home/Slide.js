@@ -41,15 +41,27 @@ const Slide = () => {
             {/* Your slides go here */}
             <div className="mySlides fade" style={{ display: slideIndex === 1 ? 'block' : 'none' }}>
                 <div className="numbertext">1 / 3</div>
-                <img src={require('../../assets/image/banner-1.png')} style={{ width: '100%' }} alt="Slide 1" />
+                <img
+                    src={require('../../assets/image/banner-1.png')}
+                    style={{ borderRadius: '0px', width: '100%' }}
+                    alt="Slide 1"
+                />
             </div>
             <div className="mySlides fade" style={{ display: slideIndex === 2 ? 'block' : 'none' }}>
                 <div className="numbertext">2 / 3</div>
-                <img src={require('../../assets/image/banner-2.png')} style={{ width: '100%' }} alt="Slide 2" />
+                <img
+                    src={require('../../assets/image/banner-2.png')}
+                    style={{ borderRadius: '0px', width: '100%' }}
+                    alt="Slide 2"
+                />
             </div>
             <div className="mySlides fade" style={{ display: slideIndex === 3 ? 'block' : 'none' }}>
                 <div className="numbertext">3 / 3</div>
-                <img src={require('../../assets/image/banner-3.png')} style={{ width: '100%' }} alt="Slide 3" />
+                <img
+                    src={require('../../assets/image/banner-3.png')}
+                    style={{ borderRadius: '0px', width: '100%' }}
+                    alt="Slide 3"
+                />
             </div>
 
             {/* Next button on the right */}

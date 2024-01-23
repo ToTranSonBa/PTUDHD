@@ -12,6 +12,4 @@ const UpdateCustomerApi = async (CustomerId, customer) => {
     return axios.put(`/customer?customerId=${CustomerId}`, customer);
 };
 
-export {
-    AccountCustomerApi, ContractsCustomerApi, UpdateCustomerApi
-};
+export { AccountCustomerApi, ContractsCustomerApi, UpdateCustomerApi };

@@ -105,11 +105,12 @@ function Register() {
                     status: false,
                 },
                 {
+                    number: 15,
                     name: 'Tăng áp động mạch phối',
                     status: false,
                 },
                 {
-                    number: 15,
+                    number: 16,
                     name: 'Bệnh phổi giai đoạn cuối',
                     status: false,
                 },
@@ -134,16 +135,17 @@ function Register() {
                     status: false,
                 },
                 {
+                    number: 19,
                     name: 'Nhồi máu cơ tim, suy tìm mắt bù, bệnh tim giai đoạn cuối',
                     status: false,
                 },
                 {
-                    number: 19,
+                    number: 20,
                     name: 'Phẫu thuật động mạch chủ/van tim, ghép tim',
                     status: false,
                 },
                 {
-                    number: 20,
+                    number: 21,
                     name: 'Phẫu thuật nối tắt động mạch vành',
                     status: false,
                 },
@@ -153,42 +155,42 @@ function Register() {
             listOne: 'Bệnh hệ tiêu hóa',
             Disease: [
                 {
-                    number: 21,
+                    number: 22,
                     name: 'Viêm gan A',
                     status: false,
                 },
                 {
-                    number: 22,
+                    number: 23,
                     name: 'Viêm gan B',
                     status: false,
                 },
                 {
-                    number: 23,
+                    number: 24,
                     name: 'Viêm gan C',
                     status: false,
                 },
                 {
-                    number: 24,
+                    number: 25,
                     name: 'Viêm gan siêu vi tối cấp',
                     status: false,
                 },
                 {
-                    number: 25,
+                    number: 26,
                     name: 'Xơ gan',
                     status: false,
                 },
                 {
-                    number: 26,
+                    number: 27,
                     name: 'Bệnh Crohn',
                     status: false,
                 },
                 {
-                    number: 27,
+                    number: 28,
                     name: 'Phẫu thuật gan',
                     status: false,
                 },
                 {
-                    number: 28,
+                    number: 29,
                     name: 'Suy gan (bệnh gan giai đoạn cuối)',
                     status: false,
                 },
@@ -198,12 +200,12 @@ function Register() {
             listOne: 'Bệnh hệ tiết niệu',
             Disease: [
                 {
-                    number: 29,
+                    number: 30,
                     name: 'Suy thận, teo thận, sỏi thận cả 2 bên',
                     status: false,
                 },
                 {
-                    number: 30,
+                    number: 31,
                     name: 'Chạy thận nhân tạo',
                     status: false,
                 },
@@ -213,32 +215,32 @@ function Register() {
             listOne: 'Bệnh hệ nội tiết, dinh dưỡng, chuyển hóa',
             Disease: [
                 {
-                    number: 31,
+                    number: 32,
                     name: 'Rối loạn tuyến giáp',
                     status: false,
                 },
                 {
-                    number: 32,
+                    number: 33,
                     name: 'Cường giáp',
                     status: false,
                 },
                 {
-                    number: 33,
+                    number: 34,
                     name: 'Suy giáp',
                     status: false,
                 },
                 {
-                    number: 34,
+                    number: 35,
                     name: 'Basedow (Bướu cổ)',
                     status: false,
                 },
                 {
-                    number: 35,
+                    number: 36,
                     name: 'Tiểu đường chỉ số trên 11 mmol/l Tiểu đường đã gây biến chứng',
                     status: false,
                 },
                 {
-                    number: 36,
+                    number: 37,
                     name: 'Tiểu đường chỉ số từ 8 - 10 mmol/l',
                     status: false,
                 },
@@ -424,7 +426,7 @@ function Register() {
     return (
         <>
             <div className={cx('header')}>
-                <img className={cx('banner_top')} src={Banner} alt="Banner" />
+                <img style={{ borderRadius: '0px' }} className={cx('banner_top')} src={Banner} alt="Banner" />
                 <h1 className={cx('title')}>Sức khỏe</h1>
             </div>
             <div className={cx('content_container')}>
@@ -450,21 +452,25 @@ function Register() {
                                     <h2>Phạm vi bảo hiểm</h2>
                                 </div>
                                 <div className={cx('insurance_duration')}>
-                                    <div>
-                                        <span>Thời hạn BH từ</span>
+                                    <div className={cx('date')}>
+                                        <span>
+                                            Thời hạn BH từ <span style={{ color: 'red' }}> *</span>
+                                        </span>
                                         <input
                                             value={startDay}
                                             onChange={(event) => handleDateChange(event, setStartDay)}
                                             type="date"
                                         />
                                     </div>
-                                    <div>
+                                    <div className={cx('date')}>
                                         <span>Đến</span>
                                         <input value={toDay} readOnly type="date" />
                                     </div>
                                 </div>
                                 <div className={cx('insurance_policy')}>
-                                    <span>Chương trình</span>
+                                    <span>
+                                        Chương trình <span style={{ color: 'red' }}> *</span>
+                                    </span>
                                     <select onChange={(e) => handleProgramChange(parseInt(e.target.value))}>
                                         {productData.benefitType &&
                                             productData.benefitType[0].benefits[0].benefitProgramCosts.map(
@@ -480,10 +486,13 @@ function Register() {
                                     {productData &&
                                         productData.benefitType &&
                                         Object.values(productData.benefitType).map((benefitType) => (
-                                            <div key={benefitType.benefitTypeId}>
+                                            <div style={{ width: '100%' }} key={benefitType.benefitTypeId}>
                                                 {benefitType.benefits.map((benefitDetail) => (
-                                                    <div key={benefitDetail.benefitId}>
-                                                        <span>{benefitDetail.benefitName}</span>
+                                                    <div className={cx('benefit')} key={benefitDetail.benefitId}>
+                                                        <div className={cx('benefit-label')}>
+                                                            <input checked style={{ opacity: '0.5' }} type="checkbox" />
+                                                            <span>{benefitDetail.benefitName}</span>
+                                                        </div>
                                                         {benefitDetail.benefitProgramCosts
                                                             .filter(
                                                                 (programCost) =>
@@ -495,6 +504,7 @@ function Register() {
                                                                     type="text"
                                                                     value={`${filteredProgramCost.price}VNĐ`}
                                                                     readOnly
+                                                                    className={cx('fee_benefit-label')}
                                                                 />
                                                             ))}
                                                     </div>
@@ -516,16 +526,17 @@ function Register() {
                                 </div>
                                 {productData && productData.conditions && productData.conditions.length > 0 ? (
                                     productData.conditions.map((condition, index) => (
-                                        <div key={index} className="standard_labed form-group row">
+                                        <div style={{ margin: '2rem 2.4rem' }} key={index}>
                                             <strong>
                                                 <u>Câu {index + 1}: </u>
                                             </strong>
                                             {condition.name}
                                             <br />
 
-                                            <div className="form-inline" style={{ justifyContent: 'center' }}>
-                                                <div className="form-inline">
+                                            <div className="form-inline">
+                                                <div>
                                                     <input
+                                                        style={{ width: '20px', height: '20px', marginRight: '1rem' }}
                                                         type="checkbox"
                                                         className=" form-check-input"
                                                         checked={
@@ -541,17 +552,16 @@ function Register() {
                                                             handleCheckboxChange(condition.healthConditionId, true)
                                                         }
                                                     />
-                                                    <span
-                                                        className="form-check-label"
-                                                        style={{ paddingRight: '200px' }}
-                                                    >
+                                                    <span className="form-check-label" style={{ paddingRight: '50%' }}>
                                                         Có
                                                     </span>
+                                                </div>
 
+                                                <div>
                                                     <input
                                                         type="checkbox"
                                                         className=" form-check-input"
-                                                        style={{ paddingLeft: '200px' }}
+                                                        style={{ width: '20px', height: '20px', marginRight: '1rem' }}
                                                         checked={
                                                             answers && answers.length > 0
                                                                 ? answers.find(
@@ -573,6 +583,17 @@ function Register() {
                                 ) : (
                                     <p>không có dữ liệu</p>
                                 )}
+                                <button
+                                    style={{
+                                        borderRadius: '0px',
+                                        backgroundColor: '#066132',
+                                        width: '40%',
+                                        alignSelf: 'center',
+                                    }}
+                                    onClick={handelHeathInfor}
+                                >
+                                    Khai báo tình trạng sức khỏe
+                                </button>
                             </div>
                         </section>
 
@@ -609,14 +630,14 @@ function Register() {
                 <div className={cx('bill')}>
                     <h1>Thông tin phí bảo hiểm</h1>
                     <hr />
-                    <div className={cx('row', 'align-center')}>
-                        <div className={cx('col', 'column', 'regular-font')}>
-                            <label id={cx('lblphi')}>Phí:</label>
+                    <div className={cx('row')}>
+                        <div>
+                            <label style={{ color: 'rgba(134, 120, 120, 1)' }} id={cx('lblphi')}>
+                                Phí:
+                            </label>
                         </div>
-                        <div className={cx('col', 'column', 'align-right')}>
-                            <span id={cx('phi_tien_phi')} tenkieu="gchu" ten_goc="tien_phi" kieu_unicode="C" kt_xoa="K">
-                                {totalFee}
-                            </span>
+                        <div className={cx('col')}>
+                            <span id={cx('phi_tien_phi')}>{totalFee}</span>
                             <span id={cx('vndphi')} className={cx('price')}>
                                 {' '}
                                 VND
@@ -624,14 +645,12 @@ function Register() {
                         </div>
                     </div>
                     <hr />
-                    <div className={cx('row', 'align-center')}>
-                        <div className={cx('col', 'column', 'regular-font')}>
+                    <div className={cx('row')}>
+                        <div>
                             <label id={cx('lblphi')}>Tổng phí:</label>
                         </div>
-                        <div className={cx('col', 'column', 'align-right')}>
-                            <span id={cx('phi_tien_phi')} tenkieu="gchu" ten_goc="tien_phi" kieu_unicode="C" kt_xoa="K">
-                                {totalFee}
-                            </span>
+                        <div className={cx('col')}>
+                            <span id={cx('phi_tien_phi')}>{totalFee}</span>
                             <span id={cx('vndphi')} className={cx('price')}>
                                 {' '}
                                 VND

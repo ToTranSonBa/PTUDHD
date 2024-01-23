@@ -19,7 +19,49 @@ import styles from './Slide.module.scss';
 
 const cx = classNames.bind(styles);
 
+// // data
+// const ServicesData = [
+//     // {
+//     //     id: 1,
+//     //     img: Img,
+//     //     name: 'Biryani',
+//     //     description:
+//     //         'Lorem Lorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit Lorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametametipsum dolor sit amet ipsum dolor sit ametipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ameLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amettLorem ipsumLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet.',
+//     // },
+//     // {
+//     //     id: 2,
+//     //     img: Img2,
+//     //     name: 'Chiken kari',
+//     //     description: 'Lorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet',
+//     // },
+//     // {
+//     //     id: 3,
+//     //     img: Img3,
+//     //     name: 'Cold Cofee',
+//     //     description: 'Lorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet',
+//     // },
+//     // {
+//     //     id: 4,
+//     //     img: Img3,
+//     //     name: 'Cold Cofee',
+//     //     description:
+//     //         'Lorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit ametLorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet',
+//     // },
+//     // {
+//     //     id: 5,
+//     //     img: Img3,
+//     //     name: 'Cold Cofee',
+//     //     description: 'Lorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet',
+//     // },
+//     // {
+//     //     id: 6,
+//     //     img: Img2,
+//     //     name: 'Cold Cofee',
+//     //     description: 'Lorem ipsum dolor sit amet ipsum dolor sit ametipsum dolor sit amet ipsum dolor sit amet',
+//     // },
+// ];
 
+//
 const SlideServices = () => {
     const navigate = useNavigate();
     const [product, setProduct] = useState([]);
@@ -76,11 +118,12 @@ const SlideServices = () => {
                                 cloudName={process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}
                                 publicId={curElem.imageUrl}
                                 alt="image"
+                                style={{ borderRadius: '0px' }}
                             />
                             <div className={cx('card_data')}>
-                                <span className={cx('name')}>{curElem.name}</span>
+                                <span className={cx('name')}>{curElem.policyName}</span>
 
-                                <p className={cx('description')}>{curElem.description}</p>
+                                <p className={cx('description')}>{curElem.shortDescription}</p>
 
                                 <div className={cx('button')}>
                                     <button

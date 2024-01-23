@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import companyLogo from '../../../../assets/image/Logo2.png';
 import './css/custom.css';
-
+import Banner from '../../../../assets/image/banner-top.jpg';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -27,7 +27,7 @@ const Sidebar = ({ children }) => {
             <div id="sidebar">
                 <div class="sidebar-header">
                     <h3>
-                        <img src={companyLogo} class="img-fluid" />
+                        <img style={{ borderRadius: '0px' }} src={companyLogo} class="img-fluid" />
                         <span>Nhóm 8</span>
                     </h3>
                 </div>

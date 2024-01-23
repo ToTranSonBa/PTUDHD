@@ -36,7 +36,7 @@ function Header() {
             <div className={cx('inner')}>
                 <div className={cx('logo', 'item', 'one')}>
                     <Link to="/">
-                        <img src={companyLogo} alt="Logo" />
+                        <img style={{ borderRadius: '0px' }} s src={companyLogo} alt="Logo" />
                     </Link>
                 </div>
                 <nav className={cx('navbar', 'item', 'four')}>

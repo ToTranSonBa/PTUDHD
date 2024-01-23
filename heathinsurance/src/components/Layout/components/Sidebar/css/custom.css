@@ -158,20 +158,29 @@ a:focus {
     padding: 20px;
     background-color: #fff;
     border-bottom: 1px solid #eee;
+    box-shadow: 1px 1px 1px 1px #41464357;
+    /* background-color: #00ff7b41; */
 }
 
 .sidebar-header h3 {
-    color: #333;
+    color: #066132;
     font-size: 17px;
     margin: 0px;
     text-transform: uppercase;
     transition: all 0.5s ease;
     font-weight: 600;
+    display: flex;
+    flex-direction: row;
 }
 
 .sidebar-header h3 img {
-    width: 45px;
+    width: 71px;
     margin-right: 10px;
+}
+
+.sidebar-header h3 span {
+    font-weight: 800;
+    padding-top: 10px;
 }
 
 #sidebar ul li {
@@ -747,4 +756,7 @@ footer {
 main {
     width: 100%;
     padding: 100;
+}
+
+.sidebar-header {
 }

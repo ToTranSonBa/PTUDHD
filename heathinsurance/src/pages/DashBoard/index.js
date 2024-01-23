@@ -1,9 +1,19 @@
+import Doashboard from './Chart';
+import ListTag from './ListTag';
+import './styles.scss';
+import Banner from '../../assets/image/banner-top.jpg';
+
 const DashBoard = () => {
     return (
-        <div>
-            <span>
-                <h1 style={{ paddingLeft: '260px' }}>Chào Mừng !!</h1>
-            </span>
+        <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.03)', paddingLeft: '260px' }}>
+            <div className="header">
+                <img style={{ borderRadius: '0' }} className="banner_top" src={Banner} alt="Banner" />
+                <h1 className="title">Wellcome to doashboard</h1>
+            </div>
+            <div className="Doashboard">
+                <ListTag></ListTag>
+                <Doashboard></Doashboard>
+            </div>
         </div>
     );
 };

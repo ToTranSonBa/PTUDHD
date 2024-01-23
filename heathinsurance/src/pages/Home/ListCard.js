@@ -21,6 +21,7 @@ const ListCard = () => {
             try {
                 const response = await HomeApi();
                 setProduct(response);
+                console.log(response);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -41,7 +42,7 @@ const ListCard = () => {
                                     publicId={curElem.imageUrl}
                                 />
                             </div>
-                            <div className="name">{curElem.name}</div>
+                            <div className="name">{curElem.policyName}</div>
                             <div className="detail-box">
                                 <p className="description">
                                     {curElem.shortDescription.length > 20

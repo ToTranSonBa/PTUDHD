@@ -95,7 +95,7 @@ const Login = () => {
                     </form>
                 </div>
                 <div className="col-2">
-                    <img src={bgImg} alt="" />
+                    <img style={{ borderRadius: '0px' }} src={bgImg} alt="" />
                 </div>
             </div>
         </section>
