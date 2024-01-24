@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entity.Models.Claim
+namespace Shared.EntityDtos.Claim
 {
-    public class ClaimInvoice
+    public class CLaimInvoiceDto
     {
-        [Key]
         public Guid Id { get; set; }
         public float TotalCost { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid PaymentID { get; set; }
-        public ClaimPayment? Payment { get; set; }
     }
-
-    
 }

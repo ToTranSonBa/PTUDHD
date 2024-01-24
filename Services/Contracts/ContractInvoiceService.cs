@@ -53,6 +53,7 @@ namespace Services.Contracts
         public async Task<List<ReportContractByYearDto>> GetReportByYear(int year)
         {
             var invoices = await _repository.ContractsInvoices.GetInvoiceByYear(year, false);
+            var claim = await _repository.ClaimInvoices.GetByYear(year, false);
             if(invoices == null)
             {
                 throw new ReturnNoContentException("Không có dữ liệu trong DB");
@@ -61,11 +62,14 @@ namespace Services.Contracts
             for (int i = 1; i <= 12; i++)
             {
                 float? totalMonth = 0;
+                float? totalclaim = 0;
                 totalMonth = invoices.Where(e => e.CreatedDate.Value.Month == i).Sum(e => e.LastPrice);
+                totalclaim = claim.Where(e => e.CreatedDate.Month == i).Sum(e => e.TotalCost);
                 reports.Add(new ReportContractByYearDto
                 {
                     Month = i,
-                    total = totalMonth
+                    Contract = totalMonth,
+                    Request = totalclaim
                 });
             }
             return reports;

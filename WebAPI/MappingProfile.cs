@@ -61,6 +61,7 @@ namespace WebAPI
             //Claim
             CreateMap<ClaimPayment, ClaimPaymentDto>().ReverseMap();
             CreateMap<ClaimHealthDto, ClaimHealthService>().ReverseMap();
+            CreateMap<ClaimInvoice, CLaimInvoiceDto>().ReverseMap();
 
         }
     }

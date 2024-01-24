@@ -11,5 +11,6 @@ namespace Contracts.ClaimContracts
     {
         bool CreatePayment(ClaimPayment claimPayment);
         Task<List<ClaimPayment>> GetAll(bool trackChange);
+        Task<ClaimPayment> GetById(Guid Id, bool trackChange);
     }
 }

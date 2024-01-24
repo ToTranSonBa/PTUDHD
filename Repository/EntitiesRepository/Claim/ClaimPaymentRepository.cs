@@ -16,6 +16,14 @@ namespace Repository.EntitiesRepository.Claim
         }
         public bool CreatePayment(ClaimPayment claimPayment) => Create(claimPayment);
         public async Task<List<ClaimPayment>> GetAll(bool trackChange) =>
-            await FindAll(trackChange).Include(x => x.claims).ToListAsync();
+            await FindAll(trackChange)
+            .Include(x => x.claims)
+            .Include(x => x.Request)
+            .ToListAsync();
+        public async Task<ClaimPayment> GetById(Guid Id,bool trackChange) =>
+            await FindByCondition(e=> e.Id == Id, trackChange)
+            .Include(x => x.claims)
+            .Include(x => x.Request)
+            .SingleOrDefaultAsync();
     }
 }

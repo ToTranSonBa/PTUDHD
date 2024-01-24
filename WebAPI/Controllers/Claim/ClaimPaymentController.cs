@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.EntityDtos.Claim;
@@ -24,6 +25,14 @@ namespace WebAPI.Controllers.Claim
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _service.ClaimPayments.GetAll());
+        }
+        [Authorize(Roles ="Employee")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateStatus(Guid paymentId)
+        {
+            var empEmail = HttpContext.User.Claims.ElementAt(0).Value;
+            await _service.ClaimPayments.UpdateStatus(paymentId, empEmail);
+            return Ok();
         }
     }
 
