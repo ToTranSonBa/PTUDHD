@@ -17,8 +17,8 @@ const  PostClaimRequest = (formData) => {
     })
 }
 
-const GetClaimRequest = () => {
-    return  axios.get(`/customer/claim`, {
+const GetClaimRequest = (status) => {
+    return  axios.get(`/customer/claim?status=${status}`, {
         headers: {
             Authorization: "Bearer " + jwt
         }

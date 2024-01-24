@@ -1,6 +1,8 @@
 import './FormAddClaimPayment.css';
-
+import { addClaimPayment } from './../../services/Admin/ApiRequest/request';
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FormAddClaimPayment = (props) => {
     const [requestId, setRequestId] = useState('');
@@ -39,12 +41,39 @@ const FormAddClaimPayment = (props) => {
         }
     };
 
+    const PostData = async (data) => {
+        const response = await addClaimPayment(data);
+        if (response.status == 201) {
+            toast.success('');
+            closeImage();
+        } else {
+            toast.error('');
+        }
+    };
+
+    const handleSumit = () => {
+        console.log(claimHeaths);
+        if (claimHeaths && props.claim.claimRequestId) {
+            const data = {
+                requestId: props.claim.claimRequestId,
+                claimHeaths: claimHeaths,
+            };
+            console.log(data);
+            PostData(data);
+        } else {
+            toast.error('Chưa có thông tin thanh toán');
+        }
+    };
+
     if (isOpen) {
         return (
             <div className={`form ${isOpen ? 'open' : 'closed'}`}>
                 <div className={`container ${isOpen ? 'open' : 'closed'}`}>
-                    <h1 id="payment-id">Mã thanh toán: {requestId}</h1>
-
+                    <div id="payment-id">
+                        <h1>Mã Yêu Cầu: {props.claim.claimRequestId}</h1>
+                        <h1>Bảo hiểm: {props.claim.productName}</h1>
+                        <h1>Chương trình: {props.claim.programName}</h1>
+                    </div>
                     <div className="content-container">
                         <div className="form-container">
                             <h2>Form thêm mục thanh toán</h2>
@@ -124,7 +153,7 @@ const FormAddClaimPayment = (props) => {
                         >
                             Đóng
                         </button>
-                        <button style={{ width: '200px' }} onClick={() => closeImage()}>
+                        <button style={{ width: '200px' }} onClick={() => handleSumit()}>
                             Xác nhận
                         </button>
                     </div>
@@ -134,4 +163,4 @@ const FormAddClaimPayment = (props) => {
     }
 };
 
-export {FormAddClaimPayment};
+export { FormAddClaimPayment };

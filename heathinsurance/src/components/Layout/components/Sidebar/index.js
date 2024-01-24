@@ -58,6 +58,11 @@ const Sidebar = ({ children }) => {
                         </NavLink>
                     </li>
                     <li class="">
+                        <NavLink to="/admin/payment/" className="link" activeclassName="active">
+                            <i class="material-icons">receipt_long</i>Phiếu thanh toán{' '}
+                        </NavLink>
+                    </li>
+                    <li class="">
                         <NavLink to="/admin/finance/" className="link" activeclassName="active">
                             <i class="material-icons">monetization_on</i>Tài chính{' '}
                         </NavLink>

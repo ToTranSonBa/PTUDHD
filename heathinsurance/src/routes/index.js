@@ -23,6 +23,8 @@ import AddInsurance from '../pages/AddInsurance';
 import UpdateInsurance from '../pages/UpdateInsurance';
 import DetailInsurance from '../pages/DetailInsurance';
 import DetailContract from '../pages/DetailContract';
+import ListPayment from '../pages/ListPayment';
+import DetailPayment from '../pages/ListPayment/DetailPayment'
 
 //
 const publicRoutes = [
@@ -47,6 +49,8 @@ const publicRoutes = [
     { path: '/admin/update-insurances/:id', component: UpdateInsurance, layout: SidebarOnly },
     { path: '/admin/detail-insurance/:id', component: DetailInsurance, layout: SidebarOnly },
     { path: '/admin/request', component: ListRequest, layout: SidebarOnly },
+    { path: '/admin/payment', component: ListPayment, layout: SidebarOnly },
+    { path: '/admin/payment/detail', component: DetailPayment },
 ];
 
 export { publicRoutes };

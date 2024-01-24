@@ -1,64 +1,74 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { PreviewImage } from '../../helpers/ImageHelper';
 import { useEffect, useState } from 'react';
+import { GetClaimByStatus } from '../../services/Admin/ApiRequest/request';
 import { Link, useNavigate } from 'react-router-dom';
-import { RegistersApi } from '../../services/Admin/ApiRegister/register';
+import { FormAddClaimPayment } from './FormAddClaimPayment';
 
-const Data = [
-    {
-        id: 1,
-        userName: 'Nguyen Quoc Anh',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com',
-        phoneNumber: '24353245243',
-        insurancePro: 'Bảo hiểm ung thư',
-        dateRegister: '23/09/2002',
-    },
-    {
-        id: 2,
-        userName: 'Nguyen Quoc Anh2',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com2',
-        phoneNumber: '24523542',
-        insurancePro: 'Bảo hiểm ung thư2',
-        dateRegister: '23/09/2001',
-    },
-    {
-        id: 3,
-        userName: 'Nguyen Quoc Anh3',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com3',
-        phoneNumber: '24524532',
-        insurancePro: 'Bảo hiểm ung thư3',
-        dateRegister: '23/09/2003',
-    },
-];
 
 function Table() {
-    const navigate = useNavigate();
-    const [register, setRegister] = useState([]); // Correct usage of useState
+    const [claims, setClaim] = useState([]);
+    const [claimsChange, setClaimChange] = useState(false);
+    const [urlImg, setUrlImg] = useState('');
+    const [isHiddenImg, setIsHiddenImg] = useState(true);
+    const [isHiddenForm, setIsHiddenForm] = useState(true);
+    const [claimRequest, setclaimRequest] = useState("");
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await RegistersApi();
-                console.log('check>>', response);
-                setRegister(response);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
+        const fetchClaim = async () => {
+            await GetClaimByStatus(0)
+                .then((res) => {
+                    setClaim(res.data);
+                    setClaimChange(true);
+                    console.log(claims);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         };
-        fetchData();
-    }, []); // Include register in the dependency array if you want to log changes
+        fetchClaim();
+        if (claims == []) {
+            return setClaim([]);
+        }
+        setReload(false);
+    }, [reload]);
+    const handleDateTimeType = (inputTimeString) => {
+        // Tạo đối tượng Date từ chuỗi thời gian đầu vào
+        const dateTime = new Date(inputTimeString);
 
-    const handleDelete = (id) => {
-        //call API
-        navigate(`/admin/registers`);
-    };
+        // Lấy ra giờ, phút và giây
+        const hours = dateTime.getHours();
+        const minutes = dateTime.getMinutes();
+        const seconds = dateTime.getSeconds();
 
-    const handleAccept = (id) => {
-        //call API
-        navigate(`/admin/registers`);
+        // Lấy ra ngày, tháng và năm
+        const day = dateTime.getDate();
+        const month = dateTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1
+        const year = dateTime.getFullYear();
+
+        // Định dạng lại chuỗi theo định dạng mong muốn
+        const formattedTimeString = `${hours}:${minutes}:${seconds} ${day}-${month}-${year}`;
+        return formattedTimeString;
     };
+    const handlePreImg = (url) => {
+        setUrlImg(url);
+        setIsHiddenImg(false);
+    };
+    const handleHiddenImg = (value) => {
+        setIsHiddenImg(value);
+        setUrlImg('');
+    };
+    const handleEnableForm = (value) => {
+        setIsHiddenForm(false);
+        setclaimRequest(value)
+    };
+    const handleHiddenForm = (value) => {
+        setIsHiddenForm(value);
+        setReload(true);
+    };
+    console.log(claims);
+    console.log(isHiddenForm); 
 
     return (
         <div class="container">
@@ -85,23 +95,61 @@ function Table() {
                 </div>
                 <div class="row">
                     <div class="table-responsive ">
+                        {!isHiddenForm && <FormAddClaimPayment claim={claimRequest} hidden={handleHiddenForm}></FormAddClaimPayment>}
+                        {!isHiddenImg && <PreviewImage hidden={handleHiddenImg} url={urlImg} />}
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name </th>
-                                    <th>Birthday</th>
-                                    <th>Email</th>
-                                    <th>Phone Number</th>
-                                    <th>Gói bảo hiểm </th>
-                                    <th>Chương trình Bảo Hiểm </th>
-                                    <th>Ngày đăng ký </th>
-                                    <th>Duyệt </th>
-                                    <th>Xem chi tiết </th>
-                                    <th>Xóa </th>
+                                    <th>STT</th>
+                                    <th>Khách hàng</th>
+                                    <th>Bảo hiểm</th>
+                                    <th>Chương trình</th>
+                                    <th>Ngày Gửi</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hóa đơn</th>
+                                    <th>Duyệt</th>
+                                    <th>Từ chối</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {claims.length > 0 ? (
+                                    claims.map((claim) => (
+                                        <tr>
+                                            <td>{claims.indexOf(claim) + 1}</td>
+                                            <td>{claim['customerName']}</td>
+                                            <td>{claim['productName']}</td>
+                                            <td>{claim['programName']}</td>
+                                            <td>{handleDateTimeType(claim['createdDate'])}</td>
+                                            <td>{claim['status']}</td>
+                                            <td>
+                                                <button
+                                                    className="view-button"
+                                                    onClick={() => handlePreImg(claim['hospitalBillAmount'])}
+                                                >
+                                                    Xem
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <Link onClick={() => handleEnableForm(claim)}>
+                                                    <i className="material-icons">&#xE417;</i>
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i className="material-icons">&#xE872;</i>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="10" style={{ textAlign: 'center' }}>
+                                            Danh sách rỗng
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                            {/* <tbody>
                                 {register && register.length > 0 ? (
                                     register.map((curElem) => (
                                         <tr key={curElem.contractId}>
@@ -159,7 +207,7 @@ function Table() {
                                         <td colSpan="10">Danh sách rỗng</td>
                                     </tr>
                                 )}
-                            </tbody>
+                            </tbody> */}
                         </table>
                     </div>
                 </div>

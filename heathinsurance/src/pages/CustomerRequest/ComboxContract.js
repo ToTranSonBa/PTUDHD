@@ -1,6 +1,8 @@
 import {ContractsCustomerApi} from "../../services/ApiAccount/Account";
 import React, { useState, useEffect } from 'react';
 import './style.scss';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ComboxContract (props) {
     const customerId = props.customerId;
@@ -16,7 +18,7 @@ function ComboxContract (props) {
         const fetchContract = async () => {
             try {
                 console.log("customer ID" + customerId);
-                const contractResponse = await ContractsCustomerApi(customerId, 3)
+                const contractResponse = await ContractsCustomerApi(customerId,2)
                 .then((res) =>{
                     console.log("contract", res); 
                     setContract(res);
@@ -27,7 +29,10 @@ function ComboxContract (props) {
                 console.error('Error fetching customer information:', error);
             }
         }
-        fetchContract();  
+        if(customerId)
+        {
+            fetchContract(); 
+        } 
     },[]);
 
     return (

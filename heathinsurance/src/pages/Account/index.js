@@ -14,11 +14,15 @@ const cx = classNames.bind(styles);
 function Account() {
     const [activeSection, setActiveSection] = useState('list_insurance');
     const [activeListInsurance, setActiveListInsurance] = useState('list_isActive');
-    const [activeListRequire, setActiveListRequire] = useState('list_isPaid');
+    const [activeListRequire, setActiveListRequire] = useState(0);
     const [contractStatus, setContractStatus] = useState(0);
     const [contractsOfCustomer, setContractsOfCustomer] = useState([]);
+<<<<<<< Updated upstream
     const [registerDetail, setRegisterDetail] = useState({});
     const [showForm, setShowForm] = useState(false);
+=======
+    const [requestStatus, setRequestStatus] = useState(0);
+>>>>>>> Stashed changes
 
     //
     const handelListInsurance = (state) => {
@@ -107,6 +111,7 @@ function Account() {
     const handelIsUnpaid = () => {
         setActiveListInsurance('list_isUnpaid');
         setContractStatus(0);
+        setActiveListRequire(0);
     };
 
     const handelIsWaiting = () => {
@@ -131,15 +136,15 @@ function Account() {
 
     // list require
     const handelIsPaid = () => {
-        setActiveListRequire('list_isPaid');
+        setActiveListRequire(1);
     };
     const handelIsPending = () => {
-        setActiveListRequire('list_isPending');
+        setActiveListRequire(2);
     };
     const handelIsDenied = () => {
-        setActiveListRequire('list_isDenied');
+        setActiveListRequire(3);
+        
     };
-
     useEffect(() => {
         fetchData();
     }, [activeListInsurance]);
@@ -477,16 +482,17 @@ function Account() {
                 >
                     <div className={cx('left_list')}>
                         <nav className={cx('navigation_leftList')}>
-                            <li onClick={handelIsUnpaid}>
+                            <li onClick={() => handelIsUnpaid()}>
                                 <Link to="">Chưa thanh toán</Link>
                             </li>
-                            <li onClick={handelIsPaid}>
+                            <li onClick={() => handelIsPaid()}>
                                 <Link to="">Đã được thanh toán</Link>
                             </li>
-                            <li onClick={handelIsPending}>
+                            <li onClick={() => handelIsPending()}>
                                 <Link to="">Chờ duyệt</Link>
                             </li>
 
+<<<<<<< Updated upstream
                             <li onClick={handelIsDenied}>
                                 <Link to="">Bị hủy</Link>
                             </li>
@@ -494,6 +500,49 @@ function Account() {
                     </div>
                     <CustomerRequest></CustomerRequest>
                 </section>
+=======
+                                <li onClick={() => handelIsDenied()}>
+                                    <Link to="">Bị hủy</Link>
+                                </li>
+                            </nav>
+                        </div>
+                        
+                        {/* <div className={cx('right_list')}>
+                            <table className={cx('content-table')}>
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Name</th>
+                                        <th>Points</th>
+                                        <th>Team</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Domenic</td>
+                                        <td>88,110</td>
+                                        <td>dcode</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Sally</td>
+                                        <td>72,400</td>
+                                        <td>Students</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Nick</td>
+                                        <td>52,300</td>
+                                        <td>dcode</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> */}
+                        <CustomerRequest status={activeListRequire}></CustomerRequest>
+                    </section>
+
+>>>>>>> Stashed changes
                 <section id={cx('revenue')} className={cx({ active: activeSection === 'revenue' })}>
                     <Chart></Chart>
                 </section>

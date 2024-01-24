@@ -24,13 +24,17 @@
     margin-top: 50px;
   }
   
+  #payment-id{
+
+  }
+
   h1, h2 {
     color: #333;
   }
   
   .content-container {
     display: flex;
-    height: 90%; /* Đảm bảo chiều cao 100% của parent */
+    height: 80%; /* Đảm bảo chiều cao 100% của parent */
   }
   
   .form-container {
