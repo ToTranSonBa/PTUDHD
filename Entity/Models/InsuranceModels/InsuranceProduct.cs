@@ -22,10 +22,16 @@ namespace Entity.Models.InsuranceModels
         public string? Commitment { get; set; }
         public string? ShortDescription { get; set; }
         public string? ImageUrl { get; set; }
+        public string? Status { get; set; } = ProductStatus.ENABLED.ToString();
 
         public ICollection<InsuranceBenefitType>? BenefitTypes { get; set; }
         public ICollection<InsuranceBenefitCost>? Costs { get; set; }
         public ICollection<InsurancePrice>? Prices { get; set; }
         public ICollection<HealthCondition>? HealthConditionSource { get; set; }
+    }
+    public enum ProductStatus
+    {
+         DISABLED,
+         ENABLED
     }
 }
