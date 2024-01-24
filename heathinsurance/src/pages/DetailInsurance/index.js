@@ -29,7 +29,7 @@ const DetailInsurance = () => {
     };
     const ProgramPrice = ({ program }) => (
         <div key={program.programId}>
-          <li>{program.programName}: <span>${program.price}</span></li>
+          <li>{program.programName}: <span>{program.price} VNĐ</span></li>
         </div>
     );
     const Conditions = ({ conditions }) => (

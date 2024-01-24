@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const Sidebar = ({ children }) => {
     const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [activeLink, setActiveLink] = useState('/admin');
+    const [activeDropdown, setActiveDropdown] = useState('/admin/layouts');
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login');
@@ -22,6 +24,19 @@ const Sidebar = ({ children }) => {
     const handleMouseLeave = () => {
         setIsDropdownOpen(false);
     };
+    const handleNavLinkClick = (path) => {
+        setActiveLink(path);
+        // Perform any other actions if needed
+    };
+    const handleDropdownClick = (path) => {
+        setActiveDropdown(path);
+    };
+    const handleDropdownToggleClick = (event) => {
+       
+        event.preventDefault(); // Prevent the default behavior (e.g., navigation)
+        
+    };
+    
     return (
         <div>
             <div id="sidebar">
@@ -32,62 +47,57 @@ const Sidebar = ({ children }) => {
                     </h3>
                 </div>
                 <ul class="list-unstyled component m-0">
-                    <li class="active">
-                        <NavLink to="/admin/" className="link" activeclassName="active">
+                    <li className={activeLink === '/admin' ? 'active' : ''}>
+                        <NavLink to="/admin/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin')}}>
                             <i class="material-icons">home</i>Trang chủ{' '}
                         </NavLink>
                     </li>
-                    <li class="">
-                        <NavLink to="/admin/registers/" className="link" activeclassName="active">
+                    <li className={activeLink === '/admin/registers/' ? 'active' : ''}>
+                        <NavLink to="/admin/registers/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/registers/')}}>
                             <i class="material-icons">apps</i> Phiếu Đăng ký{' '}
                         </NavLink>
                     </li>
-                    <li class="">
-                        <NavLink to="/admin/users/" className="link" activeclassName="active">
+                    <li className={activeLink === '/admin/users/' ? 'active' : ''}>
+                        <NavLink to="/admin/users/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/users/')}}>
                             <i class="material-icons">person</i>Khách Hàng{' '}
                         </NavLink>
                     </li>
-                    <li class="">
-                        <NavLink to="/admin/insurances/" className="link" activeclassName="active">
-                            <i class="material-icons">dashboard</i>Bảo Hiểm{' '}
-                        </NavLink>
-                    </li>
-                    <li class="">
-                        <NavLink to="/admin/request/" className="link" activeclassName="active">
+                    <li className={activeLink === '/admin/request/' ? 'active' : ''}>
+                        <NavLink to="/admin/request/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/request/')}}>
                             <i class="material-icons">request_quote</i>Phiếu Yêu Cầu{' '}
                         </NavLink>
                     </li>
-                    <li class="">
-                        <NavLink to="/admin/payment/" className="link" activeclassName="active">
+                    <li className={activeLink === '/admin/payment/' ? 'active' : ''}>
+                        <NavLink to="/admin/payment/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/payment/')}}>
                             <i class="material-icons">receipt_long</i>Phiếu thanh toán{' '}
                         </NavLink>
                     </li>
-                    <li class="">
-                        <NavLink to="/admin/finance/" className="link" activeclassName="active">
+                    <li className={activeLink === '/admin/finance/' ? 'active' : ''}>
+                        <NavLink to="/admin/finance/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/finance/')}}>
                             <i class="material-icons">monetization_on</i>Tài chính{' '}
                         </NavLink>
                     </li>
                     <li
-                        className={`dropdown ${isDropdownOpen ? 'show' : ''}`}
+                        className={`dropdown ${isDropdownOpen ? 'show' : ''} ${activeLink === '/admin/layouts' ? 'active' : ''}`}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >
-                        <a href="" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
+                        <a href="" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle" onClick={(e) => handleDropdownToggleClick(e)}>
                             <i className="material-icons">aspect_ratio</i>Layouts
                         </a>
 
                         <ul className={`collapse list-unstyled menu ${isDropdownOpen ? 'show' : ''}`} id="homeSubmenu1">
-                            <li>
-                                <NavLink to="/admin/insurances/">Insurance</NavLink>
+                            <li className={activeDropdown === '/admin/insurances' ? 'active' : ''}>
+                                <NavLink to="/admin/insurances/" onClick={() => {handleDropdownClick('/admin/insurances'); handleNavLinkClick('/admin/layouts')}}>Insurance</NavLink>
                             </li>
-                            <li>
-                                <NavLink to="/admin/benefits/">Benefit</NavLink>
+                            <li className={activeDropdown === '/admin/benefits' ? 'active' : ''}>
+                                <NavLink to="/admin/benefits/" onClick={() => {handleDropdownClick('/admin/benefits'); handleNavLinkClick('/admin/layouts')}}>Benefit</NavLink>
                             </li>
                         </ul>
                     </li>
 
                     <li class="">
-                        <a href="#" class="">
+                        <a href="#" class="" >
                             <i class="material-icons">date_range</i>copy{' '}
                         </a>
                     </li>
