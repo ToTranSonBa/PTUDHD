@@ -87,5 +87,16 @@ namespace Services.Claims
             }
             return returnRequest;
         }
+        public async Task DenyRequest(Guid Id)
+        {
+            var request = await _repository.ClaimRequests.GetRequestById(Id, true);
+            if(request == null)
+            {
+                throw new ReturnNotFoundException("Khogn tin thay request");
+            }
+     
+            request.Status = RequestStatus.Denied.ToString();
+            await _repository.SaveAsync();
+        }
     }
 }
