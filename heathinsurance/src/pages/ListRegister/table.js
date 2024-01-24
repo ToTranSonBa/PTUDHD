@@ -15,9 +15,16 @@ function Table() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await RegistersWithStatusApi(0);
-                setRegister(response);
-                setcheckUpdate(false);
+                const role = localStorage.getItem('role');
+                if (role === "Employee") {
+                    const response = await RegistersWithStatusApi(0);
+                    setRegister(response);
+                    setcheckUpdate(false);
+                }
+                else {
+                    navigate('/ ');
+                }
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -25,15 +32,25 @@ function Table() {
         fetchData();
     }, [checkUpdate]); // Include register in the dependency array if you want to log changes
 
-    const handleDelete = (id) => {
-        navigate(`/admin/registers`);
+    const handleDelete = async (id) => {
+        //call API
+        try {
+
+            await RegistersUpdateStatusApi(id, 1);
+            toast.success("Hủy thành công");
+            setcheckUpdate(true);
+            navigate(`/admin/registers`);
+        } catch (error) {
+            console.error("Lỗi khi gọi API:", error);
+            toast.error("Đã xảy ra lỗi khi gọi API");
+        }
     };
 
     const handleAccept = async (id) => {
         //call API
         try {
 
-            const response = await RegistersUpdateStatusApi(id, 2);
+            await RegistersUpdateStatusApi(id, 2);
             toast.success("Duyệt thành công");
             setcheckUpdate(true);
             navigate(`/admin/registers`);
@@ -48,7 +65,6 @@ function Table() {
         for (let i = 0; i < register.length; i++) {
             if (register[i].contractId === id) {
                 setRegisterDetail(register[i]);
-                console.log(register[i]);
                 break;
             }
         }

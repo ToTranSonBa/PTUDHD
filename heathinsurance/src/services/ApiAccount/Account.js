@@ -16,8 +16,8 @@ const UpdateCustomerApi = async (CustomerId, customer) => {
     return axios.put(`/customer?customerId=${CustomerId}`, customer);
 };
 
-const totalFeeByYearApi = async (year) => {
-    return axios.get(`/contract/invoices/report/${year}`);
+const totalFeeByYearApi = async (customerId, year) => {
+    return axios.get(`/contract/invoices/customer/${customerId}/report/${year}`);
 };
 
 const totalFeeForRequestApi = async (customerId) => {

@@ -100,7 +100,7 @@ const Chart = () => {
             const user = localStorage.getItem('token');
             // Phân tách token thành ba phần: Header, Payload, Signature
             let parts = user.split('.');
-            const role = localStorage.getItem('role')
+            const role = localStorage.getItem('role');
 
             // Giải mã Payload
             let decodedPayload = JSON.parse(atob(parts[1]));
@@ -131,7 +131,8 @@ const Chart = () => {
         if (year) {
             try {
                 // Gọi hàm API để lấy dữ liệu mới dựa trên năm được chọn
-                const dataForChart = await totalFeeByYearApi(selectedYear);
+                const dataForChart = await totalFeeByYearApi(userData.customerId, selectedYear);
+                console.log(dataForChart);
 
                 // Cập nhật state của dataBarChart
                 setDataBarChart(dataForChart);

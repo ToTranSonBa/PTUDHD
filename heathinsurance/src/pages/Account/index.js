@@ -187,11 +187,10 @@ function Account() {
                 const contractsCustomer = await ContractsCustomerApi(customer.customerId, contractStatus);
                 setContractsOfCustomer(contractsCustomer);
                 setCustomer(customer);
-                // setListHealthDeclaration([]);
             }
-            // else {
-            //     handelProfile();
-            // }
+            else {
+                handelProfile();
+            }
         } catch (error) {
             console.error('>>> Error fetching data: ', error);
         }
