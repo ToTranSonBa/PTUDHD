@@ -61,7 +61,7 @@ namespace Services.Claims
 
             if( _repository.ClaimPayments.CreatePayment(newpayment))
             {
-                request.Status = RequestStatus.Accepted.ToString();
+                request.Status = RequestStatus.Processing.ToString();
                 await _repository.SaveAsync();
             }
             else
