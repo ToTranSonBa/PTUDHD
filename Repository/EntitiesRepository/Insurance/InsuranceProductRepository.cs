@@ -16,7 +16,7 @@ namespace Repository.EntitiesRepository.Insurance
         }
         public async Task<List<InsuranceProduct>> GetAll(bool trackChanges)
         {
-            return await FindAll(trackChanges)
+            return await FindByCondition(e => e.Status == ProductStatus.ENABLED.ToString(),trackChanges)
                 .Include(p => p.Costs)
                 .Include(p => p.HealthConditionSource)
                 .Include(p => p.BenefitTypes)
