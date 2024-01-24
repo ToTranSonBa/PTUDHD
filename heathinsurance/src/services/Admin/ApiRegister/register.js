@@ -1,6 +1,6 @@
 import axios from '../../axios-customize';
 
-const jwt = localStorage.getItem("token");
+const jwt = localStorage.getItem('token');
 
 export const RegistersApi = () => {
     return axios.get('/Contract');
@@ -11,8 +11,8 @@ export const RegistersWithStatusApi = (status) => {
 export const RegistersUpdateStatusApi = (contractId, status) => {
     return axios.post(`/Contract/updateStatus?contractId=${contractId}&status=${status}`, null, {
         headers: {
-            Authorization: `Bearer ${jwt}`
-        }
+            Authorization: `Bearer ${jwt}`,
+        },
     });
 };
 export const acceptRegistersApi = (id) => {

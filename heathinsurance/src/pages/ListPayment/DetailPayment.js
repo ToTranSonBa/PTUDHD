@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import './DetailPayment.css';
+import { claimPayment } from '../../services/Admin/ApiPayment/Payment';
 
 const DetailPayment = (props) => {
     const [isOpen, setIsOpen] = useState(true);
+
+    const [payment, setPayment] = useState({});
     useEffect(() => {
         setIsOpen(true);
     }, [isOpen]);
     const closeDetail = () => {
         props.hidden(true);
     };
-    const handlePayment = () => 
-    {
+    const handlePayment = async () => {
+        console.log(props.claim.id);
+        await claimPayment(props.claim.id);
         closeDetail();
-    }
+    };
     return (
         <>
             {props.claim && (
@@ -29,7 +33,8 @@ const DetailPayment = (props) => {
                                         <strong>Ngày tạo:</strong> {props.claim['createdDate']}
                                     </p>
                                     <p>
-                                        <strong>Tổng chi phí:</strong>{props.claim['totalCost']}
+                                        <strong>Tổng chi phí:</strong>
+                                        {props.claim['totalCost']}
                                     </p>
                                     <p>
                                         <strong>Trạng thái:</strong> {props.claim['status']}
@@ -65,17 +70,17 @@ const DetailPayment = (props) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {props.claim["claims"].length > 0 ? (
-                                            props.claim["claims"].map((claim) => (
+                                        {props.claim['claims'].length > 0 ? (
+                                            props.claim['claims'].map((claim) => (
                                                 <tr>
-                                                <td>{props.claim["claims"].indexOf(claim) + 1}</td>
-                                                <td>{claim["serviceName"]}</td>
-                                                <td>{claim["costOfATreatment"]}</td>
-                                                <td>{claim["hospitalName"]}</td>
-                                                <td>{claim["usedDate"]}</td>
-                                            </tr>
+                                                    <td>{props.claim['claims'].indexOf(claim) + 1}</td>
+                                                    <td>{claim['serviceName']}</td>
+                                                    <td>{claim['costOfATreatment']}</td>
+                                                    <td>{claim['hospitalName']}</td>
+                                                    <td>{claim['usedDate']}</td>
+                                                </tr>
                                             ))
-                                        ):(
+                                        ) : (
                                             <p></p>
                                         )}
                                     </tbody>
