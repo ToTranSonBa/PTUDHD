@@ -53,6 +53,7 @@ namespace Services.Contracts
             // khách hàng không tồn tại thì thêm khách hàng
             if (customer == null)
             {
+                customer = new Customer();
                 customer = _mapper.Map<Customer>(registerContractDto.Customer);
                 customer.Id = Guid.NewGuid();
                 _repositoryManager.Customers.CreateCusomter(customer);
@@ -72,10 +73,12 @@ namespace Services.Contracts
 
             contract.ContractHealthConditions = new List<ContractHealthCondition>();
 
-            if(registerContractDto.HealthConditions.Count() > 0)
+            if(registerContractDto.HealthConditions != null && registerContractDto.HealthConditions.Count() > 0)
             {
                 foreach (var conditionDto in registerContractDto.HealthConditions)
                 {
+                    if (product.HealthConditionSource == null)
+                        break;
                     var condtion = product.HealthConditionSource.Where(p => p.HealthConditionId == conditionDto.Id).SingleOrDefault();
                     if (condtion == null)
                         continue;

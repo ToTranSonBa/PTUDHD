@@ -12,5 +12,6 @@ namespace Service.Contracts.Contracts
         Task<List<ContractInvoiceDto>> GetInvoiceByContractId(Guid contractId);
         Task addContractInvoice(CreateContractInvoiceDto invoiceDto);
         Task<List<ReportContractByYearDto>> GetReportByYear(int year);
+        Task<List<ReportContractByYearDto>> GetCustomerReportByYear(int customerId, int year);
     }
 }

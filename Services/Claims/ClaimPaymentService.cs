@@ -130,6 +130,7 @@ namespace Services.Claims
             {
                 payment.EmployeeId = employee.Id;
                 payment.Status = ClaimHealthServiceStatus.PAID.ToString();
+                payment.LastModifiedDate = DateTime.Now;
                 await _repository.SaveAsync();
             }
             else
