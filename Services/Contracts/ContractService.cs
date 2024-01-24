@@ -65,7 +65,7 @@ namespace Services.Contracts
             contract.Employee = null;
             contract.EmployeeID = null;
             contract.ContractId = Guid.NewGuid();
-            contract.Id = new Guid();
+            contract.Id = Guid.NewGuid();
             contract.Status = ContractStatus.Unpaid.ToString();
             contract.InsuranceProductId = product.Id;
             contract.InsuranceProgramId = program.Id;
