@@ -2,62 +2,48 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { RegistersApi } from '../../services/Admin/ApiRegister/register';
-
-const Data = [
-    {
-        id: 1,
-        userName: 'Nguyen Quoc Anh',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com',
-        phoneNumber: '24353245243',
-        insurancePro: 'Bảo hiểm ung thư',
-        dateRegister: '23/09/2002',
-    },
-    {
-        id: 2,
-        userName: 'Nguyen Quoc Anh2',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com2',
-        phoneNumber: '24523542',
-        insurancePro: 'Bảo hiểm ung thư2',
-        dateRegister: '23/09/2001',
-    },
-    {
-        id: 3,
-        userName: 'Nguyen Quoc Anh3',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com3',
-        phoneNumber: '24524532',
-        insurancePro: 'Bảo hiểm ung thư3',
-        dateRegister: '23/09/2003',
-    },
-];
+import { CustomersApi } from '../../services/Admin/ApiCustomer/customer';
 
 function Table() {
     const navigate = useNavigate();
-    const [register, setRegister] = useState([]); // Correct usage of useState
+    const [register, setRegister] = useState([]);
+    const [showForm, setShowForm] = useState(false);
+    const [customer, setCustomer] = useState({});
+    const [registerofCustomer, setRegisterOfCustomer] = useState([]);
+    const [listCustomer, setListCustomer] = useState([]);
+    const [checkStatus, setCheckStatus] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await RegistersApi();
-                console.log('check>>', response);
+                const res = await CustomersApi();
                 setRegister(response);
+                setListCustomer(res);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchData();
-    }, []); // Include register in the dependency array if you want to log changes
+    }, []);
 
-    const handleDelete = (id) => {
-        //call API
-        navigate(`/admin/users`);
-    };
-
-    const handleAccept = (id) => {
-        //call API
-        navigate(`/admin/users`);
+    const handleView = (id) => {
+        let customer_detail = [];
+        for (let i = 0; i < register.length; i++) {
+            if (register[i].customer.customerId === id) {
+                customer_detail = register[i].customer;
+                break;
+            }
+        }
+        let register_Customer = [];
+        for (let i = 0; i < register.length; i++) {
+            if (register[i].customer.customerId === customer_detail.customerId) {
+                register_Customer.push(register[i]);
+            }
+        }
+        setRegisterOfCustomer(register_Customer);
+        setCustomer(customer_detail);
+        setShowForm(!showForm);
     };
 
     return (
@@ -85,73 +71,205 @@ function Table() {
                 </div>
                 <div class="row">
                     <div class="table-responsive ">
-                        <table class="table table-striped table-hover table-bordered">
+                        <div>
+                            {showForm && (
+                                <div className="overlay-register" style={{ paddingLeft: '260px' }}>
+                                    <div
+                                        className="form-container-register"
+                                        style={{
+                                            textAlign: 'center',
+                                            height: '800px',
+                                            width: '1000px',
+                                            overflowY: 'auto',
+                                        }}
+                                    >
+                                        <span
+                                            onClick={() => setShowForm(false)}
+                                            className="cancel"
+                                            title="cancel"
+                                            data-toggle="tooltip"
+                                            style={{
+                                                cursor: 'pointer',
+                                                float: 'right',
+                                                position: 'fixed',
+                                                zIndex: '99',
+                                                right: '20%',
+                                            }}
+                                        >
+                                            <i class="material-icons close">&#xe5cd;</i>
+                                        </span>
+                                        <br></br>
+                                        <span
+                                            style={{
+                                                fontSize: '20px',
+                                                fontWeight: 'bold',
+                                                color: '#16a317',
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            Thông tin Khách hàng
+                                        </span>
+                                        {customer ? (
+                                            <div style={{ textAlign: 'center' }}>
+                                                <table
+                                                    style={{
+                                                        textAlign: 'left',
+                                                        marginBottom: '16px',
+                                                        width: '-webkit-fill-available',
+                                                    }}
+                                                >
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Khách hàng</strong>
+                                                            </td>
+                                                            <td>{customer.name}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Ngày sinh</strong>
+                                                            </td>
+                                                            <td>{customer.birthday}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Địa chỉ</strong>
+                                                            </td>
+                                                            <td>{customer.address}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>email</strong>
+                                                            </td>
+                                                            <td>{customer.email}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>CMND/CCCD</strong>
+                                                            </td>
+                                                            <td>
+                                                                <span style={{ border: '0px' }}>
+                                                                    {customer.identifycationNumber}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <strong>Số điện thoại</strong>
+                                                            </td>
+                                                            <td>{customer.phoneNumber}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        ) : (
+                                            <p>Không có dữ liệu</p>
+                                        )}
+
+                                        <div
+                                            style={{
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            <span
+                                                style={{
+                                                    fontSize: '20px',
+                                                    fontWeight: 'bold',
+                                                    color: '#16a317',
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                Thông tin bảo hiểm khách hàng đã đăng ký
+                                            </span>
+                                            <table
+                                                style={{
+                                                    marginBottom: '16px',
+                                                    width: '950px',
+                                                }}
+                                            >
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>Bảo hiểm </th>
+                                                        <th>Chương trình</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {registerofCustomer.length > 0 ? (
+                                                        registerofCustomer.map((curElem, i) => (
+                                                            <tr key={curElem.benefitTypeId}>
+                                                                <td>{i + 1}</td>
+                                                                <td>
+                                                                    <span
+                                                                        style={{
+                                                                            width: '100%',
+                                                                            whiteSpace: 'wrap',
+                                                                            overflowX: 'wrap',
+                                                                        }}
+                                                                    >
+                                                                        {curElem.productName}
+                                                                    </span>
+                                                                </td>
+                                                                <td
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        maxWidth: '98px',
+                                                                        margin: 'auto',
+                                                                    }}
+                                                                >
+                                                                    <span>{curElem.programName}</span>
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td colSpan="3">
+                                                                <span>Không có dữ liệu</span>
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <table className="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name </th>
-                                    <th>Birthday</th>
+                                    <th>Tên</th>
+                                    <th>CMND/CCCD</th>
                                     <th>Email</th>
-                                    <th>Phone Number</th>
-                                    <th>Gói bảo hiểm </th>
-                                    <th>Chương trình Bảo Hiểm </th>
-                                    <th>Ngày đăng ký </th>
-                                    <th>Duyệt </th>
-                                    <th>Xem chi tiết </th>
-                                    <th>Xóa </th>
+                                    <th>Số điện thoại</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Ngày sinh</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {register && register.length > 0 ? (
-                                    register.map((curElem) => (
-                                        <tr key={curElem.contractId}>
-                                            {
-                                                <tr key={curElem.contractId}>
-                                                    <td>{curElem.contractId}</td>
-                                                    <td>{curElem.customer.name}</td>
-                                                    <td>{curElem.customer.birthday}</td>
-                                                    <td>{curElem.customer.email}</td>
-                                                    <td>{curElem.customer.phoneNumber}</td>
-                                                    <td>{curElem.productName}</td>
-                                                    <td>{curElem.programName}</td>
-                                                    <td>{curElem.dateRegister}</td>
-                                                    <td>
-                                                        <span
-                                                            onClick={() => handleAccept(curElem.contractId)}
-                                                            className="delete "
-                                                            title="Delete"
-                                                            data-toggle="tooltip"
-                                                            style={{ color: 'green', cursor: 'pointer' }}
-                                                        >
-                                                            <i className="material-icons check_circle_outline">
-                                                                &#xe92d;
-                                                            </i>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <Link
-                                                            to={`/view/${curElem.contractId}`}
-                                                            className="view mx-auto"
-                                                            title="View"
-                                                            data-toggle="tooltip"
-                                                            style={{ color: 'orange' }}
-                                                        >
-                                                            <i className="material-icons">&#xE417;</i>
-                                                        </Link>
-                                                    </td>
-                                                    <td>
-                                                        <span
-                                                            onClick={() => handleDelete(curElem.contractId)}
-                                                            className="delete"
-                                                            title="Delete"
-                                                            data-toggle="tooltip"
-                                                            style={{ color: 'red', cursor: 'pointer' }}
-                                                        >
-                                                            <i className="material-icons">&#xE872;</i>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            }
+                                {listCustomer && listCustomer.length > 0 ? (
+                                    listCustomer.map((curElem, i) => (
+                                        <tr key={curElem.customerId}>
+                                            <td>{i + 1}</td>
+                                            <td>{curElem.name}</td>
+                                            <td>{curElem.identifycationNumber}</td>
+                                            <td>{curElem.email}</td>
+                                            <td>{curElem.phoneNumber}</td>
+                                            <td>{curElem.address}</td>
+                                            <td>{curElem.birthday}</td>
+
+                                            <td>
+                                                <span
+                                                    onClick={() => handleView(curElem.customerId)}
+                                                    className="view mx-auto"
+                                                    title="View"
+                                                    data-toggle="tooltip"
+                                                    style={{ color: 'orange' }}
+                                                >
+                                                    <i className="material-icons">&#xE417;</i>
+                                                </span>
+                                            </td>
                                         </tr>
                                     ))
                                 ) : (

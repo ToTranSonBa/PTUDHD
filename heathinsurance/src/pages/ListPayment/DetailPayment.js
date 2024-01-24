@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './DetailPayment.css';
 import { claimPayment } from '../../services/Admin/ApiPayment/Payment';
+import { toast } from 'react-toastify';
 
 const DetailPayment = (props) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -13,8 +14,8 @@ const DetailPayment = (props) => {
         props.hidden(true);
     };
     const handlePayment = async () => {
-        console.log(props.claim.id);
         await claimPayment(props.claim.id);
+        toast.success('Thanh toán thành công!');
         closeDetail();
     };
     return (

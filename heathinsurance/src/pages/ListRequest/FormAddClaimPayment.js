@@ -44,7 +44,7 @@ const FormAddClaimPayment = (props) => {
     const PostData = async (data) => {
         const response = await addClaimPayment(data);
         if (response.status == 201) {
-            toast.success('');
+            toast.success('Xác nhận yêu cầu thành công');
             closeImage();
         } else {
             toast.error('');
