@@ -12,6 +12,8 @@ const Sidebar = ({ children }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [activeLink, setActiveLink] = useState('/admin');
     const [activeDropdown, setActiveDropdown] = useState('/admin/layouts');
+    const [activeDropdown1, setActiveDropdown1] = useState('/admin/payment');
+    const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login');
@@ -20,9 +22,14 @@ const Sidebar = ({ children }) => {
     const handleMouseEnter = () => {
         setIsDropdownOpen(true);
     };
-
+    const handleMouseEnter1 = () => {
+        setIsDropdownOpen1(true);
+    };
     const handleMouseLeave = () => {
         setIsDropdownOpen(false);
+    };
+    const handleMouseLeave1 = () => {
+        setIsDropdownOpen1(false);
     };
     const handleNavLinkClick = (path) => {
         setActiveLink(path);
@@ -30,13 +37,16 @@ const Sidebar = ({ children }) => {
     };
     const handleDropdownClick = (path) => {
         setActiveDropdown(path);
+        setActiveDropdown1(path);
     };
+
     const handleDropdownToggleClick = (event) => {
-       
         event.preventDefault(); // Prevent the default behavior (e.g., navigation)
-        
     };
-    
+    const handleDropdownToggleClick1 = (event) => {
+        event.preventDefault(); // Prevent the default behavior (e.g., navigation)
+    };
+
     return (
         <div>
             <div id="sidebar">
@@ -48,56 +58,160 @@ const Sidebar = ({ children }) => {
                 </div>
                 <ul class="list-unstyled component m-0">
                     <li className={activeLink === '/admin' ? 'active' : ''}>
-                        <NavLink to="/admin/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin')}}>
+                        <NavLink
+                            to="/admin/"
+                            className="link"
+                            activeclassName="active"
+                            onClick={() => {
+                                handleDropdownClick('');
+                                handleNavLinkClick('/admin');
+                            }}
+                        >
                             <i class="material-icons">home</i>Trang chủ{' '}
                         </NavLink>
                     </li>
                     <li className={activeLink === '/admin/registers/' ? 'active' : ''}>
-                        <NavLink to="/admin/registers/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/registers/')}}>
+                        <NavLink
+                            to="/admin/registers/"
+                            className="link"
+                            activeclassName="active"
+                            onClick={() => {
+                                handleDropdownClick('');
+                                handleNavLinkClick('/admin/registers/');
+                            }}
+                        >
                             <i class="material-icons">apps</i> Phiếu Đăng ký{' '}
                         </NavLink>
                     </li>
                     <li className={activeLink === '/admin/users/' ? 'active' : ''}>
-                        <NavLink to="/admin/users/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/users/')}}>
+                        <NavLink
+                            to="/admin/users/"
+                            className="link"
+                            activeclassName="active"
+                            onClick={() => {
+                                handleDropdownClick('');
+                                handleNavLinkClick('/admin/users/');
+                            }}
+                        >
                             <i class="material-icons">person</i>Khách Hàng{' '}
                         </NavLink>
                     </li>
                     <li className={activeLink === '/admin/request/' ? 'active' : ''}>
-                        <NavLink to="/admin/request/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/request/')}}>
+                        <NavLink
+                            to="/admin/request/"
+                            className="link"
+                            activeclassName="active"
+                            onClick={() => {
+                                handleDropdownClick('');
+                                handleNavLinkClick('/admin/request/');
+                            }}
+                        >
                             <i class="material-icons">request_quote</i>Phiếu Yêu Cầu{' '}
                         </NavLink>
                     </li>
-                    <li className={activeLink === '/admin/payment/' ? 'active' : ''}>
-                        <NavLink to="/admin/payment/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/payment/')}}>
-                            <i class="material-icons">receipt_long</i>Phiếu thanh toán{' '}
-                        </NavLink>
+                    <li
+                        className={`dropdown ${isDropdownOpen1 ? 'show' : ''} ${
+                            activeLink === '/admin/payment' ? 'active' : ''
+                        }`}
+                        onMouseEnter={handleMouseEnter1}
+                        onMouseLeave={handleMouseLeave1}
+                    >
+                        <a
+                            href=""
+                            data-toggle="collapse"
+                            aria-expanded="false"
+                            className="dropdown-toggle"
+                            onClick={(e) => handleDropdownToggleClick1(e)}
+                        >
+                            <i className="material-icons">aspect_ratio</i>Phiếu thanh toán
+                        </a>
+
+                        <ul
+                            className={`collapse list-unstyled menu ${isDropdownOpen1 ? 'show' : ''}`}
+                            id="homeSubmenu1"
+                        >
+                            <li className={activeDropdown1 === '/admin/payment' ? 'active' : ''}>
+                                <NavLink
+                                    to="/admin/payment"
+                                    onClick={() => {
+                                        handleDropdownClick('/admin/payment');
+                                        handleNavLinkClick('/admin/payment');
+                                    }}
+                                >
+                                    Chưa thanh toán
+                                </NavLink>
+                            </li>
+                            <li className={activeDropdown1 === '/admin/paymentpaid' ? 'active' : ''}>
+                                <NavLink
+                                    to="/admin/paymentpaid"
+                                    onClick={() => {
+                                        handleDropdownClick('/admin/paymentpaid');
+                                        handleNavLinkClick('/admin/payment');
+                                    }}
+                                >
+                                    Đã thanh toán
+                                </NavLink>
+                            </li>
+                        </ul>
                     </li>
                     <li className={activeLink === '/admin/finance/' ? 'active' : ''}>
-                        <NavLink to="/admin/finance/" className="link" activeclassName="active" onClick={()=>{handleDropdownClick('');handleNavLinkClick('/admin/finance/')}}>
+                        <NavLink
+                            to="/admin/finance/"
+                            className="link"
+                            activeclassName="active"
+                            onClick={() => {
+                                handleDropdownClick('');
+                                handleNavLinkClick('/admin/finance/');
+                            }}
+                        >
                             <i class="material-icons">monetization_on</i>Tài chính{' '}
                         </NavLink>
                     </li>
                     <li
-                        className={`dropdown ${isDropdownOpen ? 'show' : ''} ${activeLink === '/admin/layouts' ? 'active' : ''}`}
+                        className={`dropdown ${isDropdownOpen ? 'show' : ''} ${
+                            activeLink === '/admin/layouts' ? 'active' : ''
+                        }`}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >
-                        <a href="" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle" onClick={(e) => handleDropdownToggleClick(e)}>
+                        <a
+                            href=""
+                            data-toggle="collapse"
+                            aria-expanded="false"
+                            className="dropdown-toggle"
+                            onClick={(e) => handleDropdownToggleClick(e)}
+                        >
                             <i className="material-icons">aspect_ratio</i>Layouts
                         </a>
 
                         <ul className={`collapse list-unstyled menu ${isDropdownOpen ? 'show' : ''}`} id="homeSubmenu1">
                             <li className={activeDropdown === '/admin/insurances' ? 'active' : ''}>
-                                <NavLink to="/admin/insurances/" onClick={() => {handleDropdownClick('/admin/insurances'); handleNavLinkClick('/admin/layouts')}}>Insurance</NavLink>
+                                <NavLink
+                                    to="/admin/insurances/"
+                                    onClick={() => {
+                                        handleDropdownClick('/admin/insurances');
+                                        handleNavLinkClick('/admin/layouts');
+                                    }}
+                                >
+                                    Insurance
+                                </NavLink>
                             </li>
                             <li className={activeDropdown === '/admin/benefits' ? 'active' : ''}>
-                                <NavLink to="/admin/benefits/" onClick={() => {handleDropdownClick('/admin/benefits'); handleNavLinkClick('/admin/layouts')}}>Benefit</NavLink>
+                                <NavLink
+                                    to="/admin/benefits/"
+                                    onClick={() => {
+                                        handleDropdownClick('/admin/benefits');
+                                        handleNavLinkClick('/admin/layouts');
+                                    }}
+                                >
+                                    Benefit
+                                </NavLink>
                             </li>
                         </ul>
                     </li>
 
                     <li class="">
-                        <a href="#" class="" >
+                        <a href="#" class="">
                             <i class="material-icons">date_range</i>copy{' '}
                         </a>
                     </li>

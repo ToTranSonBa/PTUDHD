@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PreviewImage } from '../../helpers/ImageHelper';
 import { useEffect, useState } from 'react';
-import { GetClaimByStatus } from '../../services/Admin/ApiRequest/request';
+import { GetClaimByStatus, denyRequest } from '../../services/Admin/ApiRequest/request';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormAddClaimPayment } from './FormAddClaimPayment';
 
+import { toast } from 'react-toastify';
 
 function Table() {
     const [claims, setClaim] = useState([]);
@@ -12,7 +13,7 @@ function Table() {
     const [urlImg, setUrlImg] = useState('');
     const [isHiddenImg, setIsHiddenImg] = useState(true);
     const [isHiddenForm, setIsHiddenForm] = useState(true);
-    const [claimRequest, setclaimRequest] = useState("");
+    const [claimRequest, setclaimRequest] = useState('');
     const [reload, setReload] = useState(false);
 
     useEffect(() => {
@@ -61,14 +62,21 @@ function Table() {
     };
     const handleEnableForm = (value) => {
         setIsHiddenForm(false);
-        setclaimRequest(value)
+        setclaimRequest(value);
     };
     const handleHiddenForm = (value) => {
         setIsHiddenForm(value);
         setReload(true);
     };
-    console.log(claims);
-    console.log(isHiddenForm); 
+    const handleDeny = async (value) => {
+        try {
+            await denyRequest(value.claimRequestId);
+            setReload(true);
+            toast.success('Đã từ chối phiếu yêu cầu!');
+        } catch (err) {
+            toast.error('Không thể từ chối phiếu yêu cầu này!!');
+        }
+    };
 
     return (
         <div class="container">
@@ -95,7 +103,9 @@ function Table() {
                 </div>
                 <div class="row">
                     <div class="table-responsive ">
-                        {!isHiddenForm && <FormAddClaimPayment claim={claimRequest} hidden={handleHiddenForm}></FormAddClaimPayment>}
+                        {!isHiddenForm && (
+                            <FormAddClaimPayment claim={claimRequest} hidden={handleHiddenForm}></FormAddClaimPayment>
+                        )}
                         {!isHiddenImg && <PreviewImage hidden={handleHiddenImg} url={urlImg} />}
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
@@ -135,9 +145,9 @@ function Table() {
                                                 </Link>
                                             </td>
                                             <td>
-                                                <span>
+                                                <Link onClick={() => handleDeny(claim)}>
                                                     <i className="material-icons">&#xE872;</i>
-                                                </span>
+                                                </Link>
                                             </td>
                                         </tr>
                                     ))

@@ -1,13 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { PreviewImage } from '../../helpers/ImageHelper';
 import { useEffect, useState } from 'react';
 import { GetClaimPayment } from '../../services/Admin/ApiPayment/Payment';
-import { Link, useNavigate } from 'react-router-dom';
-import DetailPayment from './DetailPayment';
+import DetailPayment from './DetailPaymentPaid';
 
 function Table() {
     const [claims, setClaim] = useState([]);
-    const [PaymentChange, setPaymentChange] = useState(false);
+    const [, setPaymentChange] = useState(false);
     const [isHiddenForm, setIsHiddenForm] = useState(true);
     const [claimPayment, setclaimPayment] = useState('');
     const [reload, setReload] = useState(false);
@@ -19,14 +17,14 @@ function Table() {
                 .then((res) => {
                     let list_payment = [];
                     for (let i = 0; i < res.data.length; i++) {
-                        if (res.data[i].status === 'UNPAID') {
+                        if (res.data[i].status === 'PAID') {
                             list_payment.push(res.data[i]);
                         }
                     }
                     setPayment(list_payment);
                     setClaim(res.data);
                     setPaymentChange(true);
-                    console.log(list_payment.length);
+                    console.log(claims);
                 })
                 .catch((err) => {
                     console.log(err);
