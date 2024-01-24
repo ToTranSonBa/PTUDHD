@@ -89,21 +89,24 @@ export const data = {
 
 const Doashboard = () => {
     return (
-        <div className="spend">
-            <div className="chart">
+        <>
+            <div className="piechart_table">
+                <Table className="table"></Table>
                 <div className="piechart">
-                    <Pie options={optionspiechart} data={data} />
-                    <Table></Table>
-                </div>
-                <div className="multichar">
-                    <div>
-                        <Radar data={data} />
-                        <Line options={options} data={data} />
-                    </div>
-                    <Bar options={optionsbarchart} data={data} />
+                    <Pie style={{ maxWidth: '400px', maxHeight: '400px' }} options={optionspiechart} data={data} />
                 </div>
             </div>
-        </div>
+            <div className="multichar">
+                <div className="left_chart">
+                    <Radar style={{ width: '300px', height: '300px' }} data={data} />
+                    <Line style={{ width: '500px', height: '700px' }} options={options} data={data} />
+                </div>
+
+                <div className="right_chart">
+                    <Bar style={{ height: '700px' }} options={optionsbarchart} data={data} />
+                </div>
+            </div>
+        </>
     );
 };
 

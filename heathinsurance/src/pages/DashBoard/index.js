@@ -10,9 +10,13 @@ const DashBoard = () => {
                 <img style={{ borderRadius: '0' }} className="banner_top" src={Banner} alt="Banner" />
                 <h1 className="title">Wellcome to doashboard</h1>
             </div>
-            <div className="Doashboard">
-                <ListTag></ListTag>
-                <Doashboard></Doashboard>
+            <div className="body">
+                <div className="bodytag">
+                    <ListTag></ListTag>
+                </div>
+                <div className="doashboard">
+                    <Doashboard></Doashboard>
+                </div>
             </div>
         </div>
     );

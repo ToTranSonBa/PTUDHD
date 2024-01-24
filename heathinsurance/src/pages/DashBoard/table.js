@@ -2,37 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { RegistersApi } from '../../services/Admin/ApiRegister/register';
-
-const Data = [
-    {
-        id: 1,
-        userName: 'Nguyen Quoc Anh',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com',
-        phoneNumber: '24353245243',
-        insurancePro: 'Bảo hiểm ung thư',
-        dateRegister: '23/09/2002',
-    },
-    {
-        id: 2,
-        userName: 'Nguyen Quoc Anh2',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com2',
-        phoneNumber: '24523542',
-        insurancePro: 'Bảo hiểm ung thư2',
-        dateRegister: '23/09/2001',
-    },
-    {
-        id: 3,
-        userName: 'Nguyen Quoc Anh3',
-        birthday: '2023-12-21T07:04:23.100Z',
-        email: 'quocmache@gmail.com3',
-        phoneNumber: '24524532',
-        insurancePro: 'Bảo hiểm ung thư3',
-        dateRegister: '23/09/2003',
-    },
-];
-
+import './table.scss';
 function Table() {
     const navigate = useNavigate();
     const [register, setRegister] = useState([]); // Correct usage of useState
@@ -61,77 +31,50 @@ function Table() {
     };
 
     return (
-        <div class="container">
-            <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
-                <div class="row">
-                    <div class="table-responsive ">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Name </th>
-                                    <th>Birthday</th>
-                                    <th>Email</th>
-                                    <th>Phone Number</th>
-                                    <th>Gói bảo hiểm </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {register && register.length > 0 ? (
-                                    register.map((curElem) => (
-                                        <tr key={curElem.contractId}>
-                                            <td>{curElem.customer.name}</td>
-                                            <td>{curElem.customer.birthday}</td>
-                                            <td>{curElem.customer.email}</td>
-                                            <td>{curElem.customer.phoneNumber}</td>
-                                            <td>{curElem.productName}</td>
-                                            <td>{curElem.programName}</td>
-                                            <td>{curElem.dateRegister}</td>
-                                            <td>
-                                                <span
-                                                    onClick={() => handleAccept(curElem.contractId)}
-                                                    className="delete "
-                                                    title="Delete"
-                                                    data-toggle="tooltip"
-                                                    style={{ color: 'green', cursor: 'pointer' }}
-                                                >
-                                                    <i className="material-icons check_circle_outline">&#xe92d;</i>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <Link
-                                                    to={`/view/${curElem.contractId}`}
-                                                    className="view mx-auto"
-                                                    title="View"
-                                                    data-toggle="tooltip"
-                                                    style={{ color: 'orange' }}
-                                                >
-                                                    <i className="material-icons">&#xE417;</i>
-                                                </Link>
-                                            </td>
-                                            <td>
-                                                <span
-                                                    onClick={() => handleDelete(curElem.contractId)}
-                                                    className="delete"
-                                                    title="Delete"
-                                                    data-toggle="tooltip"
-                                                    style={{ color: 'red', cursor: 'pointer' }}
-                                                >
-                                                    <i className="material-icons">&#xE872;</i>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr style={{ textAlign: 'center' }}>
-                                        <td colSpan="10">Danh sách rỗng</td>
+        <>
+            <div class="row_table">
+                <div class="table-responsive ">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID </th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Số hợp đồng đăng kí</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {register && register.length > 0 ? (
+                                register.map((curElem) => (
+                                    <tr key={curElem.contractId}>
+                                        <td>{curElem.customer.customerId}</td>
+                                        <td>{curElem.customer.name}</td>
+                                        <td>{curElem.customer.email}</td>
+                                        <td>{curElem.customer.numbercontractregister}</td>
+
+                                        <td style={{ textAlign: 'center' }}>
+                                            <Link
+                                                to={`/view/${curElem.contractId}`}
+                                                className="view mx-auto"
+                                                title="View"
+                                                data-toggle="tooltip"
+                                                style={{ color: 'orange' }}
+                                            >
+                                                <i className="material-icons">&#xE417;</i>
+                                            </Link>
+                                        </td>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                ))
+                            ) : (
+                                <tr style={{ textAlign: 'center' }}>
+                                    <td colSpan="10">Danh sách rỗng</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

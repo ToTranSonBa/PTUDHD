@@ -4,10 +4,12 @@ import classNames from 'classnames/bind';
 import Chart from './Chart';
 import PersonalInfomation from './PersonalInfo';
 import styles from './Account.module.scss';
+import './DetailsContract.scss';
 import Banner from '../../assets/image/banner-top.jpg';
 import CustomerRequest from './../CustomerRequest/CustomerRequest';
 
 import { AccountCustomerApi, ContractsCustomerApi } from '../../services/ApiAccount/Account';
+import DetailContract from './../DetailContract/index';
 
 const cx = classNames.bind(styles);
 
@@ -164,7 +166,6 @@ function Account() {
     };
     const handelIsDenied = () => {
         setActiveListRequire(3);
-
     };
     useEffect(() => {
         fetchData();
@@ -181,17 +182,15 @@ function Account() {
 
             // Lấy giá trị của thuộc tính "emailaddress"
             let emailAddress = decodedPayload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
-            if (role === "Customer") {
+            if (role === 'Customer') {
                 const customer = await AccountCustomerApi(emailAddress);
                 const contractsCustomer = await ContractsCustomerApi(customer.customerId, contractStatus);
                 setContractsOfCustomer(contractsCustomer);
-                setCustomer(customer)
+                setCustomer(customer);
             }
             // else {
             //     handelProfile();
             // }
-
-
         } catch (error) {
             console.error('>>> Error fetching data: ', error);
         }
@@ -200,7 +199,7 @@ function Account() {
         for (let i = 0; i < contractsOfCustomer.length; i++) {
             if (contractsOfCustomer[i].contractId === id) {
                 setRegisterDetail(contractsOfCustomer[i]);
-                console.log(contractsOfCustomer[i].employee.name);
+                // console.log(contractsOfCustomer[i].employee.name);
                 break;
             }
         }
@@ -231,220 +230,6 @@ function Account() {
 
             <div className={cx('content')}>
                 <section id={cx('list_insurance')} className={cx({ active: activeSection === 'list_insurance' })}>
-                    <div>
-                        {showForm && (
-                            <div className="overlay-register" style={{ paddingLeft: '260px' }}>
-                                <div
-                                    className="form-container-register"
-                                    style={{
-                                        textAlign: 'center',
-                                        height: '800px',
-                                        width: '1000px',
-                                        overflowY: 'auto',
-                                    }}
-                                >
-                                    <span
-                                        onClick={() => setShowForm(false)}
-                                        className="cancel"
-                                        title="cancel"
-                                        data-toggle="tooltip"
-                                        style={{
-                                            cursor: 'pointer',
-                                            float: 'right',
-                                            position: 'fixed',
-                                            zIndex: '99',
-                                            right: '20%',
-                                        }}
-                                    >
-                                        <i class="material-icons close">&#xe5cd;</i>
-                                    </span>
-                                    <br></br>
-                                    <span
-                                        style={{
-                                            fontSize: '20px',
-                                            fontWeight: 'bold',
-                                            color: '#16a317',
-                                            textAlign: 'center',
-                                        }}
-                                    >
-                                        Thông tin Đăng ký
-                                    </span>
-                                    {registerDetail.customer ? (
-                                        <div style={{ textAlign: 'center' }}>
-                                            <table
-                                                style={{
-                                                    textAlign: 'left',
-                                                    marginBottom: '16px',
-                                                    width: '-webkit-fill-available',
-                                                }}
-                                            >
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Nhân viên duyệt</strong>
-                                                        </td>
-                                                        <td>{registerDetail.employee.name}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Ngày bắt đầu</strong>
-                                                        </td>
-                                                        <td>{registerDetail.startDate}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Ngày kết thúc</strong>
-                                                        </td>
-                                                        <td>{registerDetail.endDate}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Giá bảo hiểm</strong>
-                                                        </td>
-                                                        <td>{registerDetail.totalPrice}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Trạng thái</strong>
-                                                        </td>
-                                                        <td>
-                                                            <span style={{ border: '0px' }}>
-                                                                {registerDetail.status === 'Unpaid'
-                                                                    ? 'Chưa thanh toán'
-                                                                    : 'Đã thanh toán'}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Tên khách hàng</strong>
-                                                        </td>
-                                                        <td>{registerDetail.customer.name}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>CMND/CCCD</strong>
-                                                        </td>
-                                                        <td>{registerDetail.customer.identifycationNumber}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Ngày sinh</strong>
-                                                        </td>
-                                                        <td>{registerDetail.customer.birthday}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Số điện thoại</strong>
-                                                        </td>
-                                                        <td>{registerDetail.customer.phoneNumber}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Email</strong>
-                                                        </td>
-                                                        <td>{registerDetail.customer.email}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Địa chỉ</strong>
-                                                        </td>
-                                                        <td>{registerDetail.customer.address}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Tên bảo hiểm</strong>
-                                                        </td>
-                                                        <td>{registerDetail.productName}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Ngày tạo</strong>
-                                                        </td>
-                                                        <td>{registerDetail.createDate}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <strong>Chương trình</strong>
-                                                        </td>
-                                                        <td>{registerDetail.programName}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    ) : (
-                                        <p>Không có dữ liệu</p>
-                                    )}
-
-                                    <div
-                                        style={{
-                                            textAlign: 'center',
-                                        }}
-                                    >
-                                        <span
-                                            style={{
-                                                fontSize: '20px',
-                                                fontWeight: 'bold',
-                                                color: '#16a317',
-                                                textAlign: 'center',
-                                            }}
-                                        >
-                                            Thông tin tình trạng sức khỏe của khách hàng
-                                        </span>
-                                        <table
-                                            style={{
-                                                marginBottom: '16px',
-                                                width: '950px',
-                                            }}
-                                        >
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Điều kiện sức khỏe</th>
-                                                    <th>Tình trạng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {registerDetail.contractHealthConditions.length > 0 ? (
-                                                    registerDetail.contractHealthConditions.map((curElem, i) => (
-                                                        <tr key={curElem.benefitTypeId}>
-                                                            <td>{i + 1}</td>
-                                                            <td>
-                                                                <span
-                                                                    style={{
-                                                                        width: '100%',
-                                                                        whiteSpace: 'wrap',
-                                                                        overflowX: 'wrap',
-                                                                    }}
-                                                                >
-                                                                    {curElem.conditionName}
-                                                                </span>
-                                                            </td>
-                                                            <td
-                                                                style={{
-                                                                    textAlign: 'center',
-                                                                    maxWidth: '98px',
-                                                                    margin: 'auto',
-                                                                }}
-                                                            >
-                                                                <span>{curElem.status ? 'Có' : 'Không'}</span>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan="3">
-                                                            <span>Không có dữ liệu</span>
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
                     <div className={cx('left_list')}>
                         <nav className={cx('navigation_leftList')}>
                             <li id={cx('isWaiting')} onClick={handelIsWaiting}>
@@ -526,14 +311,229 @@ function Account() {
                     </div>
                     <CustomerRequest status={activeListRequire}></CustomerRequest>
                 </section>
-
                 <section id={cx('revenue')} className={cx({ active: activeSection === 'revenue' })}>
-                    <Chart data={customer ? customer : ""}></Chart>
+                    <Chart data={customer ? customer : ''}></Chart>
                 </section>
                 <section id={cx('profile')} className={cx({ active: activeSection === 'profile' })}>
                     <PersonalInfomation></PersonalInfomation>
                 </section>
             </div>
+
+            {showForm && (
+                <div className="overlay-register">
+                    <div className="form-container-register">
+                        <div
+                            style={{
+                                height: '40px',
+                                padding: '20px 0',
+                                color: '#126131',
+                                textTransform: 'uppercase',
+                                fontWeight: '800',
+                                fontSize: '1.8rem',
+                            }}
+                        >
+                            Thông tin Đăng ký
+                        </div>
+                        <br></br>
+                        <span
+                            onClick={() => setShowForm(false)}
+                            className="cancel"
+                            title="cancel"
+                            data-toggle="tooltip"
+                        >
+                            <i class="material-icons close">&#xe5cd;</i>
+                        </span>
+                        {registerDetail.customer ? (
+                            <div className="table_register" style={{ textAlign: 'center' }}>
+                                <table style={{ width: '80%' }}>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <strong>Nhân viên duyệt</strong>
+                                            </td>
+                                            {/* <td>{registerDetail.employee}</td> */}
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Ngày bắt đầu</strong>
+                                            </td>
+                                            <td>{registerDetail.startDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Ngày kết thúc</strong>
+                                            </td>
+                                            <td>{registerDetail.endDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Giá bảo hiểm</strong>
+                                            </td>
+                                            <td>{registerDetail.totalPrice}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Trạng thái</strong>
+                                            </td>
+                                            <td>
+                                                <span style={{ border: '0px' }}>
+                                                    {registerDetail.status === 'Unpaid'
+                                                        ? 'Chưa thanh toán'
+                                                        : 'Đã thanh toán'}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Tên khách hàng</strong>
+                                            </td>
+                                            <td>{registerDetail.customer.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>CMND/CCCD</strong>
+                                            </td>
+                                            <td>{registerDetail.customer.identifycationNumber}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Ngày sinh</strong>
+                                            </td>
+                                            <td>{registerDetail.customer.birthday}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Số điện thoại</strong>
+                                            </td>
+                                            <td>{registerDetail.customer.phoneNumber}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Email</strong>
+                                            </td>
+                                            <td>{registerDetail.customer.email}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Địa chỉ</strong>
+                                            </td>
+                                            <td>{registerDetail.customer.address}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Tên bảo hiểm</strong>
+                                            </td>
+                                            <td>{registerDetail.productName}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Ngày tạo</strong>
+                                            </td>
+                                            <td>{registerDetail.createDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Chương trình</strong>
+                                            </td>
+                                            <td>{registerDetail.programName}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <p>Không có dữ liệu</p>
+                        )}
+
+                        <div className="table_healthinfo">
+                            <div
+                                style={{
+                                    width: '100%',
+                                    padding: '20px',
+                                    color: '#126131',
+                                    textTransform: 'uppercase',
+                                    fontWeight: '800',
+                                    fontSize: '1.8rem',
+                                }}
+                            >
+                                Thông tin tình trạng sức khỏe của khách hàng
+                            </div>
+
+                            <table style={{ width: '80%' }}>
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Điều kiện sức khỏe</th>
+                                        <th>Tình trạng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {registerDetail.contractHealthConditions.length > 0 ? (
+                                        registerDetail.contractHealthConditions.map((curElem, i) => (
+                                            <tr key={curElem.benefitTypeId}>
+                                                <td>{i + 1}</td>
+                                                <td>
+                                                    <span>{curElem.conditionName}</span>
+                                                </td>
+                                                <td>
+                                                    <span>{curElem.status ? 'Có' : 'Không'}</span>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="3">
+                                                <span>Không có dữ liệu</span>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="table_healthinfo">
+                            <div
+                                style={{
+                                    width: '100%',
+                                    padding: '20px',
+                                    color: '#126131',
+                                    textTransform: 'uppercase',
+                                    fontWeight: '800',
+                                    fontSize: '1.8rem',
+                                }}
+                            >
+                                Thông tin bệnh trạng của khách hàng
+                            </div>
+
+                            <table style={{ width: '80%' }}>
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Bệnh mắc phải</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {registerDetail.contractHealthConditions.length > 0 ? (
+                                        registerDetail.contractHealthConditions.map((curElem, i) => (
+                                            <tr key={curElem.benefitTypeId}>
+                                                <td>{i + 1}</td>
+                                                <td>
+                                                    <span>{curElem.conditionName}</span>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="3">
+                                                <span>Không có dữ liệu</span>
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

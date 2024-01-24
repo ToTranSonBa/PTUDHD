@@ -1,35 +1,47 @@
-.spend {
+.piechart_table {
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-around;
+    background-color: white;
+}
+.table {
+    // min-width: 50%;
+    // margin-left: 2rem;
+    // background-color: aqua;
+}
+.piechart {
+    min-width: 40%;
+    display: flex;
+    justify-content: center;
+    // background-color: antiquewhite;
+    margin-left: 2rem;
+    align-items: center;
+}
+.multichar {
+    padding: 2rem 2rem 4rem 2rem;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 30px;
+    // justify-content: space-around;
+    // background-color: rgb(112, 56, 56);
+}
+
+.left_chart {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
     justify-content: center;
-    margin-top: 1rem;
-    .chart {
-        // background-color: #066132;
-        width: 100%;
-        // height: 80%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        padding-bottom: 100px;
+    align-items: center;
+    max-height: max-content;
+    min-width: 30%;
+    // background-color: aqua;
+}
 
-        .multichar {
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            display: flex;
-            flex-direction: row;
-        }
-        .piechart {
-            // background-color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 30%;
-            // margin-left: 2rem;
-            height: 30%;
-        }
-    }
+.right_chart {
+    // background-color: black;
+    min-width: 65%;
+    min-height: 100%;
+    object-fit: cover;
+    align-self: flex-end;
 }
