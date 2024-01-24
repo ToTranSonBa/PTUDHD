@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 function Account() {
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState('list_insurance');
-    const [activeListInsurance, setActiveListInsurance] = useState('list_isActive');
+    const [activeListInsurance, setActiveListInsurance] = useState('list_isWaiting');
     const [activeListRequire, setActiveListRequire] = useState(0);
     const [contractStatus, setContractStatus] = useState(0);
     const [contractsOfCustomer, setContractsOfCustomer] = useState([]);
@@ -197,11 +197,11 @@ function Account() {
     };
     const [listHealthDeclaration, setListHealthDeclaration] = useState([]);
     const handleView = (id) => {
-        let HealthDeclaration = "";
+        let HealthDeclaration = '';
         for (let i = 0; i < contractsOfCustomer.length; i++) {
             if (contractsOfCustomer[i].contractId === id) {
                 setRegisterDetail(contractsOfCustomer[i]);
-                console.log(">>check contract; ")
+                console.log('>>check contract; ');
                 HealthDeclaration = contractsOfCustomer[i].healthDeclaration;
                 break;
             }
@@ -209,8 +209,7 @@ function Account() {
         if (HealthDeclaration) {
             const healthDeclarationArray = HealthDeclaration.split('?');
             setListHealthDeclaration(healthDeclarationArray);
-        }
-        else {
+        } else {
             setListHealthDeclaration([]);
         }
         setShowForm(!showForm);
@@ -224,16 +223,22 @@ function Account() {
             </div>
 
             <nav className={cx('navigation')}>
-                <li onClick={handleClickListInsurance}>
+                <li
+                    onClick={handleClickListInsurance}
+                    className={cx(activeSection === 'list_insurance' ? 'active_navbar' : '')}
+                >
                     <Link to="">Thông tin bảo hiểm</Link>
                 </li>
-                <li onClick={handleClickListRequire}>
+                <li
+                    onClick={handleClickListRequire}
+                    className={cx(activeSection === 'list_require' ? 'active_navbar' : '')}
+                >
                     <Link to="">Thông tin phiếu yêu cầu</Link>
                 </li>
-                <li onClick={handleClickRevenue}>
+                <li onClick={handleClickRevenue} className={cx(activeSection === 'revenue' ? 'active_navbar' : '')}>
                     <Link to="">Chi tiêu</Link>
                 </li>
-                <li onClick={handelProfile}>
+                <li onClick={handelProfile} className={cx(activeSection === 'profile' ? 'active_navbar' : '')}>
                     <Link to="">Thông tin cá nhân</Link>
                 </li>
             </nav>
@@ -242,16 +247,29 @@ function Account() {
                 <section id={cx('list_insurance')} className={cx({ active: activeSection === 'list_insurance' })}>
                     <div className={cx('left_list')}>
                         <nav className={cx('navigation_leftList')}>
-                            <li id={cx('isWaiting')} onClick={handelIsWaiting}>
+                            <li
+                                id={cx('isWaiting')}
+                                onClick={handelIsWaiting}
+                                className={cx(activeListInsurance === 'list_isWaiting' ? 'active_leftlist' : '')}
+                            >
                                 <Link to="">Chờ duyệt</Link>
                             </li>
-                            <li onClick={handelIsCancel}>
+                            <li
+                                onClick={handelIsCancel}
+                                className={cx(activeListInsurance === 'list_isCanceled' ? 'active_leftlist' : '')}
+                            >
                                 <Link to="">Bị hủy</Link>
                             </li>
-                            <li onClick={handelIsActive}>
+                            <li
+                                onClick={handelIsActive}
+                                className={cx(activeListInsurance === 'list_isActive' ? 'active_leftlist' : '')}
+                            >
                                 <Link to="">Đang thụ hưởng</Link>
                             </li>
-                            <li onClick={handelIsExpired}>
+                            <li
+                                onClick={handelIsExpired}
+                                className={cx(activeListInsurance === 'list_isExpired' ? 'active_leftlist' : '')}
+                            >
                                 <Link to="">Hết hạn</Link>
                             </li>
                         </nav>
@@ -305,21 +323,35 @@ function Account() {
                 >
                     <div className={cx('left_list')}>
                         <nav className={cx('navigation_leftList')}>
-                            <li onClick={() => handelIsUnpaid()}>
+                            <li
+                                onClick={() => handelIsUnpaid()}
+                                className={cx(activeListRequire === 0 ? 'active_leftlist' : '')}
+                            >
                                 <Link to="">Chờ Duyệt</Link>
                             </li>
-                            <li onClick={() => handelIsPaid()}>
+                            <li
+                                onClick={() => handelIsPaid()}
+                                className={cx(activeListRequire === 1 ? 'active_leftlist' : '')}
+                            >
                                 <Link to="">Chưa thanh toán</Link>
                             </li>
-                            <li onClick={() => handelIsPending()}>
+                            <li
+                                onClick={() => handelIsPending()}
+                                className={cx(activeListRequire === 2 ? 'active_leftlist' : '')}
+                            >
                                 <Link to="">Đã thanh toán</Link>
                             </li>
-                            <li onClick={handelIsDenied}>
+                            <li
+                                onClick={handelIsDenied}
+                                className={cx(activeListRequire === 3 ? 'active_leftlist' : '')}
+                            >
                                 <Link to="">Đã Hủy</Link>
                             </li>
                         </nav>
                     </div>
-                    <CustomerRequest status={activeListRequire}></CustomerRequest>
+                    <div className={cx('right_list')}>
+                        <CustomerRequest status={activeListRequire}></CustomerRequest>
+                    </div>
                 </section>
                 <section id={cx('revenue')} className={cx({ active: activeSection === 'revenue' })}>
                     <Chart data={customer ? customer : ''}></Chart>

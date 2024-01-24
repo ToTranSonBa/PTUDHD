@@ -28,11 +28,19 @@ function AboutMe() {
             </div>
 
             <nav className={cx('navigation')}>
-                <li id={cx('info')} onClick={handelInformation} className={cx('active_navbar')}>
+                <li
+                    id={cx('info')}
+                    onClick={handelInformation}
+                    className={cx(activeSection === 'introduction' ? 'active_navbar' : '')}
+                >
                     <IoIosInformationCircle />
                     <Link to="">Giới thiệu </Link>
                 </li>
-                <li id={cx('contract')} onClick={handelContract}>
+                <li
+                    id={cx('contract')}
+                    onClick={handelContract}
+                    className={cx(activeSection === 'contact' ? 'active_navbar' : '')}
+                >
                     <IoMdContacts />
                     <Link to="">Liên hệ</Link>
                 </li>

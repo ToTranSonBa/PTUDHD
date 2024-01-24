@@ -45,7 +45,7 @@ function Table() {
                         </thead>
                         <tbody>
                             {register && register.length > 0 ? (
-                                register.map((curElem) => (
+                                register.slice(0, 7).map((curElem) => (
                                     <tr key={curElem.contractId}>
                                         <td>{curElem.customer.customerId}</td>
                                         <td>{curElem.customer.name}</td>

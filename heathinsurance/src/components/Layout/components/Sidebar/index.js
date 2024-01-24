@@ -195,8 +195,26 @@ const Sidebar = ({ children }) => {
                                 >
                                     Insurance
                                 </NavLink>
+                                <NavLink
+                                    to="/admin/insurances/"
+                                    onClick={() => {
+                                        handleDropdownClick('/admin/insurances');
+                                        handleNavLinkClick('/admin/layouts');
+                                    }}
+                                >
+                                    Insurance
+                                </NavLink>
                             </li>
                             <li className={activeDropdown === '/admin/benefits' ? 'active' : ''}>
+                                <NavLink
+                                    to="/admin/benefits/"
+                                    onClick={() => {
+                                        handleDropdownClick('/admin/benefits');
+                                        handleNavLinkClick('/admin/layouts');
+                                    }}
+                                >
+                                    Benefit
+                                </NavLink>
                                 <NavLink
                                     to="/admin/benefits/"
                                     onClick={() => {

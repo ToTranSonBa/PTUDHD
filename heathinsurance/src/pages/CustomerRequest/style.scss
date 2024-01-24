@@ -1,4 +1,4 @@
-#container{
+#container {
     position: fixed;
     top: 0;
     left: 0;
@@ -8,9 +8,9 @@
     background: rgba(0, 0, 0, 0.3);
 
     z-index: 99;
-  }
-  
-  #container {
+}
+
+#container {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -21,13 +21,13 @@
     justify-content: center;
     z-index: 9999;
     background: rgba(0, 0, 0, 0.3); /* Adjust the background color and opacity as needed */
-  }
-  
-  #form-container {
+}
+
+#form-container {
     padding: 20px;
     background-color: white;
-  }
-  
+}
+
 .form-container {
     h1 {
         font-size: 24px;
@@ -97,15 +97,15 @@
     justify-content: space-between;
     width: 100%;
     margin-top: 20px; /* Adjust the margin as needed */
-  }
-  
-  .close-button,
-  .submit-button {
+}
+
+.close-button,
+.submit-button {
     padding: 10px; /* Adjust padding as needed */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  .close-button {
+}
+.close-button {
     background-color: rgb(207, 82, 82);
-  }
+}

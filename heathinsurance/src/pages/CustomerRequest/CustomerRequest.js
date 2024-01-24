@@ -2,7 +2,7 @@ import './CustomerRequest.scss';
 import { PreviewImage } from '../../helpers/ImageHelper';
 import { GetClaimRequest } from '../../services/ApiCustomerRequest/CustomerRequest';
 import { useEffect, useState } from 'react';
-import AddCustomerRequest from "./AddCustomerRequest"
+import AddCustomerRequest from './AddCustomerRequest';
 
 const CustomerRequest = (props) => {
     const [claims, setClaim] = useState([]);
@@ -60,25 +60,25 @@ const CustomerRequest = (props) => {
     const handleHiddenFormAdd = (value) => {
         setIsHiddenForm(value);
         setReload(false);
-    }
+    };
 
     if (claimsChange) {
         return (
-            <div className="container" id="customer-request-container">
-                <button className="view-button" id='add-cus-req-btn' onClick={() => handleHiddenFormAdd(false)}>
+            <div id="customer-request-container">
+                <button className="view-button" id="add-cus-req-btn" onClick={() => handleHiddenFormAdd(false)}>
                     Thêm
                 </button>
-                {!isHiddenForm && <AddCustomerRequest hidden={handleHiddenFormAdd}/>}
+                {!isHiddenForm && <AddCustomerRequest hidden={handleHiddenFormAdd} />}
                 {!isHiddenImg && <PreviewImage hidden={handleHiddenImg} url={urlImg} />}
                 <table>
                     <thead>
                         <tr>
-                            <th>STT</th>
-                            <th>Bảo hiểm</th>
-                            <th>Chương trình</th>
-                            <th>Ngày Gửi</th>
-                            <th>Trạng thái</th>
-                            <th>Hóa đơn</th>
+                            <th style={{ textAlign: 'center' }}>STT</th>
+                            <th style={{ textAlign: 'center' }}>Bảo hiểm</th>
+                            <th style={{ textAlign: 'center' }}>Chương trình</th>
+                            <th style={{ textAlign: 'center' }}>Ngày Gửi</th>
+                            <th style={{ textAlign: 'center' }}>Trạng thái</th>
+                            <th style={{ textAlign: 'center' }}>Hóa đơn</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,7 +100,7 @@ const CustomerRequest = (props) => {
                                     </td>
                                 </tr>
                             ))
-                        ) : ( 
+                        ) : (
                             <tr>
                                 <td colSpan="10" style={{ textAlign: 'center' }}>
                                     Danh sách rỗng

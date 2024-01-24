@@ -39,9 +39,10 @@
         color: #066132;
         font-weight: 400;
         cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.1);
 
         &:hover {
-            background-color: rgb(0 0 0 / 12%);
+            background-color: white;
             font-weight: 600;
         }
         svg {
@@ -51,6 +52,14 @@
             padding-left: 0.8rem;
             color: #066132;
         }
+    }
+
+    .active_navbar {
+        background-color: white;
+        box-shadow: none;
+        border-top: #066132;
+        border-left: #066132;
+        border-right: #066132;
     }
 }
 
@@ -118,11 +127,23 @@ th {
         .right_list {
             width: 80%;
             height: max-content;
+            height: 620px;
+            overflow-y: scroll;
+            // background-color: #066132;
 
             .content-table {
+                // display: block;
                 width: 98%;
                 margin-left: 1rem;
                 overflow-x: scroll;
+
+                th {
+                    position: sticky;
+                    background-color: white;
+                    z-index: 2;
+                    top: 0;
+                    left: 0;
+                }
             }
         }
     }
@@ -169,7 +190,8 @@ th {
 
     .active_leftlist {
         background-color: rgba(0, 0, 0, 0.2);
-
+        border: 1px solid #066132;
+        margin: 5px 0;
         a {
             color: #066132;
             font-weight: 800;

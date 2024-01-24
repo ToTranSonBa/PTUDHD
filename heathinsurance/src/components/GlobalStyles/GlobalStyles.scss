@@ -41,25 +41,33 @@ a {
 .container {
     width: var(--default-width);
 }
-
+/* Thiết lập thanh scroll dọc */
 ::-webkit-scrollbar {
-    width: 1.3rem;
+    width: 0.4rem;
+    height: 0.4rem; /* Thêm chiều cao cho thanh scroll ngang */
 }
 
+/* Thiết lập thumb cho thanh scroll dọc và ngang */
 ::-webkit-scrollbar-thumb {
     border-radius: 1rem;
     background: #797979;
     transition: all 0.5s ease-in-out;
 }
 
+/* Khi hover lên thanh scroll, thay đổi màu */
 ::-webkit-scrollbar-thumb:hover {
     background: #222224;
 }
 
+/* Thiết lập thanh scroll track dọc và ngang */
 ::-webkit-scrollbar-track {
     background: #f9f9f9;
 }
 
+/* Ẩn thanh scroll ngang mặc định của trình duyệt */
+::-webkit-scrollbar-horizontal {
+    display: none;
+}
 // @media (min-width: 1440px) {
 //     html {
 //         zoom: 1.5;
