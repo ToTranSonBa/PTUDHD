@@ -13,5 +13,6 @@ namespace Service.Contracts.Insurances
         Task<InsuranceProductDto> GetById(int Id, bool trachChanges);
         Task AddInsuranceProduct(AddInsuranceProductDto productDto);
         Task UpdateProduct(UpdateProductDto updateProductdto);
+        Task DisableProduct(int productId);
     }
 }

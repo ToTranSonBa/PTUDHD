@@ -222,5 +222,16 @@ namespace Services.Insurances
             updateProduct.PolicyName = updateProductdto.PolicyName;
             await _repositoryManager.SaveAsync();
         }
+
+        public async Task DisableProduct(int productId)
+        {
+            var disabledProduct = await _repositoryManager.InsuranceProducts.GetById(productId, true);
+            if(disabledProduct == null)
+            {
+                throw new ReturnNotFoundException("khong tim thay product");
+            }
+            disabledProduct.Status = ProductStatus.DISABLED.ToString();
+            await _repositoryManager.SaveAsync();
+        }
     }
 }

@@ -42,5 +42,11 @@ namespace WebAPI.Controllers.Insurances
             await _serviceManager.InsuranceProducts.UpdateProduct(updateProductDto);
             return StatusCode(StatusCodes.Status200OK);
         }
+        [HttpPut("disable/{productId}")]
+        public async Task<IActionResult> DisableProduct(int productId)
+        {
+            await _serviceManager.InsuranceProducts.DisableProduct(productId);
+            return StatusCode(StatusCodes.Status200OK);
+        }
     }
 }

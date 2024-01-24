@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(InsuranceDBContext))]
-    partial class InsuranceDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240124073249_update-product")]
+    partial class updateproduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -639,29 +641,29 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4d86709e-fd75-4190-9b5f-c723972c549d",
-                            ConcurrencyStamp = "e95722ff-c475-40ff-847b-61eed5257e54",
+                            Id = "9f6ec010-2810-4e76-b91b-c891cb1ed1c3",
+                            ConcurrencyStamp = "6c4db3e3-5128-450a-b764-6d4fa7b74445",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "69503958-43a3-4045-8f45-ab305830839e",
-                            ConcurrencyStamp = "e6af2ba7-6702-4502-a622-ca4426c127a1",
+                            Id = "bec7cff7-b3ee-4938-9bbd-c877732f3920",
+                            ConcurrencyStamp = "8780017c-caa3-4341-86ee-b8c52a7cc627",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "a39bf69c-ed55-421a-9a3f-2065c3c563ff",
-                            ConcurrencyStamp = "f05977af-c5ab-43b2-a698-d51a6ffb8286",
+                            Id = "9005cc58-667e-45bb-897d-55151c3affcf",
+                            ConcurrencyStamp = "fa9f18a2-58ad-420d-9a9d-0928534227dc",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "4002ccda-eee3-451f-bfc1-2fd2e8c590d5",
-                            ConcurrencyStamp = "13d25e56-4cba-4f3a-949d-e4de053f646e",
+                            Id = "eb9f2d1e-9c80-4f6f-b5ec-0106f28b0844",
+                            ConcurrencyStamp = "178258df-d6e1-414c-8fb0-f662c0301030",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
