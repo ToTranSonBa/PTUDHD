@@ -330,7 +330,7 @@ function Register() {
                 const customer = await RegisterCustomerApi(emailAddress);
                 const selectedDiseases = getDiseasesWithTrueStatus();
                 let selectedDiseasesString = '';
-                selectedDiseasesString = selectedDiseases.join(', ');
+                selectedDiseasesString = selectedDiseases.join('? ');
                 await RegisterContractApi(
                     id,
                     selectedProgram,

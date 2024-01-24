@@ -187,6 +187,7 @@ function Account() {
                 const contractsCustomer = await ContractsCustomerApi(customer.customerId, contractStatus);
                 setContractsOfCustomer(contractsCustomer);
                 setCustomer(customer);
+                // setListHealthDeclaration([]);
             }
             // else {
             //     handelProfile();
@@ -195,13 +196,23 @@ function Account() {
             console.error('>>> Error fetching data: ', error);
         }
     };
+    const [listHealthDeclaration, setListHealthDeclaration] = useState([]);
     const handleView = (id) => {
+        let HealthDeclaration = "";
         for (let i = 0; i < contractsOfCustomer.length; i++) {
             if (contractsOfCustomer[i].contractId === id) {
                 setRegisterDetail(contractsOfCustomer[i]);
-                // console.log(contractsOfCustomer[i].employee.name);
+                console.log(">>check contract; ")
+                HealthDeclaration = contractsOfCustomer[i].healthDeclaration;
                 break;
             }
+        }
+        if (HealthDeclaration) {
+            const healthDeclarationArray = HealthDeclaration.split('?');
+            setListHealthDeclaration(healthDeclarationArray);
+        }
+        else {
+            setListHealthDeclaration([]);
         }
         setShowForm(!showForm);
     };
@@ -296,16 +307,16 @@ function Account() {
                     <div className={cx('left_list')}>
                         <nav className={cx('navigation_leftList')}>
                             <li onClick={() => handelIsUnpaid()}>
-                                <Link to="">Chưa thanh toán</Link>
+                                <Link to="">Chờ Duyệt</Link>
                             </li>
                             <li onClick={() => handelIsPaid()}>
-                                <Link to="">Đã được thanh toán</Link>
+                                <Link to="">Chưa thanh toán</Link>
                             </li>
                             <li onClick={() => handelIsPending()}>
-                                <Link to="">Chờ duyệt</Link>
+                                <Link to="">Đã thanh toán</Link>
                             </li>
                             <li onClick={handelIsDenied}>
-                                <Link to="">Bị hủy</Link>
+                                <Link to="">Đã Hủy</Link>
                             </li>
                         </nav>
                     </div>
@@ -512,12 +523,12 @@ function Account() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {registerDetail.contractHealthConditions.length > 0 ? (
-                                        registerDetail.contractHealthConditions.map((curElem, i) => (
+                                    {listHealthDeclaration && listHealthDeclaration.length > 0 ? (
+                                        listHealthDeclaration.map((curElem, i) => (
                                             <tr key={curElem.benefitTypeId}>
                                                 <td>{i + 1}</td>
                                                 <td>
-                                                    <span>{curElem.conditionName}</span>
+                                                    <span>{curElem}</span>
                                                 </td>
                                             </tr>
                                         ))

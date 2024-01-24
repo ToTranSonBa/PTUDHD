@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import './ChartStyle.scss';
 
-import { ContractsCustomerApi, AccountCustomerApi, totalFeeByYearApi } from '../../services/ApiAccount/Account'
+import { ContractsCustomerApi, AccountCustomerApi, totalFeeByYearApi, totalFeeForRequestApi } from '../../services/ApiAccount/Account'
 
 
 
@@ -11,63 +11,63 @@ const Chart = () => {
     let dataBarCharDefault = [
         {
             month: 1,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 2,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 3,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 4,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 5,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 6,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 7,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 8,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 9,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 10,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 11,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
         {
             month: 12,
-            uv: 0,
-            pv: 0,
+            "đã thanh toán": 0,
+            "yêu cầu": 0,
         },
     ];
 
@@ -79,12 +79,10 @@ const Chart = () => {
     const dataPieChartRequestDefault = [
         { name: 'Chưa thanh toán', value: 100 },
         { name: 'Đã được thanh toán', value: 300 },
-        { name: 'Chờ duyệt', value: 100 },
-        { name: 'Bị hủy', value: 80 },
     ];
-    const [dataBarChart, setDataBarChart] = useState(dataBarCharDefault);
+    const [dataBarChart, setDataBarChart] = useState({});
     const [dataPieChartInsurance, setDataPieChartInsurance] = useState(dataPieChartInsuranceDefault);
-    const [dataPieChartRequest, setSataPieChartRequest] = useState(dataPieChartRequestDefault);
+    const [dataPieChartRequest, setSataPieChartRequest] = useState({});
     const [userData, setUserData] = useState({});
     const [contractsOfCustomer, setContractsOfCustomer] = useState([]);
     const [contractsUsingOfCustomer, setContractsUsingOfCustomer] = useState([]);
@@ -114,6 +112,7 @@ const Chart = () => {
                 setUserData(customer);
                 const contractUsings = await ContractsCustomerApi(customer.customerId, 2);
                 const contractExpireds = await ContractsCustomerApi(customer.customerId, 3);
+                const listTotalFeeForRequest = await totalFeeForRequestApi(customer.customerId);
                 const contracts = contractUsings.concat(contractExpireds);
                 setContractsOfCustomer(contracts);
                 setContractsUsingOfCustomer(contractUsings);
@@ -121,6 +120,7 @@ const Chart = () => {
                 const uniqueYearsArray = [...new Set(contracts.map(contract => new Date(contract.confirmDate).getFullYear()))];
                 setYearsInContract(uniqueYearsArray.sort((a, b) => a - b));
                 updateDataPieChartInsurance();
+                updateDataPieChartRequest(listTotalFeeForRequest);
 
             }
         } catch (error) {
@@ -129,21 +129,30 @@ const Chart = () => {
     }
     const dataBarChartBYear = async (year) => {
         if (year) {
-            const dataForChart = await totalFeeByYearApi(selectedYear);
+            try {
+                // Gọi hàm API để lấy dữ liệu mới dựa trên năm được chọn
+                const dataForChart = await totalFeeByYearApi(selectedYear);
 
-            const updatedData = dataBarChart.map(item => {
-                const month = item.month;
-                const total = dataForChart.find(dataItem => dataItem.month === month)?.total || 0;
-                return { ...item, uv: total };
-            });
-            setDataBarChart(updatedData);
-
+                // Cập nhật state của dataBarChart
+                setDataBarChart(dataForChart);
+            } catch (error) {
+                console.error("Error fetching or updating data:", error);
+                // Xử lý lỗi nếu có
+            }
         }
 
     }
     const calculateTotalPrice = (contracts) => {
         return contracts.reduce((total, contract) => total + contract.totalPrice, 0);
     };
+
+    const updateDataPieChartRequest = (listTotalFeeForRequest) => {
+        const newDataArray = listTotalFeeForRequest.map(item => ({
+            name: item.status === 0 ? 'Chưa thanh toán' : 'Đã được thanh toán',
+            value: item.total,
+        }));
+        setSataPieChartRequest(newDataArray);
+    }
 
     const updateDataPieChartInsurance = () => {
         // Tính tổng totalPrice cho contractsUsingOfCustomer
@@ -200,15 +209,16 @@ const Chart = () => {
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
-                        <YAxis />
+                        <YAxis domain={[0, 'dataMax']} />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="pv" fill="#8884d8" />
-                        <Bar dataKey="uv" fill="#82ca9d" />
+                        <Bar dataKey="contract" fill="#82ca9d" name="Đã thanh toán" />
+                        <Bar dataKey="request" fill="#8884d8" name="Yêu cầu" />
                     </BarChart>
                 </div>
                 <div className="piechart">
                     <PieChart width={400} height={400}>
+                        <Tooltip formatter={(value, name) => [value, name]} />
                         <Pie data={dataPieChartInsurance} dataKey="value" cx={200} cy={200} outerRadius={60} fill="#8884d8" />
                         <Pie
                             data={dataPieChartRequest}

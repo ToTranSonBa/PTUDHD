@@ -20,8 +20,13 @@ const totalFeeByYearApi = async (year) => {
     return axios.get(`/contract/invoices/report/${year}`);
 };
 
+const totalFeeForRequestApi = async (customerId) => {
+    return axios.get(`/claim/payment/${customerId}/report`);
+};
+
+
 
 export {
-    AccountCustomerApi, ContractsCustomerApi, UpdateCustomerApi, AccountEmployeeApi, totalFeeByYearApi
+    AccountCustomerApi, ContractsCustomerApi, UpdateCustomerApi, AccountEmployeeApi, totalFeeByYearApi, totalFeeForRequestApi
 };
 
