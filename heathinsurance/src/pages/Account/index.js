@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import Chart from './Chart';
 import PersonalInfomation from './PersonalInfo';
@@ -12,17 +12,38 @@ import { AccountCustomerApi, ContractsCustomerApi } from '../../services/ApiAcco
 const cx = classNames.bind(styles);
 
 function Account() {
+    const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState('list_insurance');
     const [activeListInsurance, setActiveListInsurance] = useState('list_isActive');
     const [activeListRequire, setActiveListRequire] = useState(0);
     const [contractStatus, setContractStatus] = useState(0);
     const [contractsOfCustomer, setContractsOfCustomer] = useState([]);
-<<<<<<< Updated upstream
     const [registerDetail, setRegisterDetail] = useState({});
     const [showForm, setShowForm] = useState(false);
-=======
     const [requestStatus, setRequestStatus] = useState(0);
->>>>>>> Stashed changes
+    const [customer, setCustomer] = useState({});
+    const role = localStorage.getItem('role');
+
+    const handleClickListInsurance = () => {
+        if (role === 'Customer') {
+            // Xử lý sự kiện chỉ khi role là Customer
+            handelListInsurance();
+        }
+    };
+
+    const handleClickListRequire = () => {
+        if (role === 'Customer') {
+            // Xử lý sự kiện chỉ khi role là Customer
+            handelListRequire();
+        }
+    };
+
+    const handleClickRevenue = () => {
+        if (role === 'Customer') {
+            // Xử lý sự kiện chỉ khi role là Customer
+            handelRevenue();
+        }
+    };
 
     //
     const handelListInsurance = (state) => {
@@ -143,7 +164,7 @@ function Account() {
     };
     const handelIsDenied = () => {
         setActiveListRequire(3);
-        
+
     };
     useEffect(() => {
         fetchData();
@@ -160,10 +181,17 @@ function Account() {
 
             // Lấy giá trị của thuộc tính "emailaddress"
             let emailAddress = decodedPayload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
-            const customer = await AccountCustomerApi(emailAddress);
+            if (role === "Customer") {
+                const customer = await AccountCustomerApi(emailAddress);
+                const contractsCustomer = await ContractsCustomerApi(customer.customerId, contractStatus);
+                setContractsOfCustomer(contractsCustomer);
+                setCustomer(customer)
+            }
+            // else {
+            //     handelProfile();
+            // }
 
-            const contractsCustomer = await ContractsCustomerApi(customer.customerId, contractStatus);
-            setContractsOfCustomer(contractsCustomer);
+
         } catch (error) {
             console.error('>>> Error fetching data: ', error);
         }
@@ -172,7 +200,7 @@ function Account() {
         for (let i = 0; i < contractsOfCustomer.length; i++) {
             if (contractsOfCustomer[i].contractId === id) {
                 setRegisterDetail(contractsOfCustomer[i]);
-                console.log(contractsOfCustomer[i]);
+                console.log(contractsOfCustomer[i].employee.name);
                 break;
             }
         }
@@ -187,13 +215,13 @@ function Account() {
             </div>
 
             <nav className={cx('navigation')}>
-                <li onClick={handelListInsurance}>
+                <li onClick={handleClickListInsurance}>
                     <Link to="">Thông tin bảo hiểm</Link>
                 </li>
-                <li onClick={handelListRequire}>
+                <li onClick={handleClickListRequire}>
                     <Link to="">Thông tin phiếu yêu cầu</Link>
                 </li>
-                <li onClick={handelRevenue}>
+                <li onClick={handleClickRevenue}>
                     <Link to="">Chi tiêu</Link>
                 </li>
                 <li onClick={handelProfile}>
@@ -255,7 +283,7 @@ function Account() {
                                                         <td>
                                                             <strong>Nhân viên duyệt</strong>
                                                         </td>
-                                                        <td>{registerDetail.employee}</td>
+                                                        <td>{registerDetail.employee.name}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>
@@ -491,60 +519,16 @@ function Account() {
                             <li onClick={() => handelIsPending()}>
                                 <Link to="">Chờ duyệt</Link>
                             </li>
-
-<<<<<<< Updated upstream
                             <li onClick={handelIsDenied}>
                                 <Link to="">Bị hủy</Link>
                             </li>
                         </nav>
                     </div>
-                    <CustomerRequest></CustomerRequest>
+                    <CustomerRequest status={activeListRequire}></CustomerRequest>
                 </section>
-=======
-                                <li onClick={() => handelIsDenied()}>
-                                    <Link to="">Bị hủy</Link>
-                                </li>
-                            </nav>
-                        </div>
-                        
-                        {/* <div className={cx('right_list')}>
-                            <table className={cx('content-table')}>
-                                <thead>
-                                    <tr>
-                                        <th>Rank</th>
-                                        <th>Name</th>
-                                        <th>Points</th>
-                                        <th>Team</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Domenic</td>
-                                        <td>88,110</td>
-                                        <td>dcode</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Sally</td>
-                                        <td>72,400</td>
-                                        <td>Students</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Nick</td>
-                                        <td>52,300</td>
-                                        <td>dcode</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> */}
-                        <CustomerRequest status={activeListRequire}></CustomerRequest>
-                    </section>
 
->>>>>>> Stashed changes
                 <section id={cx('revenue')} className={cx({ active: activeSection === 'revenue' })}>
-                    <Chart></Chart>
+                    <Chart data={customer ? customer : ""}></Chart>
                 </section>
                 <section id={cx('profile')} className={cx({ active: activeSection === 'profile' })}>
                     <PersonalInfomation></PersonalInfomation>

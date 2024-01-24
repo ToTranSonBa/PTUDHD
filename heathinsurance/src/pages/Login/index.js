@@ -40,14 +40,23 @@ const Login = () => {
                 await toast.success('Login Successfully!');
                 localStorage.setItem('token', token);
                 localStorage.setItem('role', role);
-                navigate('/');
+                if (role === "Customer") {
+                    navigate('/');
+                }
+                else {
+                    navigate('/admin');
+
+                }
+
             } else if (response.data && response.data.status === 400) {
                 toast.error(response.data.title);
                 localStorage.setItem('token', '');
+                localStorage.setItem('role', '');
             } else {
                 if (response) {
                     toast.error(response.data.message);
                     localStorage.setItem('token', '');
+                    localStorage.setItem('role', '');
                 }
             }
         } catch (error) {
