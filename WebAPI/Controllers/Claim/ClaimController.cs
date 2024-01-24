@@ -37,5 +37,11 @@ namespace WebAPI.Controllers.Claim
         {
             return Ok(await _service.ClaimRequests.GetClaimRequestByStatus(status));
         }
+        [HttpPut]
+        public async Task<IActionResult> DenyRequest(Guid requestId)
+        {
+            await _service.ClaimRequests.DenyRequest(requestId);
+            return Ok();
+        }
     }
 }
