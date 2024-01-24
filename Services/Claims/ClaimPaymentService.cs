@@ -137,5 +137,26 @@ namespace Services.Claims
                 throw new ReturnBadRequestException("cập nhật không thành công");
             }
         }
+        public async Task<List<ReportClaimRequetDto>> GetReport(int CustomerId)
+        {
+            var customer = await _repository.Customers.GetCustomerAsnyc(CustomerId, false);
+            if(customer == null)
+            {
+                throw new ReturnNotFoundException("khong tim thay nhan vien");
+            }
+            var list = await _repository.ClaimPayments.GetByCustomerId(customer.Id, false);
+            var report = new List<ReportClaimRequetDto>();
+            for(int i = 0; i < 2; i++)
+            {
+                var status = i == 0 ? ClaimHealthServiceStatus.UNPAID.ToString() : ClaimHealthServiceStatus.PAID.ToString();
+                var totalCost = list.Where(e => e.Status == status).Sum(e => e.TotalCost);
+                report.Add(new ReportClaimRequetDto
+                {
+                    status = i,
+                    total = totalCost
+                });
+            }
+            return report;
+        }
     }
 }

@@ -17,5 +17,6 @@ namespace WebAPI.Controllers.Claim
         {
             return Ok(await _service.ClaimInvoices.GetAll());
         }
+
     }
 }

@@ -34,6 +34,12 @@ namespace WebAPI.Controllers.Claim
             await _service.ClaimPayments.UpdateStatus(paymentId, empEmail);
             return Ok();
         }
+        [HttpGet("{CustomerId}/report")]
+        public async Task<IActionResult> GetReport(int CustomerId)
+        {
+            var result = await _service.ClaimPayments.GetReport(CustomerId);
+            return Ok(result);
+        }
     }
 
 }

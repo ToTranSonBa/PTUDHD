@@ -12,5 +12,6 @@ namespace Service.Contracts.Claims
         Task AddPayment(CreateClaimPaymentDto createPaymentDto);
         Task<List<ClaimPaymentDto>> GetAll();
         Task UpdateStatus(Guid paymentId, string EmpEmail);
+        Task<List<ReportClaimRequetDto>> GetReport(int CustomerId);
     }
 }

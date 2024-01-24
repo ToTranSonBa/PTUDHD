@@ -25,5 +25,10 @@ namespace Repository.EntitiesRepository.Claim
             .Include(x => x.claims)
             .Include(x => x.Request)
             .SingleOrDefaultAsync();
+        public async Task<List<ClaimPayment>> GetByCustomerId(Guid Id, bool trackChange) =>
+            await FindByCondition(e => e.Request.CustomerId == Id, trackChange)
+            .Include(x => x.claims)
+            .Include(x => x.Request)
+            .ToListAsync();
     }
 }
