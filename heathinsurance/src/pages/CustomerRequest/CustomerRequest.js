@@ -26,9 +26,9 @@ const CustomerRequest = (props) => {
 
     useEffect(() => {
         fetchClaim();
-        // if (claims == []) {
-        //     return setClaim([]);
-        // }
+        if (claims == []) {
+            return setClaim([]);
+        }
         setReload(true);
     }, [props.status, reload]);
     const handleDateTimeType = (inputTimeString) => {
