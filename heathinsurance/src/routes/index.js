@@ -36,7 +36,7 @@ const publicRoutes = [
     { path: '/service/:id', component: Product },
     { path: '/register/:id', component: Register },
     { path: '/account', component: Account },
-    { path: '/payment', component: PaymentPage },
+    // { path: '/payment', component: PaymentPage },
 
     //private
     { path: '/admin', component: DashBoard, layout: SidebarOnly },

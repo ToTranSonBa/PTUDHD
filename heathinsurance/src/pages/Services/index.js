@@ -9,15 +9,22 @@ import React, { useEffect, useState, useRef } from 'react';
 import Slide from './Slide';
 
 const cx = classNames.bind(styles);
+const role = localStorage.getItem('role');
 
 function Services() {
+    let negative = useNavigate();
 
     const [product, setProduct] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await HomeApi();
-                setProduct(response);
+                if (role !== "Customer") {
+                    negative('/admin')
+                } else {
+                    const response = await HomeApi();
+                    setProduct(response);
+                }
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

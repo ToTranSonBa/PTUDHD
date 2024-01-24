@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-
 import styles from './Product.module.scss';
 import Banner from '../../assets/image/banner-top.jpg';
+
 
 import { ProductApi } from '../../services/ApiProduct/Product';
 
 const cx = classNames.bind(styles);
 
+const role = localStorage.getItem('role');
+
 const Product = () => {
+    const navigate = useNavigate();
+
     const { id } = useParams();
     const [activeSection, setActiveSection] = useState('product_des');
     const [activeProgram, setactiveProgram] = useState('');
@@ -27,19 +31,20 @@ const Product = () => {
         fetchData(id);
     }, []);
 
-    useEffect(() => {
-        console.log('check dieu kien ');
-    }, [productData]);
-
     const fetchData = async (productId) => {
         try {
-            const response = await ProductApi(productId);
-            console.log('>>>check response: ', response);
-            if (response) {
-                setProductData(response);
+            if (role !== "Customer") {
+                navigate('/admin')
             } else {
-                setProductData({});
+                const response = await ProductApi(productId);
+                console.log('>>>check response: ', response);
+                if (response) {
+                    setProductData(response);
+                } else {
+                    setProductData({});
+                }
             }
+
         } catch (error) {
             console.error('>>> Error fetching data: ', error);
         }

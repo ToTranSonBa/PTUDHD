@@ -16,6 +16,7 @@ const Sidebar = ({ children }) => {
     const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         navigate('/login');
         toast.success('Logout Success!');
     };
@@ -110,9 +111,8 @@ const Sidebar = ({ children }) => {
                         </NavLink>
                     </li>
                     <li
-                        className={`dropdown ${isDropdownOpen1 ? 'show' : ''} ${
-                            activeLink === '/admin/payment' ? 'active' : ''
-                        }`}
+                        className={`dropdown ${isDropdownOpen1 ? 'show' : ''} ${activeLink === '/admin/payment' ? 'active' : ''
+                            }`}
                         onMouseEnter={handleMouseEnter1}
                         onMouseLeave={handleMouseLeave1}
                     >
@@ -168,9 +168,8 @@ const Sidebar = ({ children }) => {
                         </NavLink>
                     </li>
                     <li
-                        className={`dropdown ${isDropdownOpen ? 'show' : ''} ${
-                            activeLink === '/admin/layouts' ? 'active' : ''
-                        }`}
+                        className={`dropdown ${isDropdownOpen ? 'show' : ''} ${activeLink === '/admin/layouts' ? 'active' : ''
+                            }`}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >

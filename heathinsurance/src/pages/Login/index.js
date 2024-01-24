@@ -45,7 +45,6 @@ const Login = () => {
                 }
                 else {
                     navigate('/admin');
-
                 }
 
             } else if (response.data && response.data.status === 400) {

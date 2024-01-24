@@ -14,6 +14,8 @@ import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
+const role = localStorage.getItem('role');
+
 function Register() {
     const { id } = useParams();
     let negative = useNavigate();
@@ -266,14 +268,18 @@ function Register() {
 
     const fetchData = async () => {
         try {
-            const response = await RegisterProductApi(id);
+            if (role !== "Customer") {
+                negative('/admin')
+            } else {
+                const response = await RegisterProductApi(id);
+                setProductData(response);
+                const initialAnswers = response.conditions.map((condition) => ({
+                    id: condition.healthConditionId,
+                    status: false,
+                }));
+                setAnswers(initialAnswers);
+            }
 
-            setProductData(response);
-            const initialAnswers = response.conditions.map((condition) => ({
-                id: condition.healthConditionId,
-                status: false,
-            }));
-            setAnswers(initialAnswers);
         } catch (error) {
             console.error('>>> Error fetching data: ', error);
         }

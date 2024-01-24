@@ -9,20 +9,33 @@ export const RegistersWithStatusApi = async (status) => {
     return axios.get(`/Contract/Status?status=${status}`);
 };
 export const RegistersUpdateStatusApi = async (contractId, status) => {
-    return axios.post(`/Contract/updateStatus?contractId=${contractId}&status=${status}`, null, {
-        headers: {
-            Authorization: `Bearer ${jwt}`
+    try {
+        if (!contractId || !status) {
+            throw new Error("Invalid contractId or status");
         }
-    })
-        .catch(error => {
-            if (error.response && error.response.status === 403) {
-                console.error("Lỗi 403 Forbidden:", error);
-                // Handle 403 Forbidden error here (display a message, log out, etc.)
-                // Example: displayErrorMessage("Access Forbidden. Please log in again.");
-            } else {
-                throw error; // Throw the error for other status codes
+
+        if (!jwt) {
+            throw new Error("Missing JWT token");
+        }
+
+        const response = await axios.post(`/Contract/updateStatus?contractId=${contractId}&status=${status}`, null, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
             }
         });
+
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            if (error.response.status === 403) {
+                console.error("Lỗi 403 Forbidden:", error);
+            } else {
+                console.error("Lỗi kết nối:", error);
+            }
+        } else {
+            throw error;
+        }
+    }
 };
 export const acceptRegistersApi = async (id) => {
     return axios.get('/Contract');

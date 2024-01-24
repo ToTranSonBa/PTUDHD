@@ -4,6 +4,8 @@ import './ListCard.css';
 import { useNavigate } from 'react-router-dom';
 import { HomeApi } from '../../services/ApiHome/home';
 
+const role = localStorage.getItem('role');
+
 const ListCard = () => {
     const navigate = useNavigate();
     const [product, setProduct] = useState([]);
@@ -19,9 +21,14 @@ const ListCard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await HomeApi();
-                setProduct(response);
-                console.log(response);
+
+                if (role !== "Customer") {
+                    navigate('/admin')
+                } else {
+                    const response = await HomeApi();
+                    setProduct(response);
+                }
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

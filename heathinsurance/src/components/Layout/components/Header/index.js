@@ -16,6 +16,7 @@ function Header() {
     const [activeNav, setActiveNav] = useState('');
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         navigate('/login');
         toast.success('Logout Success!');
     };
