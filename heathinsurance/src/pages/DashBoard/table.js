@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { RegistersApi } from '../../services/Admin/ApiRegister/register';
+import { CustomersApi } from '../../services/Admin/ApiCustomer/customer';
 import './table.scss';
 function Table() {
     const navigate = useNavigate();
@@ -13,29 +13,16 @@ function Table() {
             try {
                 if (role === 'Customer') {
                     navigate('/');
+                } else {
+                    const res = await CustomersApi();
+                    setRegister(res);
                 }
-                else {
-                    const response = await RegistersApi();
-                    console.log('check>>', response);
-                    setRegister(response);
-                }
-
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchData();
-    }, []); // Include register in the dependency array if you want to log changes
-
-    const handleDelete = (id) => {
-        //call API
-        navigate(`/admin/users`);
-    };
-
-    const handleAccept = (id) => {
-        //call API
-        navigate(`/admin/users`);
-    };
+    }, []);
 
     return (
         <>
@@ -47,17 +34,17 @@ function Table() {
                                 <th>ID </th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Số hợp đồng đăng kí</th>
+                                <th>Số điện thoại</th>
                             </tr>
                         </thead>
                         <tbody>
                             {register && register.length > 0 ? (
-                                register.slice(0, 7).map((curElem) => (
-                                    <tr key={curElem.contractId}>
-                                        <td>{curElem.customer.customerId}</td>
-                                        <td>{curElem.customer.name}</td>
-                                        <td>{curElem.customer.email}</td>
-                                        <td>{curElem.customer.numbercontractregister}</td>
+                                register.slice(0, 7).map((curElem, i = 0) => (
+                                    <tr key={curElem.customerId}>
+                                        <td>{i + 1}</td>
+                                        <td>{curElem.name}</td>
+                                        <td>{curElem.email}</td>
+                                        <td>{curElem.phoneNumber}</td>
 
                                         <td style={{ textAlign: 'center' }}>
                                             <Link

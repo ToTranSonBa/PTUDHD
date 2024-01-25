@@ -3,8 +3,6 @@ import ListTag from './ListTag';
 import './styles.scss';
 import Banner from '../../assets/image/banner-top.jpg';
 const DashBoard = () => {
-
-
     return (
         <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.03)', paddingLeft: '260px' }}>
             <div className="header">

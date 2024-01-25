@@ -17,7 +17,7 @@ import ListUser from '../pages/ListUser';
 import ListRegister from '../pages/ListRegister';
 import ListInsurance from '../pages/ListInsurance';
 import ListBenefits from '../pages/ListBenefit';
-import DashBoard from '../pages/DashBoard';
+import DashBoard from '../pages/Dashboard';
 import ListRequest from '../pages/ListRequest';
 import AddInsurance from '../pages/AddInsurance';
 import UpdateInsurance from '../pages/UpdateInsurance';
