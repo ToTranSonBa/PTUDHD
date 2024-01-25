@@ -79,7 +79,7 @@ namespace Services.Contracts
             var customer = await _repository.Customers.GetCustomerAsnyc(customerId, false);
             var payment = ((await _repository.ClaimPayments.GetByCustomerId(customer.Id, false))).Where(e => e.CreatedDate.Value.Year == year).ToList();
 
-            var claim = await _repository.ClaimInvoices.GetByYear(year, false);
+            var claim = await _repository.ContractsInvoices.GetInvoiceByYear(year, false);
             if (payment == null)
             {
                 throw new ReturnNoContentException("Không có dữ liệu trong DB");
@@ -90,7 +90,7 @@ namespace Services.Contracts
                 float? totalMonth = 0;
                 float? totalclaim = 0;
                 totalMonth = payment.Where(e => e.CreatedDate.Value.Month == i).Sum(e => e.TotalCost);
-                totalclaim = claim.Where(e => e.CreatedDate.Month == i).Sum(e => e.TotalCost);
+                totalclaim = claim.Where(e => e.CreatedDate.Value.Month == i).Sum(e => e.LastPrice);
                 reports.Add(new ReportContractByYearDto
                 {
                     Month = i,
