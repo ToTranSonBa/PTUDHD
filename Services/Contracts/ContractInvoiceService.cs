@@ -89,7 +89,7 @@ namespace Services.Contracts
             {
                 float? totalMonth = 0;
                 float? totalclaim = 0;
-                totalMonth = payment.Where(e => e.LastModifiedDate.Value.Month == i).Sum(e => e.TotalCost);
+                totalMonth = payment.Where(e => e.CreatedDate.Value.Month == i).Sum(e => e.TotalCost);
                 totalclaim = claim.Where(e => e.CreatedDate.Month == i).Sum(e => e.TotalCost);
                 reports.Add(new ReportContractByYearDto
                 {
