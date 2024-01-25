@@ -142,7 +142,6 @@ const Chart = () => {
                             })
                     )];
                     setYearsInContract(uniqueYearsArray.sort((a, b) => a - b));
-                    console.log(">>>check contract: ", contracts);
                     if (!selectedYear && uniqueYearsArray.length > 0) {
                         // Set selectedYear to the first year in the array
                         setSelectedYear(String(uniqueYearsArray[0]));
@@ -160,9 +159,9 @@ const Chart = () => {
             try {
                 // Gọi hàm API để lấy dữ liệu mới dựa trên năm được chọn
                 const dataForChart = await totalFeeByYearApi(userData.customerId, selectedYear);
-
+                console.log("check dataForChart: ", dataForChart);
                 // Cập nhật state của dataBarChart
-                setDataBarChart(dataForChart);
+                setDataBarChart(dataForChart.data);
             } catch (error) {
                 console.error("Error fetching or updating data:", error);
                 // Xử lý lỗi nếu có

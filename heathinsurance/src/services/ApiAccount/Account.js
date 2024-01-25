@@ -1,4 +1,5 @@
 import axios from '../axios-customize';
+import Axios from 'axios'
 
 const AccountCustomerApi = async (email) => {
     return axios.get(`/customer/${email}`);
@@ -17,7 +18,7 @@ const UpdateCustomerApi = async (CustomerId, customer) => {
 };
 
 const totalFeeByYearApi = async (customerId, year) => {
-    return axios.get(`/contract/invoices/customer/${customerId}/report/${year}`);
+    return Axios.get(`https://localhost:7112/customer/${customerId}/report/${year}`);
 };
 
 const totalFeeForRequestApi = async (customerId) => {
