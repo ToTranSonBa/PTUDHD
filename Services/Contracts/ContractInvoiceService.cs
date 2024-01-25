@@ -94,8 +94,8 @@ namespace Services.Contracts
                 reports.Add(new ReportContractByYearDto
                 {
                     Month = i,
-                    Contract = totalMonth,
-                    Request = totalclaim
+                    Contract = totalclaim,
+                    Request =  totalMonth
                 });
             }
             return reports;
