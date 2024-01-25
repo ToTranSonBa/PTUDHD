@@ -92,9 +92,16 @@ const Chart = () => {
     useEffect(() => {
         fetchData();
     }, [selectedYear]);
+
     useEffect(() => {
-        dataBarChartBYear(selectedYear);
-    }, [selectedYear]);
+        if (!selectedYear && yearsInContract.length > 0) {
+            // Set selectedYear to the first year in the array
+            setSelectedYear(String(yearsInContract[0]));
+        } else {
+            // Call the function with selectedYear
+            dataBarChartBYear(selectedYear);
+        }
+    }, [selectedYear, yearsInContract]);
     const fetchData = async () => {
         try {
             const user = localStorage.getItem('token');
@@ -111,17 +118,38 @@ const Chart = () => {
                 const customer = await AccountCustomerApi(emailAddress);
                 setUserData(customer);
                 const contractUsings = await ContractsCustomerApi(customer.customerId, 2);
-                const contractExpireds = await ContractsCustomerApi(customer.customerId, 3);
                 const listTotalFeeForRequest = await totalFeeForRequestApi(customer.customerId);
+                const contractExpireds = await ContractsCustomerApi(customer.customerId, 3);
                 const contracts = contractUsings.concat(contractExpireds);
-                setContractsOfCustomer(contracts);
-                setContractsUsingOfCustomer(contractUsings);
-                setContractsExpiredOfCustomer(contractExpireds);
-                const uniqueYearsArray = [...new Set(contracts.map(contract => new Date(contract.confirmDate).getFullYear()))];
-                setYearsInContract(uniqueYearsArray.sort((a, b) => a - b));
+                if (yearsInContract) {
+                    setYearsInContract([]);
+                }
+                if (contractUsings) {
+                    setContractsUsingOfCustomer(contractUsings);
+                }
+
+                if (contractExpireds) {
+                    setContractsExpiredOfCustomer(contractExpireds);
+                }
+                if (contracts) {
+                    setContractsOfCustomer(contracts);
+                    const uniqueYearsArray = [...new Set(
+                        contracts
+                            .filter(contract => contract.confirmDate && !isNaN(new Date(contract.confirmDate)))
+                            .map(contract => {
+                                const year = new Date(contract.confirmDate).getFullYear();
+                                return year;
+                            })
+                    )];
+                    setYearsInContract(uniqueYearsArray.sort((a, b) => a - b));
+                    console.log(">>>check contract: ", contracts);
+                    if (!selectedYear && uniqueYearsArray.length > 0) {
+                        // Set selectedYear to the first year in the array
+                        setSelectedYear(String(uniqueYearsArray[0]));
+                    }
+                }
                 updateDataPieChartInsurance();
                 updateDataPieChartRequest(listTotalFeeForRequest);
-
             }
         } catch (error) {
             console.log(error);
@@ -132,7 +160,6 @@ const Chart = () => {
             try {
                 // Gọi hàm API để lấy dữ liệu mới dựa trên năm được chọn
                 const dataForChart = await totalFeeByYearApi(userData.customerId, selectedYear);
-                console.log(dataForChart);
 
                 // Cập nhật state của dataBarChart
                 setDataBarChart(dataForChart);
@@ -220,9 +247,9 @@ const Chart = () => {
                 <div className="piechart">
                     <PieChart width={400} height={400}>
                         <Tooltip formatter={(value, name) => [value, name]} />
-                        <Pie data={dataPieChartInsurance} dataKey="value" cx={200} cy={200} outerRadius={60} fill="#8884d8" />
+                        <Pie data={dataPieChartInsurance ? dataPieChartInsurance : dataPieChartInsuranceDefault} dataKey="value" cx={200} cy={200} outerRadius={60} fill="#8884d8" />
                         <Pie
-                            data={dataPieChartRequest}
+                            data={dataPieChartRequest ? dataPieChartRequest : dataPieChartRequestDefault}
                             dataKey="value"
                             cx={200}
                             cy={200}

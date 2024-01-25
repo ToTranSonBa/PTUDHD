@@ -6,13 +6,20 @@ import './table.scss';
 function Table() {
     const navigate = useNavigate();
     const [register, setRegister] = useState([]); // Correct usage of useState
+    const role = localStorage.getItem('role');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await RegistersApi();
-                console.log('check>>', response);
-                setRegister(response);
+                if (role === 'Customer') {
+                    navigate('/');
+                }
+                else {
+                    const response = await RegistersApi();
+                    console.log('check>>', response);
+                    setRegister(response);
+                }
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
