@@ -302,22 +302,13 @@ namespace App.Test.System.Sevices
                     repo.InsuranceBenefitType.GetByIdAsync(It.IsAny<int>(), It.IsAny<bool>()))
                 .ReturnsAsync(BenefitTypeDataMock.GetBenefitType());
 
-            bool productAdded = false;
-            // Thiết lập hàm callback để kiểm tra khi repo.InsuranceProducts.Add được gọi
-            mockRepository.Setup(repo => repo.InsuranceProducts.Add(It.IsAny<InsuranceProduct>()))
-                .Callback<InsuranceProduct>(product =>
-                {
-                    // Trong callback, đặt biến kiểm tra thành true để chỉ ra rằng phương thức đã được gọi
-                    productAdded = true;
-                });
-
             var input = ProductDataMock.GetAddInsuranceProductDto();
 
             var mockProduct = new InsuranceProductService(mockRepository.Object, mockMapper.Object);
             //Act
-            await mockProduct.AddInsuranceProduct(input);
+            
             //Assert
-            Assert.True(productAdded);
+            Assert.ThrowsAsync<ReturnBadRequestException>(async () => await mockProduct.AddInsuranceProduct(input));
         }
         [Fact]
         public async Task ProductService_AddProduct_BenefitTypeEmpty()

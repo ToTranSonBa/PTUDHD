@@ -366,3 +366,4 @@ FodyWeavers.xsd
 .WebAPI\internal_logs\internallog.txt
 .WebAPI\nlog.config
 /WebAPI/internal_logs/internallog.txt
+/WebAPI/internal_logs/internallog.txt

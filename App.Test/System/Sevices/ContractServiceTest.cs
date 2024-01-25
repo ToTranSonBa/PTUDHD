@@ -28,9 +28,9 @@ namespace App.Test.System.Sevices
 
             var inputData = ContractMockData.GetContract();
 
-            mockRepository.Setup(repo =>
-                    repo.Contracts.GetAll(It.IsAny<bool>()))
-                .ReturnsAsync(ContractMockData.GetContracts());
+            //mockRepository.Setup(repo =>
+            //        repo.Contracts.GetAll(It.IsAny<bool>()))
+            //    .ReturnsAsync(ContractMockData.GetContracts());
             mockRepository.Setup(repo =>
                     repo.HealthConditions.GetByGuidIdAsync(It.IsAny<Guid>(),It.IsAny<bool>()))
                 .ReturnsAsync(HealthConditionDataMock.GetCondition());

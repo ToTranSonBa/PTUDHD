@@ -103,16 +103,8 @@ namespace App.Test.MockData
                     Id = Guid.NewGuid(),
                     HealthConditionSource = new List<HealthCondition>
                     {
-                        new HealthCondition
-                        {
-                            Id = Guid.NewGuid(),
-                            HealthConditionId = 1
-                        },
-                        new HealthCondition
-                        {
-                            Id = Guid.NewGuid(),
-                            HealthConditionId = 2
-                        },
+                        HealthConditionDataMock.GetCondition(),
+                        HealthConditionDataMock.GetCondition(),
                     },
                     Commitment = "fdajls",
                     FeeGuarantee = "fdasjf",

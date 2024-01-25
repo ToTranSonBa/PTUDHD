@@ -145,6 +145,10 @@ namespace Services.Insurances
             foreach(var priceDto in prices)
             {
                 var  programs = await _repositoryManager.InsurancePrograms.GetAllAsync(false);
+                if (programs.Count == 0)
+                {
+                    throw new ReturnBadRequestException("");
+                }
                 foreach(var program in programs)
                 {
                     if(priceDto.ProgramId == program.ProgramId)
