@@ -16,7 +16,7 @@ namespace Entity.Models.InsuranceContractModels
         [Key]
         public Guid Id { get; set; }
         public Guid ContractId { get; set; } = new Guid();
-        public DateTime CreatedDate { get; init; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? ConfirmDate { get; set; }

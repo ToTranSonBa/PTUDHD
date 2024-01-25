@@ -21,13 +21,11 @@ namespace Repository.EntitiesRepository.Contracts
         }
         public async Task<List<ContractInvoice>> GetInvoiceByContractId(Guid contractId, bool trackChanges)
         {
-            return await FindByCondition(e => e.ContractID == contractId, trackChanges)
-                .Include(e => e.Contract).ToListAsync();
+            return await FindByCondition(e => e.ContractID == contractId, trackChanges).ToListAsync();
         }
         public async Task<List<ContractInvoice>> GetInvoiceByYear(int year, bool trackChanges)
         {
-            return await FindByCondition(e => e.CreatedDate.Value.Year == year, trackChanges)
-                .Include(e => e.Contract).ToListAsync();
+            return await FindByCondition(e => e.CreatedDate.Value.Year == year, trackChanges).ToListAsync();
         }
     }
 }

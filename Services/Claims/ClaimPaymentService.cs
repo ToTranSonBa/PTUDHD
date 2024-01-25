@@ -61,7 +61,7 @@ namespace Services.Claims
 
             if( _repository.ClaimPayments.CreatePayment(newpayment))
             {
-                request.Status = RequestStatus.Processing.ToString();
+                request.Status = RequestStatus.Accepted.ToString();
                 await _repository.SaveAsync();
             }
             else
@@ -71,7 +71,7 @@ namespace Services.Claims
             
         } 
 
-        private async Task<ClaimPaymentDto> ConverEntityToDto(ClaimPayment claimPayment)
+        public async Task<ClaimPaymentDto> ConverEntityToDto(ClaimPayment claimPayment)
         {
             var dto = new ClaimPaymentDto
             {

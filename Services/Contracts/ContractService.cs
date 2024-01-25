@@ -3,15 +3,10 @@ using Contracts;
 using Entity.Exceptions;
 using Entity.Models.Customers;
 using Entity.Models.InsuranceContractModels;
-using Entity.Models.InsuranceModels;
 using Service.Contracts.Contracts;
 using Shared.EntityDtos.Contract;
 using Shared.EntityDtos.Staff;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Services.Contracts
 {
@@ -27,6 +22,8 @@ namespace Services.Contracts
         public async Task<List<ContractDto>> GetContracts()
         {
             var contracts = await _repositoryManager.Contracts.GetAll(false);
+            if (contracts == null || contracts.Count() == 0)
+                throw new ReturnBadRequestException("Db khong co data");
             var rContracts = new List<ContractDto>();
             foreach(var contract in contracts)
             {
@@ -53,10 +50,7 @@ namespace Services.Contracts
             // khách hàng không tồn tại thì thêm khách hàng
             if (customer == null)
             {
-                customer = new Customer();
-                customer = _mapper.Map<Customer>(registerContractDto.Customer);
-                customer.Id = Guid.NewGuid();
-                _repositoryManager.Customers.CreateCusomter(customer);
+                throw new ReturnNotFoundException("khong tim thay khach hang");
             }    
 
             //tạo hợp đồng
@@ -101,6 +95,8 @@ namespace Services.Contracts
         public async Task<List<ContractDto>> GetContractByStatus(ContractStatus status)
         {
             var contracts = await _repositoryManager.Contracts.GetContractsByStatus(status, false);
+            if (contracts == null || contracts.Count() == 0)
+                throw new ReturnBadRequestException("Db khong co data");
             var contractsDto = new List<ContractDto>();
             foreach(var contract in contracts)
             {
@@ -114,13 +110,13 @@ namespace Services.Contracts
             var contract = await _repositoryManager.Contracts.GetContractsById(Id, false);
             if (contract == null)
             {
-                throw new Exception($"Contract With Id: {Id} not exist");
+                throw new ReturnNotFoundException($"Contract With Id: {Id} not exist");
             }
             var contractDto = await ConvertEntityToDto(contract);
             return contractDto;
         }
 
-        private async Task<ContractDto> ConvertEntityToDto(Contract contract)
+        public async Task<ContractDto> ConvertEntityToDto(Contract contract)
         {
             var contractDto = _mapper.Map<ContractDto>(contract);
             contractDto.CreateDate = contract.CreatedDate;
@@ -174,7 +170,7 @@ namespace Services.Contracts
                 throw new ReturnNotFoundException($"Customer with id: {customerId} dose not exist");
             }
             var contracts = await _repositoryManager.Contracts.GetContractsByCustomerIdAndStatus(customer.Id, status.ToString(), false);
-            if(contracts.Count() == 0)
+            if(contracts == null || contracts.Count() == 0)
             {
                 throw new ReturnNoContentException("");
             }

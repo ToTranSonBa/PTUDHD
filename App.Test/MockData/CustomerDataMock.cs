@@ -16,5 +16,9 @@ namespace App.Test.MockData
                 CustomerId = 3
             };
         }
+        public static Customer GetCustomerNull()
+        {
+            return null;
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace WebAPI.Controllers.Contracts
             var result = await _service.ContractsInvoices.GetReportByYear(year);
             return Ok(result);
         }
-        [HttpGet("customer/{customerId}/report/{year}")]
+        [HttpGet("/customer/{customerId}/report/{year}")]
         public async Task<IActionResult> GetCustomerReports(int customerId, int year)
         {
             var result = await _service.ContractsInvoices.GetCustomerReportByYear(customerId, year);

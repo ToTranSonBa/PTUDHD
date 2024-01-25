@@ -15,7 +15,7 @@ namespace Services.Claims
         public ClaimRequestService(IRepositoryManager repositoryManager) { 
             _repository = repositoryManager;
         }
-        private async Task<ClaimRequestDto> ConvertEntityToDto(ClaimRequest request)
+        public async Task<ClaimRequestDto> ConvertEntityToDto(ClaimRequest request)
         {
             var dto = new ClaimRequestDto
             {
@@ -30,6 +30,8 @@ namespace Services.Claims
                 ClaimRequestId = request.Id
             };
             var contract = await _repository.Contracts.GetContractsByPrimaryId(request.ContractId.GetValueOrDefault(), false);
+            if (contract == null)
+                throw new ReturnBadRequestException("");
             dto.ProductName = contract.InsuranceProduct.PolicyName;
             dto.ProgramName = contract.InsuranceProgram.Name;
             return dto;
@@ -39,7 +41,7 @@ namespace Services.Claims
             var Contract = await _repository.Contracts.GetContractsById(requestDto.ContractId, false);
             if(Contract == null)
             {
-                throw new ReturnBadRequestException($"Contract with id: {requestDto.ContractId} dose not exist ");
+                throw new ReturnNotFoundException($"Contract with id: {requestDto.ContractId} dose not exist ");
             }
             var customer = (await _repository.Customers.GetCustomerAsnyc(requestDto.CustomerId, false));
             if (customer == null)
@@ -58,7 +60,7 @@ namespace Services.Claims
             };
             if(!_repository.ClaimRequests.AddRequest(newRequest))
             {
-                throw new Exception("Contract is added unsuccessfully");
+                throw new ReturnBadRequestException("Contract is added unsuccessfully");
             }
             await _repository.SaveAsync();
         }
@@ -67,9 +69,13 @@ namespace Services.Claims
             var customer = await _repository.Customers.GetCustomerAsnyc(cusotmerId, false);
             if (cusotmerId == null)
             {
-                throw new Exception("Customer with id: {customerId} dose not exist");
+                throw new ReturnNotFoundException("Customer with id: {customerId} dose not exist");
             }
             var requests = (await _repository.ClaimRequests.GetCustomerRequest(customer.Id, false)).Where(e=> e.Status == status.ToString()).ToList();
+            if (requests.Count == 0)
+            {
+                throw new ReturnNoContentException("");
+            }
             var returnRequest = new List<ClaimRequestDto>();
             foreach(var request in requests)
             {
@@ -80,6 +86,10 @@ namespace Services.Claims
         public async Task<List<ClaimRequestDto>> GetClaimRequestByStatus(RequestStatus Status)
         {
             var requests = await _repository.ClaimRequests.GetRequestByStatus(Status.ToString(), false);
+            if (requests.Count == 0)
+            {
+                throw new ReturnNoContentException("");
+            }
             var returnRequest = new List<ClaimRequestDto>();
             foreach (var request in requests)
             {

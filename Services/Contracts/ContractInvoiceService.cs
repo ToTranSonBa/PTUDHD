@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entity.Exceptions;
-using Entity.Models.Claim;
 using Entity.Models.InsuranceContractModels;
 using Service.Contracts.Contracts;
 using Shared.EntityDtos.Contract;
@@ -78,31 +77,25 @@ namespace Services.Contracts
         public async Task<List<ReportContractByYearDto>> GetCustomerReportByYear(int customerId, int year)
         {
             var customer = await _repository.Customers.GetCustomerAsnyc(customerId, false);
-            var payment = ((await _repository.ClaimPayments.GetByCustomerId(customer.Id, false)));
-                
+            var payment = ((await _repository.ClaimPayments.GetByCustomerId(customer.Id, false))).Where(e => e.CreatedDate.Value.Year == year).ToList();
 
-            var invoices = (await _repository.ContractsInvoices.GetInvoiceByYear(year, false));
-                
-
-            if (payment == null && invoices == null)
+            var claim = await _repository.ClaimInvoices.GetByYear(year, false);
+            if (payment == null)
             {
                 throw new ReturnNoContentException("Không có dữ liệu trong DB");
             }
-            payment = payment.Where(e => e.CreatedDate.Value.Year == year && e.Status == ClaimHealthServiceStatus.PAID.ToString())
-                .ToList();
-            invoices = invoices.Where(e => e.Contract.CustomerID == customer.Id).ToList();
             var reports = new List<ReportContractByYearDto>();
             for (int i = 1; i <= 12; i++)
             {
                 float? totalMonth = 0;
                 float? totalclaim = 0;
-                totalMonth = payment.Where(e => e.CreatedDate.Value.Month == i).Sum(e => e.TotalCost);
-                totalclaim = invoices.Where(e => e.CreatedDate.Value.Month == i).Sum(e => e.LastPrice);
+                totalMonth = payment.Where(e => e.LastModifiedDate.Value.Month == i).Sum(e => e.TotalCost);
+                totalclaim = claim.Where(e => e.CreatedDate.Month == i).Sum(e => e.TotalCost);
                 reports.Add(new ReportContractByYearDto
                 {
                     Month = i,
-                    Contract = totalclaim,
-                    Request = totalMonth
+                    Contract = totalMonth,
+                    Request = totalclaim
                 });
             }
             return reports;

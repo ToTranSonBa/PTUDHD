@@ -7,7 +7,7 @@ namespace App.Test.MockData
 {
     public class ContractMockData
     {
-        public static List<ContractDto> GetContracts()
+        public static List<ContractDto> GetContractDtos()
         {
             return new List<ContractDto> {
                 new ContractDto
@@ -42,17 +42,28 @@ namespace App.Test.MockData
         {
             return new List<ContractDto>();
         }
+
+        public static Contract GetContractEmpty()
+        {
+            return null;
+        }
         public static Contract GetContract()
         {
             return new Contract
             {
-                ContractId = Guid.Parse("F53272E2-AC97-4D59-8E58-147A93B6345E"),
-                Id = Guid.Parse("103DDBB4-436B-4B2C-EF69-08DC06C6E6A1"),
+                ContractId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
+                CreatedDate = DateTime.Now,
+                ConfirmDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                HealthDeclaration = " đà",
+                StartDate = DateTime.Now,
                 InsuranceProduct = new InsuranceProduct
                 {
                     Id = Guid.NewGuid(),
                     ProductId = 1,
-                    PolicyName = "",
+                    PolicyName = "hd",
+
                 },
                 InsuranceProgram = new InsuranceProgram
                 {
@@ -61,7 +72,18 @@ namespace App.Test.MockData
                 },
                 ContractHealthConditions = new List<ContractHealthCondition>
                 {
-
+                    new ContractHealthCondition
+                    {
+                        ContractId = Guid.NewGuid(),
+                        HealthConditionId = Guid.NewGuid(),
+                        Status = true
+                    },
+                    new ContractHealthCondition
+                    {
+                        ContractId = Guid.NewGuid(),
+                        HealthConditionId = Guid.NewGuid(),
+                        Status = true
+                    }
                 }
             };
         }
@@ -120,6 +142,23 @@ namespace App.Test.MockData
                 ProgramId = 1,
                 TotalPrice = 1000000
             };
+        }
+        public static RegisterContractDto NewContractDtoNull()
+        {
+            return null;
+        }
+
+        public static List<Contract> GetContracts()
+        {
+            return new List<Contract>
+            {
+                GetContract(),
+                GetContract()
+            };
+        }
+        public static List<Contract> GetContractsEmpty()
+        {
+            return new List<Contract>();
         }
     }
 }

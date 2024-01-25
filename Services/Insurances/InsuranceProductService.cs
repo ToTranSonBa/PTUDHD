@@ -28,6 +28,8 @@ namespace Services.Insurances
         public async Task<List<InsuranceProductDto>> GetAll(bool trackChanges)
         {
             var products = await _repositoryManager.InsuranceProducts.GetAll(trackChanges);
+            if (products == null || products.Count() == 0)
+                throw new ReturnNoContentException("khong co du lieu");
             var returnProducts = new List<InsuranceProductDto>();
             foreach (var product in products)
             {
@@ -39,26 +41,18 @@ namespace Services.Insurances
         public async Task<InsuranceProductDto> GetById(int Id, bool trachChanges)
         {
             var product = await _repositoryManager.InsuranceProducts.GetById(Id, trachChanges);
-            if(product  == null)
+            if(product == null)
             {
-                throw new InsuranceProductNotFoundException(Id); 
+                throw new ReturnNotFoundException("Khong tim thay product"); 
             }
             var returnProduct = await ConvertProductEntityToDto(product);
             return returnProduct;
         }
-        private async Task<InsuranceProductDto> ConvertProductEntityToDto(InsuranceProduct product)
+        public async Task<InsuranceProductDto> ConvertProductEntityToDto(InsuranceProduct product)
         {
             var rProduct = _mapper.Map<InsuranceProductDto>(product);
             rProduct.Conditions = _mapper.Map<List<HealthConditionProductDto>>(product.HealthConditionSource);
             rProduct.TotalQuantitySold = await TotalQuantitySoldOfProduct(product.Id);
-            // Map entity to Dto Benefit
-            // cách làm:
-            // 1. lặp qua danh sách product.benefitTypes
-            // 2. Lấy danh sách benefit theo từng benefitType.
-            // 3. lặp qua danh sách benefit và lấy danh sách product.costs theo benefit
-            // 4. lặp qua danh sách cost vừa lấy và lấy thông tin của program của từng cost
-            // 
-
             var ListBenefitTypeDto = new List<InsuranceBenefitTypeProductDto>();
             foreach (var benefitType in product.BenefitTypes)
             {
@@ -108,7 +102,7 @@ namespace Services.Insurances
 
             return rProduct;
         }
-        private async Task<int> TotalQuantitySoldOfProduct(Guid ProductId)
+        public async Task<int> TotalQuantitySoldOfProduct(Guid ProductId)
         {
             return (await _repositoryManager.Contracts.GetByProductId(ProductId, false)).Count();
         }
@@ -137,7 +131,7 @@ namespace Services.Insurances
             {
                 var newCondtion = new HealthCondition
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     Name = conditionDto.Name,
                     Question = conditionDto.Question,
                     ProductId = product.Id
@@ -183,7 +177,7 @@ namespace Services.Insurances
                     var existBenefit = benefitType.Benefits.Where(e => e.BenefitId == benefit.BenefitId).SingleOrDefault();
                     if(existBenefit != null)
                     {
-                        var listProgram = _repositoryManager.InsurancePrograms.GetAll(false);
+                        var listProgram = await _repositoryManager.InsurancePrograms.GetAllAsync(false);
                         foreach(var program in listProgram)
                         {
                             product.Costs.Add(new InsuranceBenefitCost
@@ -203,7 +197,7 @@ namespace Services.Insurances
         }
         public async Task UpdateProduct(UpdateProductDto updateProductdto)
         {
-             if(updateProductdto == null)
+            if(updateProductdto == null || updateProductdto.ProductId == 0)
             {
                 throw new ReturnBadRequestException("Product khong họp le");
             }
@@ -222,7 +216,6 @@ namespace Services.Insurances
             updateProduct.PolicyName = updateProductdto.PolicyName;
             await _repositoryManager.SaveAsync();
         }
-
         public async Task DisableProduct(int productId)
         {
             var disabledProduct = await _repositoryManager.InsuranceProducts.GetById(productId, true);

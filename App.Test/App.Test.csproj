@@ -32,4 +32,6 @@
   <ItemGroup>
     <ProjectReference Include="..\WebAPI\WebAPI.csproj" />
   </ItemGroup>
+  <ItemGroup />
+
 </Project>

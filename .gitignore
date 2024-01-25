@@ -365,3 +365,4 @@ FodyWeavers.xsd
 #loggin file
 .WebAPI\internal_logs\internallog.txt
 .WebAPI\nlog.config
+/WebAPI/internal_logs/internallog.txt
