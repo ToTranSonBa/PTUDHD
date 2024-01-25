@@ -122,22 +122,21 @@ function Table() {
                             {showForm && (
                                 <div className="overlay" style={{ paddingLeft: '260px' }}>
                                     <div
-                                        className="form-container"
+                                        className="form-container2"
                                         style={{
                                             width: '460px',
                                         }}
                                     >
                                         <span
                                             onClick={() => setShowForm(false)}
-                                            className="cancel"
+                                            className="cancel1"
                                             title="cancel"
                                             data-toggle="tooltip"
                                             style={{
                                                 cursor: 'pointer',
-                                                float: 'right',
-                                                position: 'fixed',
-                                                zIndex: '99',
-                                                right: '32%',
+                                                position: 'auto',
+                                                float:'inline-end'
+                                                
                                             }}
                                         >
                                             <i class="material-icons close">&#xe5cd;</i>
@@ -168,7 +167,7 @@ function Table() {
                             {showForm2 && (
                                 <div className="overlay" style={{ paddingLeft: '260px' }}>
                                     <div
-                                        className="form-container"
+                                        className="form-container2"
                                         style={{
                                             width: '460px',
                                         }}
@@ -206,18 +205,16 @@ function Table() {
                             )}
                             {showForm3 && (
                                 <div className="overlay" style={{ paddingLeft: '260px' }}>
-                                    <div className="form-container">
+                                    <div className="form-container2">
                                         <span
                                             onClick={() => setShowForm3(false)}
-                                            className="cancel"
+                                            className="close"
                                             title="cancel"
                                             data-toggle="tooltip"
                                             style={{
                                                 cursor: 'pointer',
-                                                float: 'right',
-                                                position: 'fixed',
-                                                zIndex: '99',
-                                                right: '32%',
+                                                position: 'auto',
+                                                float:'inline-end'
                                             }}
                                         >
                                             <i class="material-icons close">&#xe5cd;</i>
@@ -253,11 +250,7 @@ function Table() {
                                                 width: '460px',
                                             }}
                                         >
-                                            <table
-                                                style={{
-                                                    marginBottom: '16px',
-                                                    width: '460px',
-                                                }}
+                                            <div className='table-responsive'
                                             >
                                                 <thead>
                                                     <tr>
@@ -295,7 +288,7 @@ function Table() {
                                                         </tr>
                                                     )}
                                                 </tbody>
-                                            </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

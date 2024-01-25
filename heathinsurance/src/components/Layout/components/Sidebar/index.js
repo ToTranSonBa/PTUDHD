@@ -167,7 +167,7 @@ const Sidebar = ({ children }) => {
                             className="dropdown-toggle"
                             onClick={(e) => handleDropdownToggleClick(e)}
                         >
-                            <i className="material-icons">aspect_ratio</i>Layouts
+                            <i className="material-icons">&#xe1d5;</i>Bảo hiểm
                         </a>
 
                         <ul className={`collapse list-unstyled menu ${isDropdownOpen ? 'show' : ''}`} id="homeSubmenu1">
@@ -197,7 +197,7 @@ const Sidebar = ({ children }) => {
                             </li>
                         </ul>
                     </li>
-                    <li class="">
+                    <li class="" style={{ position: 'absolute', bottom: 0 , width:'100%'}}>
                         <a onClick={handleLogout}>
                             <i class="material-icons">exit_to_app</i>Đăng xuất{' '}
                         </a>

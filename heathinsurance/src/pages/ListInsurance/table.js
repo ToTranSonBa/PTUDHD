@@ -93,7 +93,7 @@ function Table() {
                         <table className="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>STT</th>
+                                    <th>ID</th>
                                     <th>Tên bảo hiểm</th>
                                     <th>Số lượng đã bán</th>
                                     <th>Phạm vi</th>
