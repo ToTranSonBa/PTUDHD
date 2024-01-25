@@ -2,11 +2,19 @@ import React, { useEffect, useState } from 'react';
 import './styles.css';
 import { DetailRegistersApi } from '../../services/Admin/ApiRegister/register';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const DetailContract = () => {
     const [contract, setContract] = useState({});
+    const navigate = useNavigate();
+    const role = localStorage.getItem('role');
     const { id } = useParams();
     useEffect(() => {
+        
+        if (role!=='Employee')
+        {
+        navigate('/');
+        }
         const fetchData = async () => {
             try {
                 console.log('check>>', id);

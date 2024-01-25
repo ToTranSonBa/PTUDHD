@@ -130,7 +130,7 @@ const Sidebar = ({ children }) => {
                             className={`collapse list-unstyled menu ${isDropdownOpen1 ? 'show' : ''}`}
                             id="homeSubmenu1"
                         >
-                            <li className={activeDropdown1 === '/admin/payment' ? 'active' : ''}>
+                            <li className={activeDropdown1 === '/admin/payment' ? 'active' : ''} >
                                 <NavLink
                                     to="/admin/payment"
                                     onClick={() => {
@@ -138,10 +138,10 @@ const Sidebar = ({ children }) => {
                                         handleNavLinkClick('/admin/payment');
                                     }}
                                 >
-                                    Chưa thanh toán
+                                    <p style={{ paddingLeft: '20px' }} >Chưa thanh toán</p>
                                 </NavLink>
                             </li>
-                            <li className={activeDropdown1 === '/admin/paymentpaid' ? 'active' : ''}>
+                            <li className={activeDropdown1 === '/admin/paymentpaid' ? 'active' : ''} >
                                 <NavLink
                                     to="/admin/paymentpaid"
                                     onClick={() => {
@@ -149,23 +149,10 @@ const Sidebar = ({ children }) => {
                                         handleNavLinkClick('/admin/payment');
                                     }}
                                 >
-                                    Đã thanh toán
+                                    <p style={{ paddingLeft: '20px' }}>Đã thanh toán</p>
                                 </NavLink>
                             </li>
                         </ul>
-                    </li>
-                    <li className={activeLink === '/admin/finance/' ? 'active' : ''}>
-                        <NavLink
-                            to="/admin/finance/"
-                            className="link"
-                            activeclassName="active"
-                            onClick={() => {
-                                handleDropdownClick('');
-                                handleNavLinkClick('/admin/finance/');
-                            }}
-                        >
-                            <i class="material-icons">monetization_on</i>Tài chính{' '}
-                        </NavLink>
                     </li>
                     <li
                         className={`dropdown ${isDropdownOpen ? 'show' : ''} ${activeLink === '/admin/layouts' ? 'active' : ''
@@ -184,7 +171,7 @@ const Sidebar = ({ children }) => {
                         </a>
 
                         <ul className={`collapse list-unstyled menu ${isDropdownOpen ? 'show' : ''}`} id="homeSubmenu1">
-                            <li className={activeDropdown === '/admin/insurances' ? 'active' : ''}>
+                            <li className={activeDropdown === '/admin/insurances' ? 'active' : ''}  >
                                 <NavLink
                                     to="/admin/insurances/"
                                     onClick={() => {
@@ -192,19 +179,11 @@ const Sidebar = ({ children }) => {
                                         handleNavLinkClick('/admin/layouts');
                                     }}
                                 >
-                                    Insurance
-                                </NavLink>
-                                <NavLink
-                                    to="/admin/insurances/"
-                                    onClick={() => {
-                                        handleDropdownClick('/admin/insurances');
-                                        handleNavLinkClick('/admin/layouts');
-                                    }}
-                                >
-                                    Insurance
+                                    <p style={{ paddingLeft: '20px' }}>Insurance</p>
+                                    
                                 </NavLink>
                             </li>
-                            <li className={activeDropdown === '/admin/benefits' ? 'active' : ''}>
+                            <li className={activeDropdown === '/admin/benefits' ? 'active' : ''} >
                                 <NavLink
                                     to="/admin/benefits/"
                                     onClick={() => {
@@ -212,25 +191,11 @@ const Sidebar = ({ children }) => {
                                         handleNavLinkClick('/admin/layouts');
                                     }}
                                 >
-                                    Benefit
-                                </NavLink>
-                                <NavLink
-                                    to="/admin/benefits/"
-                                    onClick={() => {
-                                        handleDropdownClick('/admin/benefits');
-                                        handleNavLinkClick('/admin/layouts');
-                                    }}
-                                >
-                                    Benefit
+                                    <p style={{ paddingLeft: '20px' }}>Benefit</p>
+                                    
                                 </NavLink>
                             </li>
                         </ul>
-                    </li>
-
-                    <li class="">
-                        <a href="#" class="">
-                            <i class="material-icons">date_range</i>copy{' '}
-                        </a>
                     </li>
                     <li class="">
                         <a onClick={handleLogout}>

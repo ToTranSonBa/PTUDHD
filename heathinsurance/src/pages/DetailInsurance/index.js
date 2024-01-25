@@ -9,8 +9,13 @@ const DetailInsurance = () => {
     const navigate = useNavigate();
     const [insurance, setInsurance] = useState({});
     const { id } = useParams();
+    const role = localStorage.getItem('role');
    
     useEffect(() => {
+        if (role!=='Employee')
+        {
+        navigate('/');
+        }
         const fetchData = async () => {
             try {
                 console.log('check>>', id);
@@ -34,10 +39,10 @@ const DetailInsurance = () => {
     );
     const Conditions = ({ conditions }) => (
         <div>
-          <li>Conditions:
+          <li style={{fontSize:'16px'}}>Conditions:
             <ul>
                 {conditions.map((condition, index) => (
-                <li key={index}>
+                <li style={{fontSize:'16px'}} key={index}>
                     {condition.name}: <span>{condition.question}</span> 
                 </li>
                 ))}
@@ -54,9 +59,9 @@ const DetailInsurance = () => {
                 <div className = "mycard">
                     {/* card left */}
                     <div className = "product-imgs">
-                        
-                                    <img className="img-item"src = {insurance.imageUrl} alt = "Product Image"/>
-                                
+                        <div className='image-field1'>
+                            <img className="img-item"src = {insurance.imageUrl}  alt = "Product Image"/>
+                        </div>
                             
                     </div>
                     {/* card right */}
@@ -65,23 +70,23 @@ const DetailInsurance = () => {
                         
                         <div className = "product-detail">
                             <h2 className='descrip'style={{paddingBottom: '0px'}}>Description: </h2>
-                            <p>{insurance.shortDescription}</p>
+                            <p style={{fontSize:'16px'}}>{insurance.shortDescription}</p>
                             <ul>
-                            <li>ID: <span>{insurance.productId}</span></li>
-                            <li>Thủ tục tham gia: <span>{insurance.participationProcedure}</span></li>
-                            <li>Phí đảm bảo: <span>{insurance.feeGuarantee}</span></li>
-                            <li>Cam kết: <span>{insurance.commitment}</span></li>
-                            <li>Bên tham gia: <span>{insurance.insuredParty}</span></li>
-                            <li>Phạm vi lãnh thổ: <span>insurance.territorialScope</span></li>
+                            <li style={{fontSize:'16px'}}>ID: <span>{insurance.productId}</span></li>
+                            <li style={{fontSize:'16px'}}>Thủ tục tham gia: <span>{insurance.participationProcedure}</span></li>
+                            <li style={{fontSize:'16px'}}>Phí đảm bảo: <span>{insurance.feeGuarantee}</span></li>
+                            <li style={{fontSize:'16px'}}>Cam kết: <span>{insurance.commitment}</span></li>
+                            <li style={{fontSize:'16px'}}>Bên tham gia: <span>{insurance.insuredParty}</span></li>
+                            <li style={{fontSize:'16px'}}>Phạm vi lãnh thổ: <span>insurance.territorialScope</span></li>
                             
-                            <li>Giá:
+                            <li style={{fontSize:'16px'}}>Giá:
                             {insurance.programPrice &&
                             insurance.programPrice.map((program) => (
                             <ProgramPrice key={program.programId} program={program} />
                             ))}
                             </li>      
                             <Conditions conditions={insurance.conditions || []} />
-                            <li>Số lượng đã bán: <span>{insurance.totalQuantitySold}</span></li>
+                            <li style={{fontSize:'16px'}}>Số lượng đã bán: <span>{insurance.totalQuantitySold}</span></li>
                             </ul>
                         </div>
                     </div>

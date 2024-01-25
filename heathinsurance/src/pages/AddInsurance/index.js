@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import './ImageUpload.css';
 import { AiFillFileImage } from 'react-icons/ai';
 import { MdCloudUpload, MdDelete } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+
 
 const conditions = [
     {
@@ -36,8 +38,15 @@ const AddInsurance = () => {
     const [benefitPrices, setBenefitPrices] = useState({});
     const [benefit, setBenefit] = useState([]);
     const [benefitType, setBenefitType] = useState([]);
+    const navigate = useNavigate();
+    const role = localStorage.getItem('role');
+
     useEffect(() => {
         const fetchData = async () => {
+            if (role!=='Employee')
+            {
+            navigate('/');
+            }
             try {
                 const response = await benefitsApi();
                 setBenefitType(response);
@@ -311,7 +320,7 @@ const AddInsurance = () => {
                             </section>
                         </main>
                     </div>
-                    <div className="form-container">
+                    <div>
                         <span>Benefit</span>
                         <br></br>
                         <select

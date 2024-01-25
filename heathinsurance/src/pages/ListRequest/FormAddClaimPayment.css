@@ -11,13 +11,12 @@
   .container {
     width: 90%;
     height: 90%;
-    max-width: 90vw;
+    max-width: 80vw;
     max-height: 90vh;
     margin: auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
 
   .container.open {

@@ -59,3 +59,6 @@ export const offInsurancesApi = () => {
 export const getInsuranceByIdApi = (id) => {
     return axios.get(`/InsuranceProduct/${id}`);
 };
+export const deleteInsuranceApi=(productId) => {
+    return axios.put(`/InsuranceProduct/disable/${productId}`);
+}

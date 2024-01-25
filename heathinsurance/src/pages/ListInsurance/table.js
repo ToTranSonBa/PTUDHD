@@ -1,28 +1,53 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { InsurancesApi } from '../../services/Admin/ApiInsurance/insurance';
+import { toast } from 'react-toastify';
+import { InsurancesApi, deleteInsuranceApi } from '../../services/Admin/ApiInsurance/insurance';
 
 function Table() {
     const navigate = useNavigate();
     const [insurance, setInsurance] = useState([]); // Correct usage of useState
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [reload,setReload] =useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await InsurancesApi();
+                const role = localStorage.getItem('role');
+                if(role=="Employee"){const response = await InsurancesApi();
                 console.log('check>>', response);
-                setInsurance(response);
+                setInsurance(response);}
+                else{
+                    navigate('/');
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchData();
-    }, []); // Include register in the dependency array if you want to log changes
+    }, [reload]); // Include register in the dependency array if you want to log changes
 
-    const handleDelete = (id) => {
+    const handleDelete = async(id) => {
+        setIsButtonDisabled(true);
         //call API
-        navigate(`/admin/users`);
+        // navigate(`/admin/insurance`);
+        console.log('id',id)
+        try{
+            await deleteInsuranceApi(id)
+            console.log('response',id)
+            toast.success('Xóa bảo hiểm thành công!');navigate(`/admin/insurances/`);
+            setReload((prevReload) => !prevReload)
+        }catch(error)
+        {
+            toast.error('Đã có lỗi xảy ra, vui lòng thực hiện lại')
+            console.log("error:",error)
+        }
+        finally {
+            // Kích hoạt lại nút sau khi xử lý hoàn tất
+            setIsButtonDisabled(false);
+            
+        }
+
     };
 
     const handleUpdate = (id) => {
@@ -92,8 +117,10 @@ function Table() {
                                                     title="update"
                                                     data-toggle="tooltip"
                                                     style={{ color: 'green' }}
+                                                    aria-disabled={isButtonDisabled}
                                                 >
                                                     <i className="material-icons">&#xe3c9;</i>
+                                                    
                                                 </Link>
                                             </td>
                                             <td>
@@ -103,8 +130,10 @@ function Table() {
                                                     title="View"
                                                     data-toggle="tooltip"
                                                     style={{ color: 'orange' }}
+                                                    aria-disabled={isButtonDisabled}
                                                 >
                                                     <i className="material-icons">&#xE417;</i>
+                                                    
                                                 </Link>
                                             </td>
                                             <td>
@@ -114,6 +143,7 @@ function Table() {
                                                     title="Delete"
                                                     data-toggle="tooltip"
                                                     style={{ color: 'red', cursor: 'pointer' }}
+                                                    aria-disabled={isButtonDisabled}
                                                 >
                                                     <i className="material-icons">&#xE872;</i>
                                                 </span>

@@ -89,7 +89,7 @@ function Table() {
                     </div>
                     <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{ color: 'green' }}>
                         <h2>
-                            <b style={{ fontSize: '25px' }}>Danh sách đăng ký</b>
+                            <b style={{ fontSize: '25px' ,color:'green'}}>Danh sách đăng ký</b>
                         </h2>
                     </div>
                 </div>

@@ -5,5 +5,5 @@
 
 .table-responsive {
     height: 400px;
-    overflow-y: hidden; /* Sử dụng 'scroll' để có thanh cuộn y khi cần thiết */
+    overflow-y: auto; /* Sử dụng 'scroll' để có thanh cuộn y khi cần thiết */
 }

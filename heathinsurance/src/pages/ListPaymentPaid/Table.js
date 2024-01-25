@@ -69,7 +69,7 @@ function Table() {
         <div class="container">
             <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
                 <div class="row ">
-                    <div class="col-sm-3 mt-5 mb-4 text-gred">
+                    <div class="col-sm-3 mt-5 mb-4">
                         <div className="search">
                             <form class="form-inline">
                                 <input
@@ -82,9 +82,9 @@ function Table() {
                             </form>
                         </div>
                     </div>
-                    <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{ color: 'green' }}>
+                    <div class="col-sm-6  mt-5 mb-4 text-center" style={{ color: 'green' }}>
                         <h2>
-                            <b style={{ fontSize: '25px' }}>Thanh toán phiếu yêu cầu</b>
+                            <b style={{ fontSize: '25px',color:'green' }}>Thanh toán phiếu yêu cầu</b>
                         </h2>
                     </div>
                 </div>

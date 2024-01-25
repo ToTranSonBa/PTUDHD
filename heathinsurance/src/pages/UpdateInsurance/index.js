@@ -18,8 +18,13 @@ const UpdateInsurance = () => {
     const navigate = useNavigate();
     const [insurance, setInsurance] = useState({});
     const { id } = useParams();
+    const role = localStorage.getItem('role');
 
     useEffect(() => {
+        if (role!=='Employee')
+        {
+        navigate('/');
+        }
         const fetchData = async () => {
             try {
                 console.log('check>>', id);

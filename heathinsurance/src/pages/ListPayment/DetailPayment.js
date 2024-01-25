@@ -2,12 +2,19 @@ import React, { useEffect, useState } from 'react';
 import './DetailPayment.css';
 import { claimPayment } from '../../services/Admin/ApiPayment/Payment';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const DetailPayment = (props) => {
     const [isOpen, setIsOpen] = useState(true);
 
     const [payment, setPayment] = useState({});
+    const navigate = useNavigate();
+    const role = localStorage.getItem('role');
     useEffect(() => {
+        if (role!=='Employee')
+        {
+        navigate('/');
+        }
         setIsOpen(true);
     }, [isOpen]);
     const closeDetail = () => {
