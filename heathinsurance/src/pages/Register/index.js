@@ -268,17 +268,14 @@ function Register() {
 
     const fetchData = async () => {
         try {
-            if (role !== "Customer") {
-                negative('/admin')
-            } else {
-                const response = await RegisterProductApi(id);
-                setProductData(response);
-                const initialAnswers = response.conditions.map((condition) => ({
-                    id: condition.healthConditionId,
-                    status: false,
-                }));
-                setAnswers(initialAnswers);
-            }
+
+            const response = await RegisterProductApi(id);
+            setProductData(response);
+            const initialAnswers = response.conditions.map((condition) => ({
+                id: condition.healthConditionId,
+                status: false,
+            }));
+            setAnswers(initialAnswers);
 
         } catch (error) {
             console.error('>>> Error fetching data: ', error);

@@ -12,6 +12,7 @@ import { AccountCustomerApi, ContractsCustomerApi } from '../../services/ApiAcco
 import DetailContract from './../DetailContract/index';
 
 const cx = classNames.bind(styles);
+const role = localStorage.getItem('role');
 
 function Account() {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ function Account() {
     const [showForm, setShowForm] = useState(false);
     const [requestStatus, setRequestStatus] = useState(0);
     const [customer, setCustomer] = useState({});
-    const role = localStorage.getItem('role');
+
 
     const handleClickListInsurance = () => {
         if (role === 'Customer') {
@@ -173,6 +174,7 @@ function Account() {
 
     const fetchData = async () => {
         try {
+
             const user = localStorage.getItem('token');
             // Phân tách token thành ba phần: Header, Payload, Signature
             let parts = user.split('.');
@@ -191,6 +193,7 @@ function Account() {
             else {
                 handelProfile();
             }
+
         } catch (error) {
             console.error('>>> Error fetching data: ', error);
         }

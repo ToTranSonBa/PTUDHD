@@ -15,19 +15,21 @@ const ListCard = () => {
     };
 
     const handleRegister = (id) => {
-        navigate(`/register/${id}`);
+        if (!role || role !== 'Customer') {
+            navigate(`/login`);
+
+        }
+        else {
+            navigate(`/register/${id}`);
+        }
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
 
-                if (role !== "Customer") {
-                    navigate('/admin')
-                } else {
-                    const response = await HomeApi();
-                    setProduct(response);
-                }
+                const response = await HomeApi();
+                setProduct(response);
 
             } catch (error) {
                 console.error('Error fetching data:', error);

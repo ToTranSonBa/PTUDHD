@@ -33,16 +33,13 @@ const Product = () => {
 
     const fetchData = async (productId) => {
         try {
-            if (role !== "Customer") {
-                navigate('/admin')
+
+            const response = await ProductApi(productId);
+            console.log('>>>check response: ', response);
+            if (response) {
+                setProductData(response);
             } else {
-                const response = await ProductApi(productId);
-                console.log('>>>check response: ', response);
-                if (response) {
-                    setProductData(response);
-                } else {
-                    setProductData({});
-                }
+                setProductData({});
             }
 
         } catch (error) {
@@ -108,10 +105,21 @@ const Product = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []); // Sử dụng [] để chỉ gọi useEffect một lần khi component được mount
+    const handleRegister = () => {
+        if (role === 'Customer') {
+            navigate(`/register/${id}`);
+        }
+        else if (!role) {
+            navigate('/login');
+        }
+        else {
+            navigate('/admin');
+        }
+    }
     return (
         <>
             <div id={cx('dynamicButton')} className={cx('sticky-box', 'btn-base')} style={{ top: `${buttonTop}px` }}>
-                <Link to={`/register/${id}`}>Mua ngay</Link>
+                <button onClick={() => handleRegister()}>Mua ngay</button>
             </div>
             <div className={cx('header')}>
                 <img style={{ borderRadius: '0px' }} className={cx('banner_top')} src={Banner} alt="Banner" />

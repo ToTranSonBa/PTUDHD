@@ -18,12 +18,9 @@ function Services() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (role !== "Customer") {
-                    negative('/admin')
-                } else {
-                    const response = await HomeApi();
-                    setProduct(response);
-                }
+                const response = await HomeApi();
+                setProduct(response);
+
 
             } catch (error) {
                 console.error('Error fetching data:', error);
