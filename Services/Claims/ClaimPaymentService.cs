@@ -68,7 +68,6 @@ namespace Services.Claims
             {
                 throw new ReturnBadRequestException("Tao claim payment khong thanh cong");
             }
-            
         } 
 
         public async Task<ClaimPaymentDto> ConverEntityToDto(ClaimPayment claimPayment)

@@ -10,7 +10,6 @@ namespace Service.Contracts.Contracts
     public interface IContractInvoiceService
     {
         Task<List<ContractInvoiceDto>> GetInvoiceByContractId(Guid contractId);
-        Task addContractInvoice(CreateContractInvoiceDto invoiceDto);
         Task<List<ReportContractByYearDto>> GetReportByYear(int year);
         Task<List<ReportContractByYearDto>> GetCustomerReportByYear(int customerId, int year);
     }

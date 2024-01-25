@@ -111,7 +111,7 @@ namespace Services.Insurances
             //var product = _mapper.Map<InsuranceProduct>(productDto);
             var product = new InsuranceProduct
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 PolicyName = productDto.PolicyName,
                 InsuredParty = productDto.InsuredParty,
                 FeeGuarantee = productDto.FeeGuarantee,

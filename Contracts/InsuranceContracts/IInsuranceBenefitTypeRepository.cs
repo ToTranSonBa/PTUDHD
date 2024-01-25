@@ -12,7 +12,5 @@ namespace Contracts.InsuranceContracts
         bool AddType(InsuranceBenefitType insuranceDiseaseType);
         Task<List<InsuranceBenefitType>> GetAll(bool trackChanges);
         Task<InsuranceBenefitType> GetByIdAsync(int Id, bool trackChanges);
-        InsuranceBenefitType GetById(int Id, bool trackChanges);
-
     }
 }
